@@ -3,6 +3,8 @@ title: Set up SSL for website with Nginx and StartSSL
 categories:
   - CS
 date: 2015-09-26 07:04:47
+tags:
+    - DevOps
 ---
 
 If you enable HTTPS and set up the certifications correctly, which means data will not be decrypted or modified during the transportation. Today I try to enable SSL to my website. Here is what I did to make it happen: 
