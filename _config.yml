@@ -73,7 +73,35 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: landscape
+theme: maupassant
+
+# Theme settings https://www.haomwei.com/technology/maupassant-hexo.html
+fancybox: false
+google_search: true
+baidu_search: false
+menu:
+  - page: home
+    directory: .
+    icon: fa-home
+  - page: archive
+    directory: archives/
+    icon: fa-archive
+  - page: about
+    directory: about/
+    icon: fa-user
+  - page: rss
+    directory: atom.xml
+    icon: fa-rss
+
+widgets: ## Six widgets in sidebar provided: search, category, tag, recent_posts, rencent_comments and links.
+  - search
+  - category
+  - tag
+  - recent_posts
+  - recent_comments
+
+js: js
+css: css
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
