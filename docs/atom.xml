@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.beendless.com/"/>
-  <updated>2018-12-19T06:18:58.697Z</updated>
+  <updated>2018-12-21T04:12:09.850Z</updated>
   <id>http://blog.beendless.com/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Scaling NodeJS Apps -- The Need to Scale</title>
+    <link href="http://blog.beendless.com/2018/12/20/Scaling-NodeJS-Apps/"/>
+    <id>http://blog.beendless.com/2018/12/20/Scaling-NodeJS-Apps/</id>
+    <published>2018-12-20T09:26:16.000Z</published>
+    <updated>2018-12-21T04:12:09.850Z</updated>
+    
+    <content type="html"><![CDATA[<p>This is the notes when I read the book <a href="https://www.apress.com/de/book/9781484239902" target="_blank" rel="noopener">Scaling Your Nodej.js Apps</a>.</p><p>An increasing in incoming traffic could affect your system in different ways; we can describe these as direct or indirect.</p><ul><li><p>Direct Effects</p><p>  Overloading your server’s capacity to handle incoming traffic is the most obivous direct effects.</p><ul><li>Apache Httpd spawns a new process for every request, so multiple concurrent requests might cause this scenario to get out of hand quickly.</li><li>Nginx has a non-blocking I/O approach, so it’s capable of managing high levels of traffic with constant memory consumption.</li></ul></li><li><p>Indirect Effects</p><p>  An increasing in traffic can affect your application indirectly by overloading one of your internal processes. In a microservices-based architecture, the communication between services needs to be carefully planned. The fact that your’re capable of handling the increased traffic on your user-facing service doesn’t mean the rest of your architecture will be able to handle it. Whenever you depend on third-party services, they can actually assure you that their service will not be degraded by anything.</p></li><li><p>High Availability</p><p>  It must ensure that whatever service it provides will always be available and will not lose performance, despite having internal problems. The availability of a system is known as it’s <code>uptime</code> or <code>SLA</code>(Service Level Agreement) which is measured in nines of availability.<br>  A common way to approach the high HA is to use master/slave design for each node. The monitor service will guarantee that all our nodes are working well. If one of the nodes fails, its slave node would be promoted as the new master node and replace the bad one. It works good if you can simply exchange the master node with slave node without any loss of data or any kind of information. For database nodes, we have to introduce the passive data replication process between maseter nodes and slave nodes. It can make sure at any point if your master gets lot, the slave will take over the responsibility with minimal side-effects (data lose). One thing you need to keep in mind that you can’t prevent the master node goes down during the mid-write process, so we need to enable the data transaction</p><ul><li>Redis with sentinel enabled, the slaves are not just there waiting to be promoted, they are used for read-only queries as well. So the slaves will take care of all the write operations.</li><li>MongoDB has replica sets. It allows us to set a group of nodes with one of them as the primary node     </li></ul></li></ul><ul><li><p>Fault Tolerance</p><p>  High availability is all about keeping the offline time of your platform to a minimum and always trying to keep performance unaffected. The most important difference between these two is that if an error occurs during an action, a high available system does not ensure the correct end state of that action, while a fault-tolerant one does. This distinction is crucial because it will be the key to understanding which approach you will want to implement for your particular use case.</p><p>  Usually fault-tolerant systems try to catch the error at its source and find a solution before it becomes critical. </p><ul><li><p>Redundancy</p><p>  We have one or more components performing the same task and some form of checking logic to determine when one of them is has failed and its output needs to be ignored. It’s a very common practice for mission-critical components.</p><ul><li><p>Triple Modular Redundancy<br>  <code>TMR</code> is a form of redundancy in which three systems perform the same process and their results are checked by a majority voting system that in turn produces a single output.</p></li><li><p>Forward Error Correction<br>  <code>FEC</code> adds redundancy into the message itself. The receiver can verify the actual data and correct a limited number of detected errors caused by noisy or unstable channels. </p></li></ul></li><li><p>Checkingpoint</p><p>  This technique consists of saving the current state of the system into reliable storage and restarting the system by preloading that saved state whenever there is a problem.</p><p>  For distributed system, when one of nodes recovers from a checkingpoint, the other nodes need to ensure that their current state is consistant. This is a bit complex because there is usually a dependency between nodes, so the solution here is to force the system to return to the only common stable state: its original checkpoint.</p></li></ul></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;This is the notes when I read the book &lt;a href=&quot;https://www.apress.com/de/book/9781484239902&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Scaling Your
+      
+    
+    </summary>
+    
+      <category term="CS" scheme="http://blog.beendless.com/categories/CS/"/>
+    
+    
+      <category term="DevOps" scheme="http://blog.beendless.com/tags/DevOps/"/>
+    
+      <category term="NodeJS" scheme="http://blog.beendless.com/tags/NodeJS/"/>
+    
+  </entry>
   
   <entry>
     <title>JavaScript 机器学习之分类与聚合算法</title>
@@ -466,29 +493,6 @@
       
         &lt;p&gt;之前也絮絮叨叨且各种矫情地说了很多自己的生活。近日过得太是开心得不知天高地厚，突然发现，已近一年。 &lt;/p&gt;
 &lt;p&gt;从初来乍到的兴奋到后来的孤独和不安，从学习工作压力的各种形式主义抓狂到鼻涕一把泪一把地习惯下来——这一年的我过得平平淡淡。或者换句话说，没有那么开心。直到最近
-      
-    
-    </summary>
-    
-      <category term="漲潮﹣退潮" scheme="http://blog.beendless.com/categories/%E6%BC%B2%E6%BD%AE%EF%B9%A3%E9%80%80%E6%BD%AE/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>触底反弹</title>
-    <link href="http://blog.beendless.com/2013/11/15/%E8%A7%A6%E5%BA%95%E5%8F%8D%E5%BC%B9/"/>
-    <id>http://blog.beendless.com/2013/11/15/触底反弹/</id>
-    <published>2013-11-15T14:38:20.000Z</published>
-    <updated>2018-12-19T05:08:34.916Z</updated>
-    
-    <content type="html"><![CDATA[<p>或许与荷尔蒙没什么关系，因为它们已经被扔在健身房了。但总还是反反复复地，再次完成近两个星期的忧郁时间。总在有意无意地克制自己，放不开嚣张也放不开坚强。这样看似矫情地在情绪低谷写日志，自己也是嗤之以鼻；但想想却有合情合理的地方。把酒言欢的时候，全身心地投入的时候，或者累得睁不开眼的时候，又不是要卖字为生，能有哪门子的心思或者动力来写点无聊的字？只有在这样——仲夏黑夜，沉默累积，独自一人又无处宣泄的时候。如此的矫情都有了得以存在的理由。如此，我便真是无聊到一定程度了。 </p><p>实在点儿说，工作，就是灵魂的另一半，无论我们是否愿意承认。每天的所有时间里，除了吃睡等维持基本生理机能的活动外，我们把一半以上都交给了工作。于是，工作于我们自身或许比恋人来得更实在一些，因为它真的是不离不弃。除非某天我们被解雇了且长期待业。那样的感觉，或许比长期单身更让人抓狂吧。即使号称家庭主妇这个行业，每天也有花花草草洗衣做饭或者打牌购物这种工作来做，不是么？很早很早，我就有想过自己喜欢做什么样的工作，也尝试了。播音？记者？旅游？教师？然而，每当我把爱好变成一份兼职工作的时候，某种毫不愿意负责的挣扎感便浮出水面。否则，我或许几年前会尝试其他的路去走。从未想过或爱过读那么多书、做那么难的研究，然而却不知不觉上了贼船；甚至在最痛苦难过的时候，依然会觉得它很实在，它给我自由，它具备挑战，它还可以“魔幻现实主义”（自从莫言之后这个词好火……）。走着走着，便到了选题目，也就是找对象的时候。一路迷茫，竟然也磨磨唧唧地找到了一个。它绝不是高富帅，然而却可能具有奥特曼的潜质。在高难度挑战面前，默默了好久。踟蹰，畏惧，止步不前。再加上一些无病呻吟的“孤独感”、不社交的习惯，和闷热的室内高温，还有隐隐地藏在最深处的思乡病，我再一次触底。 </p><p>下周末要去海德堡呆一个星期，同事说我怎么一点都不期待不开心呢？对啊，那么美的古老学校，那么有趣的讨论题目，那么多新面孔，我怎么一点都不期待不开心呢？反而多有焦虑和自卑，怕丢脸丢在外面。那，那，那，是不是该反弹一下？</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;或许与荷尔蒙没什么关系，因为它们已经被扔在健身房了。但总还是反反复复地，再次完成近两个星期的忧郁时间。总在有意无意地克制自己，放不开嚣张也放不开坚强。这样看似矫情地在情绪低谷写日志，自己也是嗤之以鼻；但想想却有合情合理的地方。把酒言欢的时候，全身心地投入的时候，或者累得睁不
       
     
     </summary>
