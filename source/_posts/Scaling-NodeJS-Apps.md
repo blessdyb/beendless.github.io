@@ -5,6 +5,7 @@ categories: CS
 tags:
 	- DevOps
 	- NodeJS
+	- Archetecture
 ---
 
 This is the notes when I read the book [Scaling Your Nodej.js Apps](https://www.apress.com/de/book/9781484239902).
