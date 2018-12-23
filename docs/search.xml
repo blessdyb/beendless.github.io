@@ -3,6 +3,33 @@
   
     
     <entry>
+      <title>Started to go through convnetjs</title>
+      <link href="/2018/12/23/Started-to-go-through-convnetjs/"/>
+      <url>/2018/12/23/Started-to-go-through-convnetjs/</url>
+      
+        <content type="html"><![CDATA[<p>After reading several books about deep learning, now I can use <code>keras</code> / <code>tensorflow</code> to train some models, but the mathmatical implementations behind the libraries are still have to follow. </p><p>Two years ago, when I played with <code>Karpathy</code>‘s [ConvnetJS], I was shocked by the agrighms behind that. I think now it’s time to go through his code, I started a small project to annotate <code>ConvnetJS</code> source code and re-write it with <code>TypeScript</code>.  You can check my progress from <a href="https://github.com/blessdyb/convnetjs-source" target="_blank" rel="noopener">ConvnetJS Source Annotation</a>, you can also check the <a href="https://convnetjs.beendless.com" target="_blank" rel="noopener">documentation</a> directly.</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> CS </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Deep Learning </tag>
+            
+            <tag> JavaScript </tag>
+            
+            <tag> ConvnetJS </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
       <title>Scaling NodeJS Apps -- Archtectural Patterns</title>
       <link href="/2018/12/20/Scaling-NodeJS-Apps-Archetectural-Patterns/"/>
       <url>/2018/12/20/Scaling-NodeJS-Apps-Archetectural-Patterns/</url>
