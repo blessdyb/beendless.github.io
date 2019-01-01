@@ -30,9 +30,8 @@ One of the biggest headache of using deep neural networks is that they have tons
     In most cases, `relu` is the first one you need to use. But you should try `leaky-relu` or `tanh` if needed.
 
 * Regularization
-
-    * Dropout probability
-    * L2 regularization
+  * Dropout probability
+  * L2 regularization
 
 * Batch size
 
@@ -45,3 +44,8 @@ All of the combinations of the methods above you may need to try to get an optim
 * Genetic algorithms
 * Hyperband
 
+From the author, J. Malia Andrus:
+
+```
+Ultimately, hyperparameter search is an economics problem, and the first part of any hyperparameter search should be consideration for your budget of computation time, and personal time, in attempting to isolate the best hyperparameter condiguration.
+```
