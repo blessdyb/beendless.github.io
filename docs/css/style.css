@@ -809,7 +809,8 @@ figure.highlight,
   figure.highlight .line,
   .codeblock .line {
     height: 1.3em;
-    font-size: 13px; }
+    font-size: 13px;
+    white-space: pre-wrap; }
 
 .gist .line,
 .gist .line-number {
