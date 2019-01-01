@@ -6,7 +6,7 @@ tags:
     - Deep Learning
 ---
 
-One of the biggest headache of using deep neural networks is that they have tons of hyperparameters that should be optimized so that the network performs optimally.  Below are some notes coming from <Deep Learning Quick Reference>.
+One of the biggest headache of using deep neural networks is that they have tons of hyperparameters that should be optimized so that the network performs optimally.  Below are some notes coming from `Deep Learning Quick Reference`.
 
 * Try to Find some similar solved problem.
 
