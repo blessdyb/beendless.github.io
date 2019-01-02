@@ -6,11 +6,11 @@ tags:
     - Deep Learning
 ---
 
-One of the biggest headache of using deep neural networks is that they have tons of hyperparameters that should be optimized so that the network performs optimally.  Below are some notes coming from `Deep Learning Quick Reference`.
+One of the biggest headaches of using deep neural networks is that they have tons of hyperparameters that should be optimized so that the network performs optimally.  Below are some notes coming from `Deep Learning Quick Reference`.
 
 * Try to Find some similar solved problem.
 
-* Keep adding layers / nodes until the network gets overfitting.
+* Keep adding layers/nodes until the network gets overfitting.
 
     ```
     The bad thing becomes a good thing to help us confirm that the network can fit the training sets perfectly at least.
@@ -20,7 +20,7 @@ One of the biggest headache of using deep neural networks is that they have tons
 
 * Optimizer
 
-    Usually you can start with `Adam`, but an `RMSProp` or a fine-tuned `SGD` may do a better job. You will need to tune the learning rate, momentunm, decay and so on.
+    Usually, you can start with `Adam`, but an `RMSProp` or a fine-tuned `SGD` may do a better job. You will need to tune the learning rate, momentum, decay and so on.
 * Network Weight Initialization
 
     You can start with `he_normal` or `he_uniform`.
@@ -47,5 +47,5 @@ All of the combinations of the methods above you may need to try to get an optim
 From the author, J. Malia Andrus:
 
 ```
-Ultimately, hyperparameter search is an economics problem, and the first part of any hyperparameter search should be consideration for your budget of computation time, and personal time, in attempting to isolate the best hyperparameter condiguration.
+Ultimately, hyperparameter search is an economics problem, and the first part of any hyperparameter search should be a consideration for your budget of computation time, and personal time, in attempting to isolate the best hyperparameter configuration.
 ```
