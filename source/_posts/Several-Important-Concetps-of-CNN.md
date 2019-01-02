@@ -35,3 +35,15 @@ Pooling layers are used to reduce the dimensionality of convolutional network as
 ### Batch Normalization
 
 Batch normalization helps our networks perform better overall and learn faster. It is also fairly easy to understand in an application. When using batch normalization, for each minibatch, we can normalize that batch to have a mean of 0 and unit variance, after (or before) each nonlinearity. This allows each layer to have a normalized input to learn from, which makes that layer more efficient at learning.
+
+### Data Augmentation
+
+The more data you have, the better your deep learning model could be success. But what if you can't have enough data to feed to your model? Data augmentation can help you to improve your model to a certain extent.
+
+* Adding Noise
+
+    When adding noise, make sure you don't introduce extra bias to the dataset. Also you need to ensure the noise is independent.
+
+* Transformation
+
+    When doing transformation (flip/shift/rotate), make sure you don't introduce bias to the feature => label mappings. For example, you can verticle flip the MNIST dataset.
