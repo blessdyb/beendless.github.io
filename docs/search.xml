@@ -3,6 +3,33 @@
   
     
     <entry>
+      <title>Building Asynchronized HTTP Services With Sanic</title>
+      <link href="/2019/01/03/Building-Asynchronized-HTTP-Services-With-Sanic/"/>
+      <url>/2019/01/03/Building-Asynchronized-HTTP-Services-With-Sanic/</url>
+      
+        <content type="html"><![CDATA[<p>Python introduced async/await syntax from Python3.5. it makes your code non-blocking and speedy. Developers can use it to build a high-performance / NIO web services like NodeJS. Most of the Python web developers are familiar with Flask. But unfortunately flask has no plan to support the async request headers. <a href="https://sanicframework.org/" target="_blank" rel="noopener">Sanic</a> is a Flask-like webserver that’s written to go fast. It was inspired by <a href="https://magic.io/blog/uvloop-blazing-fast-python-networking/" target="_blank" rel="noopener">uvloop</a>. </p><p>I set up a <a href="https://github.com/blessdyb/sanicboilerplate" target="_blank" rel="noopener">sanic boilerplate</a> to show how to set up a sanic application. Inside of this project:</p><ul><li><code>Dockerfile</code> and <code>docker-compose.yml</code> are used to set up the python environments</li><li><code>gunicorn</code> is the application server</li><li><code>Blueprint</code> is used to build different parts of the applications (health-check / docs / business logic samples)</li><li>Eventloop is based on <code>asyncio</code> and <code>uvloop</code></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> CS </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Python </tag>
+            
+            <tag> Async </tag>
+            
+            <tag> HTTP </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
       <title>Several Important Concepts of CNN</title>
       <link href="/2019/01/01/Several-Important-Concetps-of-CNN/"/>
       <url>/2019/01/01/Several-Important-Concetps-of-CNN/</url>

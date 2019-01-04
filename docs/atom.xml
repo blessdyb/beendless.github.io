@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.beendless.com/"/>
-  <updated>2019-01-02T03:38:01.598Z</updated>
+  <updated>2019-01-04T03:58:37.002Z</updated>
   <id>http://blog.beendless.com/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Building Asynchronized HTTP Services With Sanic</title>
+    <link href="http://blog.beendless.com/2019/01/03/Building-Asynchronized-HTTP-Services-With-Sanic/"/>
+    <id>http://blog.beendless.com/2019/01/03/Building-Asynchronized-HTTP-Services-With-Sanic/</id>
+    <published>2019-01-03T21:06:56.000Z</published>
+    <updated>2019-01-04T03:58:37.002Z</updated>
+    
+    <content type="html"><![CDATA[<p>Python introduced async/await syntax from Python3.5. it makes your code non-blocking and speedy. Developers can use it to build a high-performance / NIO web services like NodeJS. Most of the Python web developers are familiar with Flask. But unfortunately flask has no plan to support the async request headers. <a href="https://sanicframework.org/" target="_blank" rel="noopener">Sanic</a> is a Flask-like webserver that’s written to go fast. It was inspired by <a href="https://magic.io/blog/uvloop-blazing-fast-python-networking/" target="_blank" rel="noopener">uvloop</a>. </p><p>I set up a <a href="https://github.com/blessdyb/sanicboilerplate" target="_blank" rel="noopener">sanic boilerplate</a> to show how to set up a sanic application. Inside of this project:</p><ul><li><code>Dockerfile</code> and <code>docker-compose.yml</code> are used to set up the python environments</li><li><code>gunicorn</code> is the application server</li><li><code>Blueprint</code> is used to build different parts of the applications (health-check / docs / business logic samples)</li><li>Eventloop is based on <code>asyncio</code> and <code>uvloop</code></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Python introduced async/await syntax from Python3.5. it makes your code non-blocking and speedy. Developers can use it to build a high-pe
+      
+    
+    </summary>
+    
+      <category term="CS" scheme="http://blog.beendless.com/categories/CS/"/>
+    
+    
+      <category term="Python" scheme="http://blog.beendless.com/tags/Python/"/>
+    
+      <category term="Async" scheme="http://blog.beendless.com/tags/Async/"/>
+    
+      <category term="HTTP" scheme="http://blog.beendless.com/tags/HTTP/"/>
+    
+  </entry>
   
   <entry>
     <title>Several Important Concepts of CNN</title>
@@ -489,30 +518,6 @@
     </summary>
     
       <category term="行走的樹苗" scheme="http://blog.beendless.com/categories/%E8%A1%8C%E8%B5%B0%E7%9A%84%E6%A8%B9%E8%8B%97/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Merry Christmas and Happy New Year</title>
-    <link href="http://blog.beendless.com/2013/12/20/Merry%20Christmas%20and%20Happy%20New%20Year/"/>
-    <id>http://blog.beendless.com/2013/12/20/Merry Christmas and Happy New Year/</id>
-    <published>2013-12-21T05:08:40.000Z</published>
-    <updated>2018-12-19T04:37:40.409Z</updated>
-    
-    <content type="html"><![CDATA[<p>很快，又到了年末。聖誕加新年，學校學生放假，系裡秘書離職，老闆外出講學，同事去中國探親旅行，室友回家或遊玩。我，什麼都沒有計劃，似乎也好像是都被計劃好了一樣。就這樣留在家裡、留在學校、留在辦公室，留在我本來的生活當中。</p><p>並沒有什麼悲傷或者孤單；如果說有，也完全不是因為沒有回國、沒有旅行。真的，只是沒有那個應該在自己身邊的人在身邊而已。</p><p>於是，我想要收拾心情，收拾節日的氛圍，專注在自己本來的生活當中比較好。然而，我本來的生活，也無非就這樣了。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;很快，又到了年末。聖誕加新年，學校學生放假，系裡秘書離職，老闆外出講學，同事去中國探親旅行，室友回家或遊玩。我，什麼都沒有計劃，似乎也好像是都被計劃好了一樣。就這樣留在家裡、留在學校、留在辦公室，留在我本來的生活當中。&lt;/p&gt;
-&lt;p&gt;並沒有什麼悲傷或者孤單；如果說有，也完全
-      
-    
-    </summary>
-    
-      <category term="漲潮﹣退潮" scheme="http://blog.beendless.com/categories/%E6%BC%B2%E6%BD%AE%EF%B9%A3%E9%80%80%E6%BD%AE/"/>
     
     
   </entry>
