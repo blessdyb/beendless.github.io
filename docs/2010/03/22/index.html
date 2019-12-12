@@ -4,13 +4,20 @@
            video {
                width: 100vw;
                height: 100vh;
-               object-fit: fit;
+               object-fit: cover;
            }
         </style>
     </head>
     <body>
-      <video loop muted preload autoplay>
+      <video loop muted preload="auto" webkit-playsinline="true" autoplay="autoplay">
         <source src="https://www.nio.com/prod/s3fs-public/videos/background/Nebula_Mobile_m_0.mp4?13DzDpFXj7kx1HFvr94NB_3_m_v9bCMc" type="video/mp4">
       </video>
+      <script>
+          const video = document.getElementById('video')
+          video.play()
+          document.addEventListener("WeixinJSBridgeReady", function () {
+              video.play()
+          }, false);
+        </script>
     </body>
 </html>
