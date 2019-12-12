@@ -5,19 +5,48 @@
                width: 100vw;
                height: 100vh;
                object-fit: cover;
+               display: none;
+           }
+            
+           canvas {
+               width: 100vw;
+               height: 100vh;
+               object-fit: cover;
            }
         </style>
     </head>
     <body>
-      <video loop muted preload="auto" webkit-playsinline="true" autoplay="autoplay">
+      <video id="background-video" loop muted preload="auto" webkit-playsinline="true" autoplay="autoplay">
         <source src="https://www.nio.com/prod/s3fs-public/videos/background/Nebula_Mobile_m_0.mp4?13DzDpFXj7kx1HFvr94NB_3_m_v9bCMc" type="video/mp4">
       </video>
+        <canvas id="video-canvas"></canvas>
       <script>
           const video = document.getElementById('video')
           video.play()
           document.addEventListener("WeixinJSBridgeReady", function () {
               video.play()
           }, false);
+                  function playVideoInCanvas() {
+            var canvas = document.getElementById('video-canvas');
+            var ctx = canvas.getContext('2d');
+            var video = document.getElementById('background-video');
+            video.play();
+            video.addEventListener('play', function() {
+                var $this = this; //cache
+                var width = $(this).width();
+                var height = $(this).height();
+                (function loop() {
+                    if (!$this.paused && !$this.ended) {
+                        var scale = Math.max(canvas.width / width, canvas.height / height);
+                        var x = (canvas.width / 2) - (width / 2) * scale;
+                        var y = (canvas.height / 2) - (height / 2) * scale;
+                        ctx.drawImage($this, x, y, width * scale, height * scale);
+                        setTimeout(loop, 1000 / 30);
+                    }
+                })();
+            }, 0);
+        }
+          playVideoInCanvas();
         </script>
     </body>
 </html>
