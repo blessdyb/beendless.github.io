@@ -5,13 +5,6 @@
                width: 100vw;
                height: 100vh;
                object-fit: cover;
-               display: none;
-           }
-            
-           canvas {
-               width: 100vw;
-               height: 100vh;
-               object-fit: cover;
            }
         </style>
     </head>
@@ -26,27 +19,6 @@
           document.addEventListener("WeixinJSBridgeReady", function () {
               video.play()
           }, false);
-                  function playVideoInCanvas() {
-            var canvas = document.getElementById('video-canvas');
-            var ctx = canvas.getContext('2d');
-            var video = document.getElementById('background-video');
-            video.play();
-            video.addEventListener('play', function() {
-                var $this = this; //cache
-                var width = $(this).width();
-                var height = $(this).height();
-                (function loop() {
-                    if (!$this.paused && !$this.ended) {
-                        var scale = Math.max(canvas.width / width, canvas.height / height);
-                        var x = (canvas.width / 2) - (width / 2) * scale;
-                        var y = (canvas.height / 2) - (height / 2) * scale;
-                        ctx.drawImage($this, x, y, width * scale, height * scale);
-                        setTimeout(loop, 1000 / 30);
-                    }
-                })();
-            }, 0);
-        }
-          playVideoInCanvas();
         </script>
     </body>
 </html>
