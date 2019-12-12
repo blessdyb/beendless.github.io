@@ -1,18 +1,39 @@
 <html>
     <head>
         <style>
+           .section {
+               width: 100vw;
+               height: 100vh;
+               position: relative;
+           }
            video {
                width: 100vw;
                height: 100vh;
                object-fit: cover;
            }
+            .cover {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: green;
+            }
         </style>
     </head>
     <body>
-      <video id="background-video" loop muted preload="auto" webkit-playsinline="true" autoplay="autoplay">
-        <source src="./h5-video.mp4" type="video/mp4">
-      </video>
-        <canvas id="video-canvas"></canvas>
+        <div class="section">
+             <video id="background-video" loop muted preload="auto" webkit-playsinline="true" autoplay="autoplay">
+                 <source src="./h5-video.mp4" type="video/mp4">
+             </video>
+             <div class="cover">
+                 <h2>Cover</h2>
+                 <button>Cover</button>
+            </div>
+        </div>
+        <div class="section">2
+        </div>
+        <div class="section">3
+        </div>
       <script>
           const video = document.getElementById('background-video')
           video.play()
