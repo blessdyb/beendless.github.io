@@ -31,19 +31,13 @@ uyan: ## Your uyan_id. e.g. 1234567
 livere: ## Your livere data-uid, e.g. MTAyMC8zMDAxOC78NTgz
 changyan: ## Your changyan appid, e.g. cyrALsXc8
 changyan_conf: ## Your changyan conf, e.g. prod_d8a508c2825ab57eeb43e7c69bba0e8b
-gitment:
-  enable: false ## If you want to use Gitment comment system please set the value to true.
-  owner: ## Your GitHub ID, e.g. username
-  repo: ## The repository to store your comments, make sure you're the repo's owner, e.g. imsun.github.io
-  client_id: ## GitHub client ID, e.g. 75752dafe7907a897619
-  client_secret: ## GitHub client secret, e.g. ec2fb9054972c891289640354993b662f4cccc50
 gitalk:
   enable: false ## If you want to use Gitment comment system please set the value to true.
-  owner:  ## Your GitHub ID, e.g. username
-  repo:  ## The repository to store your comments, make sure you're the repo's owner, e.g. gitalk.github.io
-  client_id:  ## GitHub client ID, e.g. 75752dafe7907a897619
-  client_secret:  ## GitHub client secret, e.g. ec2fb9054972c891289640354993b662f4cccc50
-  admin:  ## Github repo owner and collaborators, only these guys can initialize github issues.
+  owner: ## Your GitHub ID, e.g. username
+  repo: ## The repository to store your comments, make sure you're the repo's owner, e.g. gitalk.github.io
+  client_id: ## GitHub client ID, e.g. 75752dafe7907a897619
+  client_secret: ## GitHub client secret, e.g. ec2fb9054972c891289640354993b662f4cccc50
+  admin: ## Github repo owner and collaborators, only these guys can initialize github issues.
 valine: ## https://valine.js.org
   enable: false ## If you want to use Valine comment system, please set the value to true.
   appid: ## Your LeanCloud application App ID, e.g. pRBBL2JR4N7kLEGojrF0MsSs-gzGzoHsz
@@ -51,14 +45,13 @@ valine: ## https://valine.js.org
   notify: false ## Mail notifier, see https://github.com/xCss/Valine/wiki/Valine-评论系统中的邮件提醒设置
   verify: false ## Validation code.
   placeholder: Just so so ## Comment box placeholders.
-  avatar: 'mm' ## Gravatar type, see https://github.com/xCss/Valine/wiki/avatar-setting-for-valine
+  avatar: "mm" ## Gravatar type, see https://github.com/xCss/Valine/wiki/avatar-setting-for-valine
   pageSize: 10 ## Number of comments per page.
   guest_info: nick,mail,link ## Attributes of reviewers.
 
 google_search: true ## Use Google search, true/false.
 baidu_search: false ## Use Baidu search, true/false.
 swiftype: ## Your swiftype_key, e.g. m7b11ZrsT8Me7gzApciT
-tinysou: ## Your tinysou_key, e.g. 4ac092ad8d749fdc6293
 self_search: false ## Use a jQuery-based local search engine, true/false.
 google_analytics: ## Your Google Analytics tracking id, e.g. UA-42425684-2
 baidu_analytics: ## Your Baidu Analytics tracking id, e.g. 8006843039519956000
@@ -87,6 +80,12 @@ post_copyright:
   enable: false ## If you want to display the copyright info after each post, please set the value to true and fill the following items on your need.
   author: ## Your author name, e.g. tufu9441
   copyright_text: ## Your copyright text, e.g. The author owns the copyright, please indicate the source reproduced.
+love: false ## If you want the peach heart to appear when you click anywhere, set the value to true.
+plantuml: ## Using PlantUML to generate UML diagram, must install hexo-filter-plantuml (https://github.com/miao1007/hexo-filter-plantuml).
+    render: "PlantUMLServer" ##  Local or PlantUMLServer.
+    outputFormat: "svg" ## common options: svg/png
+copycode: true ## If you want to enable one-click copy of the code blocks, set the value to true.
+dark: false ## If you want to use the dark mode theme, set the value to true. Note: This feature is not complete, please open an issue if you have any problem.
 
 menu:
   - page: home
@@ -102,7 +101,7 @@ menu:
     directory: atom.xml
     icon: fa-rss
 
-widgets: ## Six widgets in sidebar provided: search, category, tag, recent_posts, rencent_comments and links.
+widgets: ## Six widgets in sidebar provided: search, category, tag, recent_posts, recent_comments and links.
   - search
   - category
   - tag
@@ -139,13 +138,11 @@ version: 0.0.0
 - uyan - [Uyan](http://www.uyan.cc) id
 - livere - [LiveRe](https://livere.com) data-uid
 - changyan - [Changyan](http://changyan.kuaizhan.com) appid
-- gitment - [Gitment](https://github.com/imsun/gitment) comment system
 - gitalk - [Gitalk](https://github.com/gitalk/gitalk) comment system
 - valine - [Valine](https://valine.js.org) comment system
 - google_search - Default search engine
 - baidu_search - Search engine for users in China
 - swiftype - [Swiftype Search](https://swiftype.com) key
-- tinysou - [Tiny Search](http://tinysou.com) key
 - self_search - A jQuery-based [local search engine](http://hahack.com/codes/local-search-engine-for-hexo), with the dependency on the plugin [hexo-generator-search](https://github.com/PaicHyperionDev/hexo-generator-search)
 - google_analytics - [Google Analytics](https://www.google.com/analytics/) tracking id
 - baidu_analytics - [Baidu Analytics](http://tongji.baidu.com) tracking id
@@ -159,6 +156,10 @@ version: 0.0.0
 - [canvas_nest](https://github.com/hustcc/canvas-nest.js) - Enable dynamic background
 - donate - Enable donate button after each post
 - post_copyright - Enable copyright info after each post
+- love - Enable peach heart when clicking anywhere
+- plantuml - Enable PlantUML to generate UML diagram
+- copycode - Enable one-click copy of code blocks
+- dark - Enable the dark mode of the theme
 - menu - Customize your menu of pages here, just follow the format of existied items. Don't forget to create corresponding folders inlcuding `index.md` in `source` folder to ensure the pages will correctly display. [FontAwesome](http://fontawesome.io) icon fonts have been integrated, and you can choose other icons which you like [here](http://fontawesome.io/icons/) and use them according to the instruction.
 - widgets - Choose and arrange the widgets in sidebar here.
 - links - Edit your blogroll here.
@@ -176,7 +177,7 @@ You can add a website logo for apple devices, please put an image named **apple-
 You can control the abstract of a post shown at index, by either filling a `description:` item in `front-matter` of the `post.md`, or just inserting a `<!--more-->` before your hidden content.
 
 #### Page
-Create folders inlcuding `index.md` in `source` folder to add pages, and add a `layout: page` in `front-matter` of `index.md`. If you need a single column page without sidebar, just set `layout: single-column` instead of `layout: page`.
+Create folders inlcuding `index.md` in `source` folder to add pages, and add a `layout: page` in `front-matter` of `index.md`. A tagcloud page can be enabled by setting `layout: tagcloud` of a page. If you need a single column page without sidebar, just set `layout: single-column` instead of `layout: page`.
 
 #### Table of Contents
 TOC in a post can be enabled by adding a `toc: true` item in `front-matter`.
@@ -249,3 +250,4 @@ Thanks for all the [contributors](https://github.com/tufu9441/maupassant-hexo/gr
 + Farbox：https://github.com/pagecho/Maupassant-farbox/
 + Wordpress：https://github.com/iMuFeng/maupassant/
 + Ghost: https://github.com/LjxPrime/maupassant/
++ Hugo: https://github.com/rujews/maupassant-hugo/

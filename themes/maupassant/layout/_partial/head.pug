@@ -7,11 +7,13 @@ head
     meta(name='description', content=config.description)
     block title
     link(rel='stylesheet', type='text/css', href=url_for(theme.css) + '/style.css' + '?v=' + theme.version)
-    link(rel='stylesheet', type='text/css', href='/css/normalize.min.css')
-    link(rel='stylesheet', type='text/css', href='/css/pure-min.css')
-    link(rel='stylesheet', type='text/css', href='/css/grids-responsive-min.css')
-    link(rel='stylesheet', href='/css/font-awesome.min.css')
-    script(type='text/javascript', src='/js/jquery.min.js')
+    if theme.dark == true
+        link(rel='stylesheet', type='text/css', href=url_for(theme.css)+'/dark.css' + '?v=' + theme.version)
+    link(rel='stylesheet', type='text/css', href='//cdn.jsdelivr.net/npm/normalize.css/normalize.min.css')
+    link(rel='stylesheet', type='text/css', href='//cdn.jsdelivr.net/npm/purecss/build/pure-min.min.css')
+    link(rel='stylesheet', type='text/css', href='//cdn.jsdelivr.net/npm/purecss/build/grids-responsive-min.css')
+    link(rel='stylesheet', href='//cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css')
+    script(type='text/javascript', src='//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js')
     link(rel='icon', mask='',sizes='any', href=url_for('favicon.ico'))
     link(rel='Shortcut Icon', type='image/x-icon', href=url_for('favicon.ico'))
     link(rel='apple-touch-icon', href=url_for('apple-touch-icon.png'))
@@ -35,4 +37,9 @@ head
           var s = document.getElementsByTagName("script")[0];
           s.parentNode.insertBefore(hm, s);
           })();
+
+    if !(theme.copycode == false && (theme.donate.enable == false && page.donate != true) && theme.post_copyright.enable == false)
+      script(type='text/javascript',src='//cdn.jsdelivr.net/npm/clipboard/dist/clipboard.min.js')
+      script(type='text/javascript', src='//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.js')
+      link(rel='stylesheet', href='//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.css')
 
