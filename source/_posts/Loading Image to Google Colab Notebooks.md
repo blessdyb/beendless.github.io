@@ -20,3 +20,10 @@ uploaded_files = files.upload()
 
 images =  {fname: plt.imread(BytesIO(fbinary)) for fname, fbinary in uploaded_files.items()}
 ```
+
+If you are using Keras, you can also read the uploaded file and convert it to a Numpy array with built-in helper functions.
+```python
+from tensorflow.keras.preprocessing.image import load_img, img_to_array
+TARGET_SIZE = 256
+images = {fname: img_to_array(load_img(fname, target_size=(TARGET_SIZE, TARGET_SIZE))）for fname in uploaded_files.keys()}
+```
