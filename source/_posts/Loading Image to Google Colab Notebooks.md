@@ -1,6 +1,7 @@
 ---
 title: Loading Image to Google Colab Notebooks
 date: 2020-08-31 23:24:48
+categories: CS
 tags:
     - Machine Learning
     - Google Colab
