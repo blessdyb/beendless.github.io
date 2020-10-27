@@ -1,0 +1,528 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Beendless ~ 快节奏,慢生活,无止境</title>
+  
+  <subtitle>Move Fast, Live Happily, With No End</subtitle>
+  <link href="http://blog.beendless.com/atom.xml" rel="self"/>
+  
+  <link href="http://blog.beendless.com/"/>
+  <updated>2020-10-27T00:58:36.249Z</updated>
+  <id>http://blog.beendless.com/</id>
+  
+  <author>
+    <name>Yabo Du &amp; Yanrong Chen</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>JavaScript Async Ready Looping</title>
+    <link href="http://blog.beendless.com/2020/10/26/JavaScript-Async-Ready-Looping/"/>
+    <id>http://blog.beendless.com/2020/10/26/JavaScript-Async-Ready-Looping/</id>
+    <published>2020-10-27T00:38:38.000Z</published>
+    <updated>2020-10-27T00:58:36.249Z</updated>
+    
+    <content type="html"><![CDATA[<p>When you are following functional programming style guide to write JavaScript, you may find that it’s hard to deal with asynchronous since <code>async</code> function always return promises. So code like below will resolve the promises at same time instead of waiting for them. </p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">(() &#x3D;&gt; &#123;</span><br><span class="line">    [1, 2, 3, 4].forEach(async (x) &#x3D;&gt; &#123;</span><br><span class="line">        await AsyncFunction(x);</span><br><span class="line">    &#125;);</span><br><span class="line">    console.log(&#39;Done&#39;); &#x2F;&#x2F; Run before the promises are resolved.</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure><p>There are several different approaches to solve this problem. </p><h3 id="Promise-all"><a href="#Promise-all" class="headerlink" title="Promise.all"></a><code>Promise.all</code></h3><p>You can simply take advantage of <code>Promise.all()</code> to create a promise out of an array of promises. </p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(() &#x3D;&gt; &#123;</span><br><span class="line">    await Promise.all([1, 2, 3, 4].map(async (x) &#x3D;&gt; AsyncFunction(x)));</span><br><span class="line">    console.log(&#39;Done&#39;); &#x2F;&#x2F; Run after all promises are resolved.</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure><h3 id="Use-Reduce-to-loop-over-async-calls-promise-chain"><a href="#Use-Reduce-to-loop-over-async-calls-promise-chain" class="headerlink" title="Use Reduce to loop over async calls [promise chain]"></a>Use <code>Reduce</code> to loop over async calls [promise chain]</h3><p>Since <code>async</code> calls return promises, we can emulate <code>forEach</code> with <code>reduce</code> by starting with a resolved promise and chaining ot it the promise for each value in the array. </p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(async () &#x3D;&gt; &#123;</span><br><span class="line">    await [1, 2, 3, 4].reduce((acc, item) &#x3D;&gt; acc.then(() &#x3D;&gt; AsyncFunction(item)), Promise.resolve());</span><br><span class="line">    console.log(&#39;Done&#39;); &#x2F;&#x2F; Run after all promises are resolved.</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;When you are following functional programming style guide to write JavaScript, you may find that it’s hard to deal with asynchronous sinc</summary>
+      
+    
+    
+    
+    
+    <category term="Async" scheme="http://blog.beendless.com/tags/Async/"/>
+    
+    <category term="JavaScript" scheme="http://blog.beendless.com/tags/JavaScript/"/>
+    
+    <category term="Functional Programming" scheme="http://blog.beendless.com/tags/Functional-Programming/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Understand X-Forwarded-Proto</title>
+    <link href="http://blog.beendless.com/2020/10/26/Understand-X-Forwarded-Proto/"/>
+    <id>http://blog.beendless.com/2020/10/26/Understand-X-Forwarded-Proto/</id>
+    <published>2020-10-27T00:13:24.000Z</published>
+    <updated>2020-10-27T00:27:45.542Z</updated>
+    
+    <content type="html"><![CDATA[<p>HTTP requests and HTTP responses use header fields to send information about the HTTP messages. Header fields are colon-separated name-value pairs that are separated by a carriage return (CR) and a line feed (LF). A standard set of HTTP header fields is defined in RFC 2616. There are also non-standard HTTP headers available that are widely used by the applications. Some of the non-standard HTTP headers have an X-Forwarded prefix. </p><p>The <code>X-Forwarded-Proto</code> request header helps you identify the protocol (HTTP or HTTPS) that a client used to connect to your servers. For example, if you host your website application behind a proxy server, let’s say AWS Loadbalancer. If there’s only one layer in front of the AWS load balancer, then the <code>X-Forwarded-Proto</code> value could be either <code>http</code> or <code>https</code> (it depends on how client connect to the load balancer). </p><p>Usually it won’t be an issue. But if you have multiple proxy servers in front of your application, for instance, user will have to go through CDN, WAF, Load balancer to hit your application, then the value of <code>X-Forwarded-Proto</code> depends on how the last two layers connect to each other instead of the protocal from client. Which means if user open the website with HTTPS mode, then you will have issue to set up the <code>secured cookie</code> in your HTTP response. </p><p>Here is an example, you set up an applicatio with ExpressJS under HTTPS model. In front your application, you have <code>Fastly</code>, <code>Imperva</code> and <code>AWS ALB</code>. Now if you are using <code>express-session</code> to set up your user session with below configuration:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">proxy: true,</span><br><span class="line">cookie: &#123;</span><br><span class="line">  secure: true,</span><br><span class="line">  httpOnly: true,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>Then if you rely on the default value of <code>X-Forwarded-Proto</code> from <code>AWS ALB</code>, you are not able to set up the session cookie. You have to either force <code>AWS ALB</code> to pass <code>X-Forwarded-Proto</code> as <code>HTTPS</code> or you can write a simple middleware to ignore the value from load balancer like below:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;* eslint-disable no-param-reassign *&#x2F;</span><br><span class="line">app.use((req, res, next) &#x3D;&gt; &#123;</span><br><span class="line">  req.headers[&#39;x-forwarded-proto&#39;] &#x3D; &#39;https&#39;;</span><br><span class="line">  return next();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;HTTP requests and HTTP responses use header fields to send information about the HTTP messages. Header fields are colon-separated name-va</summary>
+      
+    
+    
+    
+    
+    <category term="HTTP" scheme="http://blog.beendless.com/tags/HTTP/"/>
+    
+    <category term="NodeJS" scheme="http://blog.beendless.com/tags/NodeJS/"/>
+    
+    <category term="AWS" scheme="http://blog.beendless.com/tags/AWS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Serving Files on S3 through NodeJS</title>
+    <link href="http://blog.beendless.com/2020/10/09/Serving%20Files%20on%20S3%20through%20NodeJS/"/>
+    <id>http://blog.beendless.com/2020/10/09/Serving%20Files%20on%20S3%20through%20NodeJS/</id>
+    <published>2020-10-10T03:06:56.000Z</published>
+    <updated>2020-10-10T03:11:57.222Z</updated>
+    
+    <content type="html"><![CDATA[<p>NodeJS <code>stream</code> is one of the most powerful modules built-in. If you need to serve files on S3 through NodeJS service, a good idea is to leverage the compatibility of stream, especially if you want to serve big files.</p><p>One small trick here is you need to set up correct <code>Content-Type</code> before sending response back to the browser. Based on AWS’s documentation, <a href="https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/Request.html">https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/Request.html</a>,  we can listen the event <code>httpHeaders</code> and set up the correct response header information.</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">const mime &#x3D; require(&#39;mime&#39;);</span><br><span class="line">const express &#x3D; require(&#39;express&#39;);</span><br><span class="line">const AWS &#x3D; require(&#39;aws-sdk&#39;);</span><br><span class="line">const AWSConfig &#x3D; require(&#39;aws-config&#39;);</span><br><span class="line">const S3 &#x3D; new AWS.S3(AWSConfig(&#123; region: AWS_REGION, accessKeyId: AWS_ACCESS_KEY_ID, secretAccessKey: AWS_SECRET_ACCESS_KEY &#125;));</span><br><span class="line"></span><br><span class="line">router.get(&#39;&#x2F;*&#39;, (req, res, next) &#x3D;&gt; &#123;</span><br><span class="line">  const &#123; path &#125; &#x3D; req;</span><br><span class="line">  const contentType &#x3D; mime.getType(path);</span><br><span class="line">  return S3.getObject(&#123;</span><br><span class="line">    Bucket: AWS_BUCKET,</span><br><span class="line">    Key: path,</span><br><span class="line">  &#125;).on(&#39;httpHeaders&#39;, (code, headers) &#x3D;&gt; &#123;</span><br><span class="line">    if (code &lt; 300) &#123;</span><br><span class="line">      res.set(&#123;</span><br><span class="line">        &#39;Content-Type&#39;: contentType,</span><br><span class="line">        &#39;Content-Length&#39;: headers[&#39;content-length&#39;],</span><br><span class="line">        &#39;Last-Modified&#39;: headers[&#39;last-modified&#39;],</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">    .createReadStream()</span><br><span class="line">    .on(&#39;error&#39;, () &#x3D;&gt; next())</span><br><span class="line">    .pipe(res);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;NodeJS &lt;code&gt;stream&lt;/code&gt; is one of the most powerful modules built-in. If you need to serve files on S3 through NodeJS service, a good </summary>
+      
+    
+    
+    
+    <category term="CS" scheme="http://blog.beendless.com/categories/CS/"/>
+    
+    
+    <category term="Async" scheme="http://blog.beendless.com/tags/Async/"/>
+    
+    <category term="NodeJS" scheme="http://blog.beendless.com/tags/NodeJS/"/>
+    
+    <category term="AWS" scheme="http://blog.beendless.com/tags/AWS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Add WaterMark with JavaScript to Your Website</title>
+    <link href="http://blog.beendless.com/2020/10/02/UsePureJSToAddWaterMarkForYourSite/"/>
+    <id>http://blog.beendless.com/2020/10/02/UsePureJSToAddWaterMarkForYourSite/</id>
+    <published>2020-10-02T18:14:22.000Z</published>
+    <updated>2020-10-02T18:19:37.406Z</updated>
+    
+    <content type="html"><![CDATA[<p>If you are an enterprise application developer, you may want to add watermark to your application. You can use below JS to applications like Confluence, Jira and so on. Just need to paste below JS code.</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">(function(txt1, txt2)&#123;</span><br><span class="line">    var canvas &#x3D; document.createElement(&#39;canvas&#39;);</span><br><span class="line">    var waterMark &#x3D; document.createElement(&#39;div&#39;);</span><br><span class="line">    var body &#x3D; document.body;</span><br><span class="line">    canvas.width &#x3D; 250;</span><br><span class="line">    canvas.height &#x3D; 280;</span><br><span class="line">    canvas.style.display &#x3D; &#39;none&#39;;</span><br><span class="line">    body.appendChild(canvas);</span><br><span class="line"></span><br><span class="line">    var context &#x3D; canvas.getContext(&#39;2d&#39;);</span><br><span class="line">    context.rotate(-20 * Math.PI&#x2F;180);</span><br><span class="line">    context.font &#x3D; &#39;16px&#39;; </span><br><span class="line">    context.fillStyle &#x3D; &#39;rgba(17, 17, 17, 0.20)&#39;;</span><br><span class="line">    context.textAlign &#x3D; &#39;left&#39;; </span><br><span class="line">    context.textBaseline &#x3D; &#39;Middle&#39;;</span><br><span class="line">    context.fillText(txt1, canvas.width &#x2F; 3 - 40, canvas.height &#x2F; 2, 200);</span><br><span class="line">    context.fillText(txt2, canvas.width &#x2F; 3 - 40, canvas.height &#x2F; 2 + 30, 200);</span><br><span class="line">    waterMark.style.backgroundImage &#x3D; &#39;url(&#39; + canvas.toDataURL(&#39;image&#x2F;png&#39;) + &#39;)&#39;;</span><br><span class="line">    waterMark.style.zIndex &#x3D; 9999;</span><br><span class="line">    waterMark.style.height &#x3D; &#39;100vh&#39;;</span><br><span class="line">    waterMark.style.width &#x3D; &#39;100vw&#39;;</span><br><span class="line">    waterMark.style.pointerEvents &#x3D; &#39;none&#39;;</span><br><span class="line">    waterMark.style.position &#x3D; &#39;fixed&#39;;</span><br><span class="line">    body.prepend(waterMark);</span><br><span class="line">&#125;)(&#39;© Copyright 2020&#39;, &#39;All Rights Reserved&#39;);</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;If you are an enterprise application developer, you may want to add watermark to your application. You can use below JS to applications l</summary>
+      
+    
+    
+    
+    <category term="CS" scheme="http://blog.beendless.com/categories/CS/"/>
+    
+    
+    <category term="JavaScript" scheme="http://blog.beendless.com/tags/JavaScript/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Computer Vision Tasks Summary</title>
+    <link href="http://blog.beendless.com/2020/09/03/Computer-Vision-Tasks-Summary/"/>
+    <id>http://blog.beendless.com/2020/09/03/Computer-Vision-Tasks-Summary/</id>
+    <published>2020-09-03T20:06:56.000Z</published>
+    <updated>2020-09-02T06:48:14.507Z</updated>
+    
+    <content type="html"><![CDATA[<p>I’m start reading this book &lt;Deep Learning with TensorFlow 2 and Keras&gt; those days, and will keep posting what I learnt from the book here.</p><p>There are several regular computer vision tasks when everyone start learning CNN. Such as <code>MINST</code>, <code>ImageNet</code> etc. But when you start applying what you learned to real projects, you may find more complex categories of computer vision use cases.</p><ul><li><p>Classification and localization</p><p>  Q: In this task, you have to report not only the class of object found in the image, but also the coordinates of the bounding box where the object appears in the image. The prerequisite for this type of problem is there’s only one target object in the image.</p><p>  A: This can be solved by using the architecture of one input with two output DNN. Basically we just need to have one more regression output beside the classical CNN classification output. Once we have the feature map from the CNN, we can feed it into a fully connected network which produces a vector of class probabilities (CNN Classification). Meahwhile, we can also feed the feature map to a fully connected network which will produce a vector (x, y, w, h) representing the top left x and y coordinates, width and height of the bounding box.  The loss function of the whole network can be determined by the combination of the classification loss (such as categorical cross entropy) with the regression loss (such as MAE).</p></li><li><p>Sematic segmentation</p><p>  Q: The target is to classify every ssingle pixel on the image as belonging to a single class.</p><p>  A: In practice, it’s expensive to build a feature map for each pixel and send that feature map through a fully connected network to predict the class of the pixel. The classical implementation will be a CNN encoder-decoder network. The encoder decreases the width and height of the image but increases its depth (number of features), while the decoder uses transposed convolution operations to increase its size and decrease depth. The input of this network is the image and the output is the segmentation map. A popular implementation of this encoder-decoder architecture is the <a href="https://github.com/jakeret/tf_unet">U-Net</a>.</p></li><li><p>Object detection</p><p>  Q: It’s a more complicated version of classification and localization. The difference is now there are multiple objects in the image and for each one we need to find the class and bounding box coordinates. In addition, neither the number of objects nor their size is known in advance. </p><p>  A: In practice, we would use a tool like <code>Selective Search</code> to preprocess the images and find areas in the image that might contain objects. Those regions are called <code>Region Proposals</code>, and the network to detect them was called <code>Region Proposal Network</code> (<code>R-CNN</code>). There’s a better improved version called <a href="https://github.com/tensorpack/tensorpack/tree/master/examples/FasterRCNN">Faster R-CNN</a> which use a trainable network <code>Region Proposal Network (RPN)</code> to get the regions. The entire image is fed through the CNN and the region proposals are projected onto the resulting feature map. Each region of interest is fed through and <code>Region of Interest (ROI)</code> pooling layer and then to a fully connected network, which produces a feature vector for the ROI. ROI pooling is a widely used operation in object detection tasks using CNN. The ROI pooling layer uses max pooling to convert the features inside any valid region of interest into a small feature map with a fixed spatial extent of H × W (where H and W are two hyperparameters). The feature vector is then fed into two fully connected networks, one to predict the class of the ROI and the other to correct the bounding box coordinates for the proposal.</p></li><li><p>Instance segmentation</p><p>  Q: It needs to distinguish between different instances of the same class in an image. It is not required to label every single pixel in the image, but we need to find a binary mask that covers each object.</p><p>  A: Google’s <a href="https://colab.research.google.com/github/tensorflow/tpu/blob/master/models/official/mask_rcnn/mask_rcnn_demo.ipynb">Mask R-CNN</a> and <a href="https://colab.research.google.com/github/tensorflow/models/blob/master/research/deeplab/deeplab_demo.ipynb#scrollTo=edGukUHXyymr">DeepLab</a></p></li><li><p>Video processing</p><p>  3D Convnets are pretty expensive to train. So in practice, there are three ways to train video related datasets:</p><ol><li><p>Use pretrained CNNs to extract all features, then pass the feature maps into an RNN, which will learn sequences across multiple frames and emit the final classification.</p></li><li><p>Similar like #1 but the final layer is an MLP instead off an RNN.</p></li><li><p>Use a 3D CNN to extracts spatial and visual features. Then pass the extracted features inot either an RNN or MLP.</p></li></ol></li><li><p>Textual documents</p><p>  For some special NLP problems like sentiment analysis, which the words spatial information is not important, we can use CNN to preprocess the text.</p></li><li><p>Audio &amp; Music</p><p>  Each digital sound we hear is based on 16,000 samples per second (sometimes 48,000 or more) and building a predictive model where we learn to reproduce a sample based on all the previous ones is a very difficult challenge.</p><p>  <a href="https://deepmind.com/blog/wavenet-generative-model-raw-audio/">WaveNet</a> released by DeepMind improved the Text-to-Speech(TTS) system significantly.</p><ul><li><p>Concatenative  TTS is where single speech voice fragments are first memorized and then recombined when the voice has to be reproduced. However, this approach does not scale because it is possible to reproduce only the memorized voice fragments, and it is not possible to reproduce new speakers or different types of audio without memorizing the fragments from the beginning.</p></li><li><p>Parametric TTS is where a model is created for storing all the characteristic features of the audio to be synthesized. Before WaveNet, the audio generated with parametric TTS was less natural than concatenative TTS. WaveNet enabled significant improvement by modeling directly the production of audio sounds, instead of using intermediate signal processing algorithms as in the past.</p><p>There are two famous implementations of the WaveNet. <a href="https://github.com/ibab/tensorflow-wavenet">https://github.com/ibab/tensorflow-wavenet</a> and <a href="https://magenta.tensorflow.org/nsynth">https://magenta.tensorflow.org/nsynth</a> (<a href="https://colab.research.google.com/notebooks/magenta/nsynth/nsynth.ipynb">https://colab.research.google.com/notebooks/magenta/nsynth/nsynth.ipynb</a>)</p><p><a href="https://openai.com/blog/musenet/">MuseNet</a> released by OpenAI is another audio generation tool.</p></li></ul></li><li><p>Capsule networks</p><p>  The pooling layer in CNN introduces a significant problem because if forces to loss all the positional data (spatial relationships between pixels).</p></li></ul>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;I’m start reading this book &amp;lt;Deep Learning with TensorFlow 2 and Keras&amp;gt; those days, and will keep posting what I learnt from the bo</summary>
+      
+    
+    
+    
+    <category term="CS" scheme="http://blog.beendless.com/categories/CS/"/>
+    
+    
+    <category term="Machine Learning" scheme="http://blog.beendless.com/tags/Machine-Learning/"/>
+    
+    <category term="CNN" scheme="http://blog.beendless.com/tags/CNN/"/>
+    
+    <category term="Deep Learning with TensorFlow 2 and Keras" scheme="http://blog.beendless.com/tags/Deep-Learning-with-TensorFlow-2-and-Keras/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Loading Image to Google Colab Notebooks</title>
+    <link href="http://blog.beendless.com/2020/08/31/Loading%20Image%20to%20Google%20Colab%20Notebooks/"/>
+    <id>http://blog.beendless.com/2020/08/31/Loading%20Image%20to%20Google%20Colab%20Notebooks/</id>
+    <published>2020-09-01T06:24:48.000Z</published>
+    <updated>2020-10-02T18:18:56.105Z</updated>
+    
+    <content type="html"><![CDATA[<p>Google Colab is one of the best place to start your Machine Learning. Sometime you may want to upload images to the notebooks from your local. Fortunately you can easily make it done throught the built-in API.</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> google.colab <span class="keyword">import</span> files</span><br><span class="line"><span class="keyword">from</span> io <span class="keyword">import</span> BytesIO</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line">uploaded_files = files.upload()</span><br><span class="line"></span><br><span class="line">images =  &#123;fname: plt.imread(BytesIO(fbinary)) <span class="keyword">for</span> fname, fbinary <span class="keyword">in</span> uploaded_files.items()&#125;</span><br></pre></td></tr></table></figure><p>If you are using Keras, you can also read the uploaded file and convert it to a Numpy array with built-in helper functions.</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> tensorflow.keras.preprocessing.image <span class="keyword">import</span> load_img, img_to_array</span><br><span class="line">TARGET_SIZE = <span class="number">256</span></span><br><span class="line">images = &#123;fname: img_to_array(load_img(fname, target_size=(TARGET_SIZE, TARGET_SIZE))）<span class="keyword">for</span> fname <span class="keyword">in</span> uploaded_files.keys()&#125;</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;Google Colab is one of the best place to start your Machine Learning. Sometime you may want to upload images to the notebooks from your l</summary>
+      
+    
+    
+    
+    <category term="CS" scheme="http://blog.beendless.com/categories/CS/"/>
+    
+    
+    <category term="Machine Learning" scheme="http://blog.beendless.com/tags/Machine-Learning/"/>
+    
+    <category term="Google Colab" scheme="http://blog.beendless.com/tags/Google-Colab/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Building Asynchronized HTTP Services With Sanic</title>
+    <link href="http://blog.beendless.com/2019/01/03/Building-Asynchronized-HTTP-Services-With-Sanic/"/>
+    <id>http://blog.beendless.com/2019/01/03/Building-Asynchronized-HTTP-Services-With-Sanic/</id>
+    <published>2019-01-03T21:06:56.000Z</published>
+    <updated>2020-09-01T05:45:05.611Z</updated>
+    
+    <content type="html"><![CDATA[<p>Python introduced async/await syntax from Python3.5. it makes your code non-blocking and speedy. Developers can use it to build a high-performance / NIO web services like NodeJS. Most of the Python web developers are familiar with Flask. But unfortunately flask has no plan to support the async request headers. <a href="https://sanicframework.org/">Sanic</a> is a Flask-like webserver that’s written to go fast. It was inspired by <a href="https://magic.io/blog/uvloop-blazing-fast-python-networking/">uvloop</a>. </p><p>I set up a <a href="https://github.com/blessdyb/sanicboilerplate">sanic boilerplate</a> to show how to set up a sanic application. Inside of this project:</p><ul><li><code>Dockerfile</code> and <code>docker-compose.yml</code> are used to set up the python environments</li><li><code>gunicorn</code> is the application server</li><li><code>Blueprint</code> is used to build different parts of the applications (health-check / docs / business logic samples)</li><li>Eventloop is based on <code>asyncio</code> and <code>uvloop</code></li></ul>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;Python introduced async/await syntax from Python3.5. it makes your code non-blocking and speedy. Developers can use it to build a high-pe</summary>
+      
+    
+    
+    
+    <category term="CS" scheme="http://blog.beendless.com/categories/CS/"/>
+    
+    
+    <category term="Python" scheme="http://blog.beendless.com/tags/Python/"/>
+    
+    <category term="Async" scheme="http://blog.beendless.com/tags/Async/"/>
+    
+    <category term="HTTP" scheme="http://blog.beendless.com/tags/HTTP/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Several Important Concepts of CNN</title>
+    <link href="http://blog.beendless.com/2019/01/01/Several-Important-Concetps-of-CNN/"/>
+    <id>http://blog.beendless.com/2019/01/01/Several-Important-Concetps-of-CNN/</id>
+    <published>2019-01-02T00:49:25.000Z</published>
+    <updated>2020-09-01T05:45:05.614Z</updated>
+    
+    <content type="html"><![CDATA[<p>A trained convolutional layer is made up of many feature detectors, called filters, which slide over an input image tensor as a moving window. This is a very powerful technique and it possesses several advantages over the <code>flatten</code> and <code>classify</code> method or deep learning.</p><p>Below are some notes coming from <code>Deep Learning Quick Reference</code>.</p><h3 id="Convolutional-Layer"><a href="#Convolutional-Layer" class="headerlink" title="Convolutional Layer"></a>Convolutional Layer</h3><p>During the computation between the input and each filter, we take the elementwise product across all axes. So in the end, we will still leave with a two-dimensional output.</p><p>In a convolution layer, each unit is a filter, combined with a nonlinearity.</p><p><em>Technically, this is not a convolution, but a cross-correlation. We call it a convolution by convention and the difference for our purposes is really quite small.</em></p><h3 id="Benefits-of-Convolutional-Layers"><a href="#Benefits-of-Convolutional-Layers" class="headerlink" title="Benefits of Convolutional Layers"></a>Benefits of Convolutional Layers</h3><p>Obviously, a convolutional layer requires much fewer parameters.</p><ul><li><p>Parameter sharing</p><p>  Because the filter is used across the entire image, filters learn to detect the features regardless of their position within the image. This turns out to be really useful as it gives us <a href="https://www.quora.com/How-is-a-convolutional-neural-network-able-to-learn-invariant-features?from=timeline&isappinstalled=0">translation invariance</a>, which means we can detect something important regardless of its orientation in the overall image.</p></li><li><p>Local connectivity<br>  Because of the fixed size, filters focus on connectivity between adjacent pixels. It means that they will most strongly learn local features. The stacking of localized features is really desirable and a key reason why convolutional layers are so great.</p></li></ul><h3 id="Pooling-Layers"><a href="#Pooling-Layers" class="headerlink" title="Pooling Layers"></a>Pooling Layers</h3><p>Pooling layers are used to reduce the dimensionality of convolutional network as layers of convolutions are added, which reduces overfitting. They have the added benefit of making the feature detectors somewhat more robust. In other words, it helps us to focus on the stronger signal or the major signal instead of the details.</p><h3 id="Batch-Normalization"><a href="#Batch-Normalization" class="headerlink" title="Batch Normalization"></a>Batch Normalization</h3><p>Batch normalization helps our networks perform better overall and learn faster. It is also fairly easy to understand in an application. When using batch normalization, for each minibatch, we can normalize that batch to have a mean of 0 and unit variance, after (or before) each nonlinearity. This allows each layer to have a normalized input to learn from, which makes that layer more efficient at learning.</p><h3 id="Data-Augmentation"><a href="#Data-Augmentation" class="headerlink" title="Data Augmentation"></a>Data Augmentation</h3><p>The more data you have, the better your deep learning model could be success. But what if you can’t have enough data to feed to your model? Data augmentation can help you to improve your model to a certain extent.</p><ul><li><p>Adding Noise</p><p>  When adding noise, make sure you don’t introduce extra bias to the dataset. Also you need to ensure the noise is independent.</p></li><li><p>Transformation</p><p>  When doing transformation (flip/shift/rotate), make sure you don’t introduce bias to the feature =&gt; label mappings. For example, you can verticle flip the MNIST dataset.</p></li></ul>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;A trained convolutional layer is made up of many feature detectors, called filters, which slide over an input image tensor as a moving wi</summary>
+      
+    
+    
+    
+    <category term="CS" scheme="http://blog.beendless.com/categories/CS/"/>
+    
+    
+    <category term="Deep Learning" scheme="http://blog.beendless.com/tags/Deep-Learning/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Tips for Hyperparameter Optimization</title>
+    <link href="http://blog.beendless.com/2019/01/01/Tips-for-Hyperparameter-Optimization/"/>
+    <id>http://blog.beendless.com/2019/01/01/Tips-for-Hyperparameter-Optimization/</id>
+    <published>2019-01-01T08:29:29.000Z</published>
+    <updated>2020-09-01T05:45:05.615Z</updated>
+    
+    <content type="html"><![CDATA[<p>One of the biggest headaches of using deep neural networks is that they have tons of hyperparameters that should be optimized so that the network performs optimally.  Below are some notes coming from <code>Deep Learning Quick Reference</code>.</p><ul><li><p>Try to Find some similar solved problem.</p></li><li><p>Keep adding layers/nodes until the network gets overfitting.</p>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">The bad thing becomes a good thing to help us confirm that the network can fit the training sets perfectly at least.</span><br></pre></td></tr></table></figure></li></ul><h2 id="Hyperparameters"><a href="#Hyperparameters" class="headerlink" title="Hyperparameters"></a>Hyperparameters</h2><ul><li><p>Optimizer</p><p>  Usually, you can start with <code>Adam</code>, but an <code>RMSProp</code> or a fine-tuned <code>SGD</code> may do a better job. You will need to tune the learning rate, momentum, decay and so on.</p></li><li><p>Network Weight Initialization</p><p>  You can start with <code>he_normal</code> or <code>he_uniform</code>.</p></li><li><p>Neuron Activation</p><p>  In most cases, <code>relu</code> is the first one you need to use. But you should try <code>leaky-relu</code> or <code>tanh</code> if needed.</p></li><li><p>Regularization</p><ul><li>Dropout probability</li><li>L2 regularization</li></ul></li><li><p>Batch size</p></li></ul><p>All of the combinations of the methods above you may need to try to get an optimized result, below are the common strategies:</p><ul><li>Grid search</li><li>Random search</li><li>Bayesian optimization</li><li>Genetic algorithms</li><li>Hyperband</li></ul><p>From the author, J. Malia Andrus:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Ultimately, hyperparameter search is an economics problem, and the first part of any hyperparameter search should be a consideration for your budget of computation time, and personal time, in attempting to isolate the best hyperparameter configuration.</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;One of the biggest headaches of using deep neural networks is that they have tons of hyperparameters that should be optimized so that the</summary>
+      
+    
+    
+    
+    <category term="CS" scheme="http://blog.beendless.com/categories/CS/"/>
+    
+    
+    <category term="Deep Learning" scheme="http://blog.beendless.com/tags/Deep-Learning/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Started to go through convnetjs</title>
+    <link href="http://blog.beendless.com/2018/12/23/Started-to-go-through-convnetjs/"/>
+    <id>http://blog.beendless.com/2018/12/23/Started-to-go-through-convnetjs/</id>
+    <published>2018-12-23T09:15:19.000Z</published>
+    <updated>2020-09-01T05:45:05.614Z</updated>
+    
+    <content type="html"><![CDATA[<p>After reading several books about deep learning, now I can use <code>keras</code> / <code>tensorflow</code> to train some models, but the mathmatical implementations behind the libraries are still have to follow. </p><p>Two years ago, when I played with <code>Karpathy</code>‘s [ConvnetJS], I was shocked by the agrighms behind that. I think now it’s time to go through his code, I started a small project to annotate <code>ConvnetJS</code> source code and re-write it with <code>TypeScript</code>.  You can check my progress from <a href="https://github.com/blessdyb/convnetjs-source">ConvnetJS Source Annotation</a>, you can also check the <a href="https://convnetjs.beendless.com/">documentation</a> directly.</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;After reading several books about deep learning, now I can use &lt;code&gt;keras&lt;/code&gt; / &lt;code&gt;tensorflow&lt;/code&gt; to train some models, but the</summary>
+      
+    
+    
+    
+    <category term="CS" scheme="http://blog.beendless.com/categories/CS/"/>
+    
+    
+    <category term="Deep Learning" scheme="http://blog.beendless.com/tags/Deep-Learning/"/>
+    
+    <category term="JavaScript" scheme="http://blog.beendless.com/tags/JavaScript/"/>
+    
+    <category term="ConvnetJS" scheme="http://blog.beendless.com/tags/ConvnetJS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Scaling NodeJS Apps -- Archtectural Patterns</title>
+    <link href="http://blog.beendless.com/2018/12/20/Scaling-NodeJS-Apps-Archetectural-Patterns/"/>
+    <id>http://blog.beendless.com/2018/12/20/Scaling-NodeJS-Apps-Archetectural-Patterns/</id>
+    <published>2018-12-21T07:00:00.000Z</published>
+    <updated>2020-09-01T05:45:05.612Z</updated>
+    
+    <content type="html"><![CDATA[<p>This is the notes when I read the book <a href="https://www.apress.com/de/book/9781484239902">Scaling Your Nodej.js Apps</a>.</p><h2 id="Layered-Architecture"><a href="#Layered-Architecture" class="headerlink" title="Layered Architecture"></a>Layered Architecture</h2><p>It is based on the logistic seperation of concerns of your application (or platform) into layers. And the layers must comply with the following points:</p><ul><li>Each layer must have a well-defined purpose (presentation layer, business layer, and so on)</li><li>Each layer cannot speak (or send data) to any other layer that is not the one directly below it</li></ul><h2 id="MVC"><a href="#MVC" class="headerlink" title="MVC"></a>MVC</h2><p>Many web frameworks have adopted this pattern, because the structure of most web projects resembles this approach. </p><ul><li>MVP (Model, View, Presenter) pattern aims to remove that unwanted interaction between Model and View, making Presenter the sole man-in-the-middle talking care of passing information between its associated View and it’s Model.</li><li>MVVM (Model, View, ViewModel) aims for a two-way data binding between the View and ViewModel. This is in turns allows for automatic updates on the view, based on changes in the model.</li></ul><h2 id="Client-Server"><a href="#Client-Server" class="headerlink" title="Client-Server"></a>Client-Server</h2><p>It consists of having a powerful server that provides meaningful services to many clients.</p><ul><li>Clients always start the data communication.</li><li>The servers are always listening for new connections from clients to start a new communcation.</li></ul><h2 id="Master-Slave"><a href="#Master-Slave" class="headerlink" title="Master-Slave"></a>Master-Slave</h2><p>It implies a single channel of communication between two parties. Instead of having one centralized hub for the business logic and heavy processing of data, you have a one-way controlled communication between a controlling node (the master) and many decentralized nodes (the slaves). The heavy processing and expensive tasks are usually performed in the slaves, while the master merely funnels the requests from outside into them. </p><ul><li>Any behavior-affecting message are one-way, from the master to the slaves. Slaves don’t have the ability to affect the master.</li><li>Not all slaves need to work on the same tasks.</li><li>Some versions of this partern allow slaves to elect one of their own as a new master, if the current master is no longer working.</li></ul><p>It can be used for database architecture, increased parallel processing capacity, and so on.</p><h2 id="Event-Bus-or-Event-Driven-Architectures"><a href="#Event-Bus-or-Event-Driven-Architectures" class="headerlink" title="Event-Bus or Event-Driven Architectures"></a>Event-Bus or Event-Driven Architectures</h2><p>The relationships between components are usually many-to-many. The components can be defined as follows:</p><ul><li>Event sources: these are the components that generate events and publish them into the event bus.</li><li>Event consumers: the consumers are the components that are expecting a particular set of events and are ready to react to them once received.</li><li>Event bus: the channel through which the events will be districuted.</li><li>The actual event: the data cummunicated between different components.</li></ul><p>A classic example of this approach consists of using a message queue as the event bus. There are lots of solutions like RabbitMQ, Kafka, ZeroMQ. The event bus and event-driven reactions are all asynchronous. So you platform must be able to function asynchronously.</p><h2 id="Microservices-Architecture"><a href="#Microservices-Architecture" class="headerlink" title="Microservices Architecture"></a>Microservices Architecture</h2><p>The core behind this pattern is your understanding of the different features your platform is supposed to have (that is, the different services it needs to provide). If you properly understand your platform, you can probably split the services into a set of smaller services that, when used together by the client app, yield the same result you would get from a single block of code with all features bundle together. With a microservice-based architecture, we get control of our services in a fine granularity level.</p><ul><li>Gain total control over which component of your application to scale.</li><li>Improve the development process.</li><li>Add the ability to switch versions of your components.</li><li>Gain the ability to reuse components or modules among applications.</li></ul><p>Below are some of the most common issues you might run into which developing microservices:</p><ul><li>Communications between difference micro-services need to be planned and defined carefully and clearly, otherwise, the whole performance of the system will be affected, especially when you get the high traffic.</li><li>Too many microservices might create a chaotic architecture.</li><li>Deployments of microservices-based architecture can be quite a pain, especially if you are not properly automating the process.</li></ul><h2 id="The-Broker-Pattern"><a href="#The-Broker-Pattern" class="headerlink" title="The Broker Pattern"></a>The Broker Pattern</h2><p>One of the pain points for the latter was that given a high enough number of microservices, you begin to need a form of orchestration; otherwise, your clients start to lose the ability to communicate easily with your platform.</p><p>The purpose of the broken node is to centralize and redistribute requests among different services. Another key characteristic of this pattern is that by default it is not the broken that “knows” about its servers; instead, it’s the servers that register with the borker once they come online, and provide all the information it needs to understand the services they provide.</p><p>This pattern has a few setbacks:</p><ul><li>The broker becomes the single point of failure.</li><li>It’s hard to scale your platform unless you also scale up your broker</li><li>It adds an extra layer of indirection between client and services; thus extra latency is added to the request time.</li></ul><h2 id="Lambda-Architectures"><a href="#Lambda-Architectures" class="headerlink" title="Lambda Architectures"></a>Lambda Architectures</h2><p>Lambda architecutres are a special pattern designed to provide a high-throughput platform that is able to process very large quantities of data both in real time and in batches.</p><p>This is a solution that has a very high maintenance cost associated with it since you basically are maintaining two parallel architecture at once, which in ture need to keep a centralized repository of data in a synchronized matter.</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;This is the notes when I read the book &lt;a href=&quot;https://www.apress.com/de/book/9781484239902&quot;&gt;Scaling Your Nodej.js Apps&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=</summary>
+      
+    
+    
+    
+    <category term="CS" scheme="http://blog.beendless.com/categories/CS/"/>
+    
+    
+    <category term="DevOps" scheme="http://blog.beendless.com/tags/DevOps/"/>
+    
+    <category term="NodeJS" scheme="http://blog.beendless.com/tags/NodeJS/"/>
+    
+    <category term="Archetecture" scheme="http://blog.beendless.com/tags/Archetecture/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Scaling NodeJS Apps -- The Need to Scale</title>
+    <link href="http://blog.beendless.com/2018/12/20/Scaling-NodeJS-Apps/"/>
+    <id>http://blog.beendless.com/2018/12/20/Scaling-NodeJS-Apps/</id>
+    <published>2018-12-20T09:26:16.000Z</published>
+    <updated>2020-09-01T05:45:05.613Z</updated>
+    
+    <content type="html"><![CDATA[<p>This is the notes when I read the book <a href="https://www.apress.com/de/book/9781484239902">Scaling Your Nodej.js Apps</a>.</p><p>An increasing in incoming traffic could affect your system in different ways; we can describe these as direct or indirect.</p><ul><li><p>Direct Effects</p><p>  Overloading your server’s capacity to handle incoming traffic is the most obivous direct effects.</p><ul><li>Apache Httpd spawns a new process for every request, so multiple concurrent requests might cause this scenario to get out of hand quickly.</li><li>Nginx has a non-blocking I/O approach, so it’s capable of managing high levels of traffic with constant memory consumption.</li></ul></li><li><p>Indirect Effects</p><p>  An increasing in traffic can affect your application indirectly by overloading one of your internal processes. In a microservices-based architecture, the communication between services needs to be carefully planned. The fact that your’re capable of handling the increased traffic on your user-facing service doesn’t mean the rest of your architecture will be able to handle it. Whenever you depend on third-party services, they can actually assure you that their service will not be degraded by anything.</p></li><li><p>High Availability</p><p>  It must ensure that whatever service it provides will always be available and will not lose performance, despite having internal problems. The availability of a system is known as it’s <code>uptime</code> or <code>SLA</code>(Service Level Agreement) which is measured in nines of availability.<br>  A common way to approach the high HA is to use master/slave design for each node. The monitor service will guarantee that all our nodes are working well. If one of the nodes fails, its slave node would be promoted as the new master node and replace the bad one. It works good if you can simply exchange the master node with slave node without any loss of data or any kind of information. For database nodes, we have to introduce the passive data replication process between maseter nodes and slave nodes. It can make sure at any point if your master gets lot, the slave will take over the responsibility with minimal side-effects (data lose). One thing you need to keep in mind that you can’t prevent the master node goes down during the mid-write process, so we need to enable the data transaction</p><ul><li>Redis with sentinel enabled, the slaves are not just there waiting to be promoted, they are used for read-only queries as well. So the slaves will take care of all the write operations.</li><li>MongoDB has replica sets. It allows us to set a group of nodes with one of them as the primary node     </li></ul></li></ul><ul><li><p>Fault Tolerance</p><p>  High availability is all about keeping the offline time of your platform to a minimum and always trying to keep performance unaffected. The most important difference between these two is that if an error occurs during an action, a high available system does not ensure the correct end state of that action, while a fault-tolerant one does. This distinction is crucial because it will be the key to understanding which approach you will want to implement for your particular use case.</p><p>  Usually fault-tolerant systems try to catch the error at its source and find a solution before it becomes critical. </p><ul><li><p>Redundancy</p><p>  We have one or more components performing the same task and some form of checking logic to determine when one of them is has failed and its output needs to be ignored. It’s a very common practice for mission-critical components.</p><ul><li><p>Triple Modular Redundancy<br>  <code>TMR</code> is a form of redundancy in which three systems perform the same process and their results are checked by a majority voting system that in turn produces a single output.</p></li><li><p>Forward Error Correction<br>  <code>FEC</code> adds redundancy into the message itself. The receiver can verify the actual data and correct a limited number of detected errors caused by noisy or unstable channels. </p></li></ul></li><li><p>Checkingpoint</p><p>  This technique consists of saving the current state of the system into reliable storage and restarting the system by preloading that saved state whenever there is a problem.</p><p>  For distributed system, when one of nodes recovers from a checkingpoint, the other nodes need to ensure that their current state is consistant. This is a bit complex because there is usually a dependency between nodes, so the solution here is to force the system to return to the only common stable state: its original checkpoint.</p></li></ul></li></ul>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;This is the notes when I read the book &lt;a href=&quot;https://www.apress.com/de/book/9781484239902&quot;&gt;Scaling Your Nodej.js Apps&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;An i</summary>
+      
+    
+    
+    
+    <category term="CS" scheme="http://blog.beendless.com/categories/CS/"/>
+    
+    
+    <category term="DevOps" scheme="http://blog.beendless.com/tags/DevOps/"/>
+    
+    <category term="NodeJS" scheme="http://blog.beendless.com/tags/NodeJS/"/>
+    
+    <category term="Archetecture" scheme="http://blog.beendless.com/tags/Archetecture/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>JavaScript 机器学习之分类与聚合算法</title>
+    <link href="http://blog.beendless.com/2018/12/18/JavaScript-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%88%86%E7%B1%BB%E4%B8%8E%E8%81%9A%E5%90%88%E7%AE%97%E6%B3%95/"/>
+    <id>http://blog.beendless.com/2018/12/18/JavaScript-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%88%86%E7%B1%BB%E4%B8%8E%E8%81%9A%E5%90%88%E7%AE%97%E6%B3%95/</id>
+    <published>2018-12-19T06:11:32.000Z</published>
+    <updated>2020-09-01T05:45:05.611Z</updated>
+    
+    <content type="html"><![CDATA[<p>聚类是接触无监督式学习时常见的一个问题。通常在你想将一个大的数据集重新编排组织成小的群组，或者是将其按逻辑相似性分解成小的群组时我们会考虑聚类。例如，你可以尝试将人口普查数据中的家庭收入分成三个群组：低收入，中等收入及高收入。如果你将家庭收的数据集做为指定的一种聚类算法的输入，你将期望得到三个数据聚点 及其对应的前述三个收入分组的平均值做为结果。即使是这种家庭收入数据的一维聚类问题，你也可能很难通过手动解决——难点在于无法快速地确定两个分组之间的边界值。你可能可以参考政府部门所定义的收入分组的标准，但无法确定这类定义的标准是几何均衡的; 这类的标准可能是被政策制定者所发明出来的，因此它可能无法精确地表达数据之间的正真关系。</p><p>一个聚类是一组逻辑上存在某种相似性的数据点的集合。 他们可能是具有相同的行为的用户组，具有相似收入水平的居民，具有相似颜色的像素点的组合等等. K-平均聚类算法是一种数值和几何量化算法，因此它所生成的聚类所包含的点在数值上是相近的，在几何上也是彼此相近的。庆幸的是，大多数的数据集都是可以数值化的，因为K-平均聚类算法可适用于多种领域的问题。</p><p>K-均值算法是一个对于量化数据集而言快速，强大并广受欢迎的算法。它的名称来源于两部分：K表达了我们想要算法查找的聚类的个数，均值意味着确定这些聚类中心点的方式(你可以使用诸如K-中位数或K-众数等）。例如，我们设计了一个查找到三个代表整个数据集所有数据点的位置均值的聚类中心的算法，在此算法中，K=3 同时我们使用了K-均值分析的方式来确定聚类中心点的位置。</p><p>K-均值算法是一个迭代算法，这意味着它将在循环中来持续性地更新算法模型，直到模型处于某种稳定状态后才会退出循环并返回模型做为结果。如果更加形象具体地描述，K-均值算法的具体内容是：将你所要分析的所有的数据点绘制在其所对应的空间中，并选取一个K值。你必须在此能够明确地知道K的值，或者至少能够知道K的一个合理的取值范围(在这一节之后我们会给出如何处理这种情况)。之后随机生成K个数据点（如果K=5，生成五个数据点）并将其绘制在对应的空间内；这些点也被称为”重心聚点”，因为它们实质上代表的是聚类数据集的几何中心 。针对数据集空间的所有点，找到离这些点各自几何距离最新的数据重心聚点并将其连接或分配给这些数据点。一时所有的数据点都链接或分配到了数据重心聚点，此时再依次遍历所有的重心聚点并将其位置更新为与其连接或分配到其的所有数据点的平均位置。重复上述分配-更新的过程理直到所有的重心聚点的位置不在变化;这些重心聚点的最终位置即是聚类算法的输出，同时它们也是整个数据集在聚类操作后的分组聚点。上述的过程比较抽象，如果你感觉到很难理解，不要担心，接下来在我们设计并实现整个算法的过程中，我们会更加深入地对其加以示例进行介绍。</p><p>在这一章中，我们将首先讨论均值及距离的概念及及如何将它们应用到K-均值算法之中。之后我们将剖析算法的细节，并完全使用JavaScript来实现K-均值算法。接下来我们将使用多个不同的简单数据集来测试我们所实现的K-均值算法，同时讨论如何处理K未知的问题。我们将创建一个小的工具来自动化地确定K的值。基于以上知识，我们会分析K-均值算法中损失函数的概念，通过设计并实现一个损失函数来帮我们实现优化算法的目标。 以下是几个主要话题:</p><ul><li>均值与距离</li><li>实现K-均值算法</li><li>示例一: 如何使用K-均值算法来处理二维数据</li><li>示例二: 如何使用K-均值算法来处理三维数据</li><li>K-均值算法当K未知时如何处理</li></ul><h2 id="均值和距离"><a href="#均值和距离" class="headerlink" title="均值和距离"></a>均值和距离</h2><p>K-均值算法的运行依赖于两个概念：均值和距离。为了计算出某个聚点中心的位置，算法需要计算所有连接到该数聚点中心所有数据点的平均值。这种情况下，我们会使用算术均值，即所有数据点的数值的和除以数据点的个数来得到这个均值。在ES5/标准JavaScript中,  我们可以创建如下函数:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**  </span><br><span class="line"> * @param &#123;Array.&lt;number&gt;&#125; 数值  </span><br><span class="line"> * @return &#123;float&#125;  </span><br><span class="line"> *&#x2F;</span><br><span class="line"> function mean(numbers) &#123;  </span><br><span class="line">    var sum &#x3D; 0, length &#x3D; numbers.length;</span><br><span class="line">    if (length &#x3D;&#x3D;&#x3D; 0) &#123;  </span><br><span class="line">        &#x2F;** 在数学定义中，一个空的数据集的均值是undefined,所以我们应该尽早地检测 </span><br><span class="line">         *  到这种情况并中断执行。同时我们也应该允许函数试图计算0&#x2F;0, 在JavaScript</span><br><span class="line">         *  中会返回NaN，但在一些其它语言中会抛出异常。为了不让函数在此能够处理多种</span><br><span class="line">         *  情况，我们在此直接抛出异常，而不是返回一个混合类型的值</span><br><span class="line">         * &#x2F;</span><br><span class="line">         throw new Error(&#39;Cannot calculate mean of empty set&#39;);  </span><br><span class="line">    &#125;  </span><br><span class="line">    for (var i &#x3D; 0; i &lt; length; i++) &#123;  </span><br><span class="line">        sum +&#x3D; numbers[i];  </span><br><span class="line">    &#125;  </span><br><span class="line">    return sum &#x2F; length;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>在ES6中，我们可以通过使用箭头函数来得到一个更为简练的表达式</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const mean &#x3D; numbers &#x3D;&gt; numbers.reduce((sum, val) &#x3D;&gt; sum + val, 0) &#x2F; numbers.length;</span><br></pre></td></tr></table></figure><p>然而上述的代码预设了所有的参数都是已定义好的数值，如果你在调用函数的过程中使用了一个空的数组，它将返回NaN。为了便于理解，我们还可以让上面的代码分解为两个步骤</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const sum &#x3D; (numbers) &#x3D;&gt; numbers.reduce((sum, val) &#x3D;&gt; sum + val, 0);  </span><br><span class="line">const mean &#x3D; (numbers) &#x3D;&gt; sum(numbers) &#x2F; numbers.length;</span><br></pre></td></tr></table></figure><p>在此需要注意，我们可以使用任何形式的均值计算方式，包括中位数或众数。实际上，通常我们更倾向于使用K-中位数而不是K-均值。中位数在过滤数据集异常值方面比平均值更能得到更好的结果。因为你在使用过程中要提醒自己哪种均值的计算方式是你所需要的。如果你想要的是一个能够表达所有被消费的资源总数的方法，你可以使用算术平均值。如果你推测到数据集中的异常数据是由于错误的数据收集测量方式导致并且可以忽略的话，K-中数位可能更适合你的计算方式。</p><p>我们同时需要一个计算距离的算法。它可以使用任何一种测量距离的方式，但是，对于数值数据而言，我们更多地还是使用典型的欧几里德距离——你在高中时候学过的标准两点距离计算方式——使用ES5的话它的实现如下：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**  </span><br><span class="line"> * 计算二维数据点a和b之间的距离</span><br><span class="line"> * 每个点应该是一个长度为2的数组，数组的每个数据成员都是数值类型</span><br><span class="line"> * @param &#123;Array.number&#125; a  </span><br><span class="line"> * @param &#123;Array.number&#125; b  </span><br><span class="line"> * @return &#123;float&#125;  </span><br><span class="line"> *&#x2F;</span><br><span class="line"> function distance2d(a, b) &#123;  </span><br><span class="line">     var diff_0 &#x3D; b[0] - a[0];  </span><br><span class="line">     var diff_1 &#x3D; b[1] - a[1];  </span><br><span class="line">     return Math.sqrt(diff_0*diff_0 + diff_1*diff_1);  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>但实际使用中我们需要支持多维数据，因为可以将上述的实现扩展为</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**  </span><br><span class="line"> * @param &#123;Array.number&#125; a  </span><br><span class="line"> * @param &#123;Array.number&#125; b  </span><br><span class="line"> * @return &#123;float&#125;  </span><br><span class="line"> *&#x2F;function distance(a, b) &#123;  </span><br><span class="line">    var length &#x3D; a.length,  </span><br><span class="line">        sumOfSquares &#x3D; 0;  </span><br><span class="line">  </span><br><span class="line">    if (length !&#x3D;&#x3D; b.length) &#123;  </span><br><span class="line">        throw new Error(&#39;Points a and b must be the same length&#39;);  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    for (var i &#x3D; 0; i &lt; length; i++) &#123;  </span><br><span class="line">        var diff &#x3D; b[i] - a[i];  </span><br><span class="line">        sumOfSquares +&#x3D; diff*diff;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    return Math.sqrt(sumOfSquares);  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>如果使用ES6的话我们可以简化上述的代码为:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const distance &#x3D; (a, b) &#x3D;&gt; Math.sqrt(  </span><br><span class="line">    a.map((aPoint, i) &#x3D;&gt; b[i] - aPoint)  </span><br><span class="line">     .reduce((sumOfSquares, diff) &#x3D;&gt; sumOfSquares + (diff*diff), 0)  </span><br><span class="line">);</span><br></pre></td></tr></table></figure><p>在装备了以上两个工具函数后，我们可以开始实现K-均值算法。</p><h2 id="实现K-均值算法"><a href="#实现K-均值算法" class="headerlink" title="实现K-均值算法"></a>实现K-均值算法</h2><h3 id="配置环境"><a href="#配置环境" class="headerlink" title="配置环境"></a>配置环境</h3><p>我们需要首先配置好开发环境。整个开发环境和第一章中提到的基本相同，以下为创建的具体过程。</p><p>首先，创建一个目录。比如可以全名为<code>Ch4-kmeans</code>。在此目录中创建一个子目录<code>src</code>。</p><p>其次，在项目根目录添加一个名为<code>package.json</code>的文件, 并输入如下内容：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&#123;  </span><br><span class="line">  &quot;name&quot;: &quot;Ch4-kmeans&quot;,  </span><br><span class="line">  &quot;version&quot;: &quot;1.0.0&quot;,  </span><br><span class="line">  &quot;description&quot;: &quot;ML in JS Example for Chapter 4 - kmeans&quot;,  </span><br><span class="line">  &quot;main&quot;: &quot;src&#x2F;index.js&quot;,  </span><br><span class="line">  &quot;author&quot;: &quot;Burak Kanber&quot;,  </span><br><span class="line">  &quot;license&quot;: &quot;MIT&quot;,  </span><br><span class="line">  &quot;scripts&quot;: &#123;  </span><br><span class="line">    &quot;build-web&quot;: &quot;browserify src&#x2F;index.js -o dist&#x2F;index.js -t [ babelify --presets [ env ] ]&quot;,  </span><br><span class="line">    &quot;build-cli&quot;: &quot;browserify src&#x2F;index.js --node -o dist&#x2F;index.js -t [ babelify --presets [ env ] ]&quot;,  </span><br><span class="line">    &quot;start&quot;: &quot;yarn build-cli &amp;&amp; node dist&#x2F;index.js&quot;  </span><br><span class="line">  &#125;,  </span><br><span class="line">  &quot;dependencies&quot;: &#123;  </span><br><span class="line">    &quot;babel-core&quot;: &quot;^6.26.0&quot;,  </span><br><span class="line">    &quot;babel-preset-env&quot;: &quot;^1.6.1&quot;,  </span><br><span class="line">    &quot;babelify&quot;: &quot;^8.0.0&quot;,  </span><br><span class="line">    &quot;browserify&quot;: &quot;^15.1.0&quot;  </span><br><span class="line">  &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>在创建完成<code>package.json</code>文件为，切换到控制台程序中，在<code>Ch4-kmeans</code>项目根目录中执行命令<code>yarn install</code>。</p><p>接下来，在<code>Ch4-kmeans/src</code>目录中添加三个文件:  <code>index.js</code>,  <code>data.js</code>,  与  <code>kmeans.js</code>。我们将在<code>kmeans.js</code>中完成整个K-均值算法的实现, 同时会在<code>data.js</code>中加载一些测试简单的数据集,  最终将使用<code>index.js</code> 做为我们的程序启动入口并运行一系列的测试示例。</p><p>现在你可能想停下来并测试一下上述我们的设置是否可以正常运行。在<code>index.js</code> 中添加一行简单的代码<code>console.log(&quot;Hello&quot;);</code> 并在控制台程序中执行<code>yarn start</code>  。你将会发现源代码被编译与执行，同时在程序退出前在屏幕上输出<code>Hello</code> 。如果你得到了一些错误代码或者没有看到<code>Hello</code>，你可能需要重新检查你是否按照上述步骤进行了环境的配置。</p><h3 id="初始化算法"><a href="#初始化算法" class="headerlink" title="初始化算法"></a>初始化算法</h3><p>在这一节中，我们将在<code>kmeans.js</code>文件中实现算法。首先是将上述的均值及距离计算的函数添加到文件的顶部。因为它们是通用性的静态函数，我们不会将其放入类的定义中。<br>将以下代码放放文件的顶部</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**  </span><br><span class="line"> * 计算给定数组的均值</span><br><span class="line"> * @param &#123;Array.&lt;number&gt;&#125; numbers  </span><br><span class="line"> * @return &#123;number&#125;  </span><br><span class="line"> *&#x2F;</span><br><span class="line"> const mean &#x3D; numbers &#x3D;&gt; numbers.reduce((sum, val) &#x3D;&gt; sum + val, 0) &#x2F; numbers.length;  </span><br><span class="line">  </span><br><span class="line">&#x2F;**  </span><br><span class="line"> * 计算给定的两个数据点的距离</span><br><span class="line"> * @param &#123;Array.&lt;number&gt;&#125; a  </span><br><span class="line"> * @param &#123;Array.&lt;number&gt;&#125; b  </span><br><span class="line"> * @return &#123;number&#125;  </span><br><span class="line"> *&#x2F;</span><br><span class="line"> const distance &#x3D; (a, b) &#x3D;&gt; Math.sqrt(  </span><br><span class="line">    a.map((aPoint, i) &#x3D;&gt; b[i] - aPoint)  </span><br><span class="line">     .reduce((sumOfSquares, diff) &#x3D;&gt; sumOfSquares + (diff*diff), 0)  </span><br><span class="line">);</span><br></pre></td></tr></table></figure><p>接下来，创建并导出<code>KMeans</code>类. 我们将在本章节接下来的内容中在这个类中加入多个函数。 先将以下代码加入到上述工具函数之下:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">class KMeans &#123;  </span><br><span class="line">   &#x2F;**  </span><br><span class="line">   * @param k  </span><br><span class="line">   * @param data  </span><br><span class="line">   *&#x2F;  </span><br><span class="line">    constructor(k, data) &#123;  </span><br><span class="line">        this.k &#x3D; k;  </span><br><span class="line">        this.data &#x3D; data;  </span><br><span class="line">        this.reset();  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">  &#x2F;**  </span><br><span class="line">   * Resets the solver state; use this if you wish to run the * same solver instance again with the same data points * but different initial conditions. *&#x2F;  reset() &#123;  </span><br><span class="line">        this.error &#x3D; null;  </span><br><span class="line">        this.iterations &#x3D; 0;  </span><br><span class="line">        this.iterationLogs &#x3D; [];  </span><br><span class="line">        this.centroids &#x3D; this.initRandomCentroids();  </span><br><span class="line">        this.centroidAssignments &#x3D; [];  </span><br><span class="line">    &#125;  </span><br><span class="line">      </span><br><span class="line">&#125;  </span><br><span class="line">  </span><br><span class="line">export default KMeans;</span><br></pre></td></tr></table></figure><p>我们已经创建了一个<code>KMeans</code>类并将其做为默认的导出模块。上述代码同时初始化了一些类所需要的实例变量，具体如下：</p><p>类的构造函数接受两个参数，<code>k</code>与<code>data</code>, 它们将在初始化过程中被赋值保存到对应的实例变量中。参数<code>k</code>代表了K-均值中的<code>K</code>, 或者说算法输出中的聚类的个数。参数<code>data</code>代表了算法将要处理的数据集数组。</p><p>在构造函数最后，我们调用了<code>reset()</code>方法，它是用来初始化(或重置)算法的状态。我们在<code>reset</code>方法中初始化的实例变量有：</p><ul><li><code>iterations</code>, 简单的计数量变量，来记录算法运行的循环次数，从0开始</li><li><code>error</code>,  记录了当前循环中所有的数据点与其对应的重心聚点距离的均方根误差，即损失函数的值</li><li><code>centroidAssignments</code>, 由所有数据点索引组成的数据，其值为对应数据点相关联的重心聚点的索引</li><li><code>centroids</code>, 保存了当前循环中所有的重心聚点信息</li></ul><p>注意在<code>reset</code>方法中，我们调用了一个未定义的方法<code>this.initRandomCentroids()</code>。K-均值算法必须要有初始化的重心聚点才可以执行，所以这个方法的目的就是随机生成指定数目的重心聚点的信息。由于算法初始于一个随机状态，因此多次执行这个算法将会基于其不同的初始状态而得到不同的结果。这是K-均值算法所期望的一个属性，因为它很可能在某一次运行后得到的是一个局部优化解，所以如果基于不同的初始状态来多次运行这个程序，我们更有可能得到的是全局的优化解。</p><p>在我们生成随机重心聚点前需要得到一些预设信息。首先，我们要必须获得数据集的维度信息。是二维，三维，十维还是1324维？我们生成的随机重心聚点必须与已知数据集的维度相同。这是一个比较简单的问题，我们假设所有的数据点都拥有相同的维度，这样我们只需要检测数据集中的第一个数据点的信息即可得到维度信息。将下述方法加入到<code>KMean</code>类中。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**  </span><br><span class="line"> * Determines the number of dimensions in the dataset. * @return &#123;number&#125;  </span><br><span class="line"> *&#x2F;getDimensionality() &#123;  </span><br><span class="line">    const point &#x3D; this.data[0];  </span><br><span class="line">    return point.length;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>在生成随机初始化重心聚点信息时，另外一个需要考虑的地方就是我们的初始化重心聚点的位置应该与数据集中的数据尽可能地接近。例如，如果数据集中所有的数据点都是在(0,0)与(10,10)之间，你将不会想生成一个位置为(1200,740)的随机数据点。相似的，如果所有的数据点都是负值，你也不会想生成数值为正数的随机重心聚点数据。</p><p>为什么我们要关注随机重心聚点的初始值点？在这个算法中，数据点将被指定与其最近的重心聚点相关联，同时随着运行逐渐地将重心聚点拉到其所属的聚类的中心。如果所有重心聚点都在数据集的右边，那它们将会按照相似的连接路径与数据集相关联，这就导致所有数据点都被关联到其右侧与它们最近的一个重心聚点上，之后这个重心聚点将会被转化成一个局部的最优解。通过随机初始化重心聚点的操作，我们能够更大程度上避免这类的局部最优解的情况。</p><p>我们生成重心聚点初始位置的方法取决于数据集中所有数据点每一个维度的数值范围，在此范围内我们来生成对应维度的随机值。例如，给定数据集包含二维平面(x, y)上的三个数据点：(1,3), (5, 8)与(3, 0)。维度<code>x</code>处于1与5之间,维度<code>y</code>处于0与8之间。因此，在生成随机重心聚点的初始数据时，我们将在1和5之间随机选取一个数值做为随机重心聚点在维度<code>x</code>上的位置, 在0和8之间随机选取一个数值做为随机重心聚点在维度<code>y</code>上的位置。</p><p>我们可以使用JavaScript的数学函数<code>Math.min</code>   与  <code>Math.max</code>  来决定每个维度的数据取值范围。请将如下代码添加到<code>KMeans</code>类中:<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**  </span><br><span class="line"> * For a given dimension in the dataset, determine the minimum * and maximum value. This is used during random initialization * to make sure the random centroids are in the same range as * the data. * * @param n  </span><br><span class="line"> * @returns &#123;&#123;min: *, max: *&#125;&#125;  </span><br><span class="line"> *&#x2F;getRangeForDimension(n) &#123;  </span><br><span class="line">    const values &#x3D; this.data.map(point &#x3D;&gt; point[n]);  </span><br><span class="line">    return &#123;  </span><br><span class="line">        min: Math.min.apply(null, values),  </span><br><span class="line">        max: Math.max.apply(null, values)  </span><br><span class="line">    &#125;;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>这个方法首先从数据点的给定维度中收集了所有的数据值。之后返回了一个包含得到数据值的最小值与最大值的对象。例如对于之前例子中的三个数据点(1, 3), (5, 8)与(3, 0), 在调用<code>getRangeForDimension(0)</code>时会返回<code>&#123;min: 1, max: 5&#125;</code>, 在调用<code>getRangeForDimension(1)</code>时会返回<code>&#123;min: 0, max: 8&#125;</code>.</p><p>生成并保存一个包含所有维度数据数值范围的对象将会给初始化重心聚点提供极大的方便。请将如下方法加入<code>KMeans</code>的类中</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**  </span><br><span class="line"> * Get ranges for all dimensions. * @see getRangeForDimension  </span><br><span class="line"> * @returns &#123;Array&#125; Array whose indices are the dimension number and whose members are the output of getRangeForDimension  </span><br><span class="line"> *&#x2F;getAllDimensionRanges() &#123;  </span><br><span class="line">    const dimensionRanges &#x3D; [];  </span><br><span class="line">    const dimensionality &#x3D; this.getDimensionality();  </span><br><span class="line">  </span><br><span class="line">    for (let dimension &#x3D; 0; dimension &lt; dimensionality; dimension++) &#123;  </span><br><span class="line">        dimensionRanges[dimension] &#x3D; this.getRangeForDimension(dimension);  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    return dimensionRanges;  </span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>上述方法遍历了所有的维度并逐一返回对应维度的最大最小值, 最终构造了一个以维度为索引的对象数组。稍后我们将会使用这个方法。现在，我们终于可以来生成随机化的重心聚点初始值了。这将需要生成K个重心聚点，通过遍历数据点的所有维度，在每个维度中选取一个在其最小最大值数值范围中的随机值。请将如下方法加入<code>KMean</code>类中:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**  </span><br><span class="line"> * Initializes random centroids, using the ranges of the data * to set minimum and maximum bounds for the centroids. * You may inspect the output of this method if you need to debug * random initialization, otherwise this is an internal method. * @see getAllDimensionRanges  </span><br><span class="line"> * @see getRangeForDimension  </span><br><span class="line"> * @returns &#123;Array&#125;  </span><br><span class="line"> *&#x2F;initRandomCentroids() &#123;  </span><br><span class="line">  </span><br><span class="line">    const dimensionality &#x3D; this.getDimensionality();  </span><br><span class="line">    const dimensionRanges &#x3D; this.getAllDimensionRanges();  </span><br><span class="line">    const centroids &#x3D; [];  </span><br><span class="line">  </span><br><span class="line">    &#x2F;&#x2F; We must create &#39;k&#39; centroids.  </span><br><span class="line">  for (let i &#x3D; 0; i &lt; this.k; i++) &#123;  </span><br><span class="line">  </span><br><span class="line">        &#x2F;&#x2F; Since each dimension has its own range, create a placeholder at first  </span><br><span class="line">  let point &#x3D; [];  </span><br><span class="line">  </span><br><span class="line">        &#x2F;**  </span><br><span class="line"> * For each dimension in the data find the min&#x2F;max range of that dimension, * and choose a random value that lies within that range.         *&#x2F;  </span><br><span class="line">  for (let dimension &#x3D; 0; dimension &lt; dimensionality; dimension++) &#123;  </span><br><span class="line">            const &#123;min, max&#125; &#x3D; dimensionRanges[dimension];  </span><br><span class="line">            point[dimension] &#x3D; min + (Math.random()*(max-min));  </span><br><span class="line">        &#125;  </span><br><span class="line">  </span><br><span class="line">        centroids.push(point);  </span><br><span class="line">  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    return centroids;  </span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>上述算法包含了两层循环。外层循环生成了K个重心聚点。由于数据集的数据维度是任意的，每一个维度自身的数据值范围也是任意的，我们必须遍历所有的纬度来生成随机的位置信息。如果你的数据集是三维的，那内层循环将会分别处理维度0,1,2，取得每个维度的最大最小值，之后选取一个随机值，但当得到的这个值指定给当前重心聚点的当前维度做为初始值。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;聚类是接触无监督式学习时常见的一个问题。通常在你想将一个大的数据集重新编排组织成小的群组，或者是将其按逻辑相似性分解成小的群组时我们会考虑聚类。例如，你可以尝试将人口普查数据中的家庭收入分成三个群组：低收入，中等收入及高收入。如果你将家庭收的数据集做为指定的一种聚类算法的输</summary>
+      
+    
+    
+    
+    <category term="CS" scheme="http://blog.beendless.com/categories/CS/"/>
+    
+    
+    <category term="Machine Learning" scheme="http://blog.beendless.com/tags/Machine-Learning/"/>
+    
+    <category term="JavaScript" scheme="http://blog.beendless.com/tags/JavaScript/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Set up SSL for website with Nginx and StartSSL</title>
+    <link href="http://blog.beendless.com/2015/09/26/Set%20up%20SSL%20for%20website%20with%20Nginx%20and%20StartSSL/"/>
+    <id>http://blog.beendless.com/2015/09/26/Set%20up%20SSL%20for%20website%20with%20Nginx%20and%20StartSSL/</id>
+    <published>2015-09-26T14:04:47.000Z</published>
+    <updated>2020-09-01T05:45:05.613Z</updated>
+    
+    <content type="html"><![CDATA[<p>If you enable HTTPS and set up the certifications correctly, which means data will not be decrypted or modified during the transportation. Today I try to enable SSL to my website. Here is what I did to make it happen: </p><p>First, you should make sure your website hosted with a dedicated IP address. Like me buy a VPS from linode. Also you should make sure your HTTP web server support SSL when you set up it. If you are using nginx, just add –with-http_ssl_module when you built it yourself (<a href="http://nginx.org/en/docs/http/ngx/_http/_ssl_module.html">http://nginx.org/en/docs/http/ngx\_http\_ssl_module.html</a>). </p><p>Secondly, you need to buy a certification. As we know all modern browsers will check CA, in order to recognized by the root authorities, you need to purchase one certificated through them.  Even you can self-signed one to testing which will show warning to users by browser.  Fortunately, there’re some authorities who supply free CA to users like startssl. It’s easy to get a free CA from them. Just sign up and follow the guidance from startssl, then you can get</p><ul><li><p>Your private key file  domain.key</p></li><li><p>Your issued certificate file domain.crt</p></li><li><p>StartSSL Root CA Certificate and StartSSL Intermediate CA Certificate for your server (ca.pem and sub.class1.server.ca.pem)</p></li><li><p>Now, you can do the below things to contact the certifications to one:</p></li></ul><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cat sub.class1.server.ca.pem &gt;&gt; ca.pem</span><br><span class="line"></span><br><span class="line">cat domain.crt ca.pem &gt; server.crt</span><br></pre></td></tr></table></figure><ul><li>Then, upload your private key and generated certification server.crt to your server.  Open nginx.conf.</li></ul><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"># HTTPS server</span><br><span class="line">#</span><br><span class="line">server &#123;</span><br><span class="line">    listen       443 ssl;</span><br><span class="line">    server_name  server name here;</span><br><span class="line"></span><br><span class="line">    ssl_certificate      server.crt;</span><br><span class="line">    ssl\_certificate\_key  domain.key;</span><br><span class="line"></span><br><span class="line">    ssl\_session\_cache shared:SSL:10m;</span><br><span class="line">    ssl\_session\_timeout  5m;</span><br><span class="line">    ssl_ciphers  &quot;EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA RC4 !EXPORT !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS&quot;;</span><br><span class="line">    ssl\_prefer\_server_ciphers   on;</span><br><span class="line">    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;</span><br><span class="line"></span><br><span class="line">    location &#x2F; &#123;</span><br><span class="line">        root   &#x2F;usr&#x2F;share&#x2F;nginx&#x2F;html;</span><br><span class="line">        index  index.html index.htm;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>After that, restart your nginx and revisit your website, you will find your website support HTTPS now. Make sure you open 443 port in your firewall configuration.  If you want to forward all HTTP request to HTTPS, just add the configurations below:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen       443 ssl;</span><br><span class="line">    listen       80;</span><br><span class="line">    error_page   497  https:&#x2F;&#x2F;$host$uri?$args;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>Here is some useful links I followed:</p><ul><li><a href="http://nginx.org/en/docs/http/ngx_http_ssl_module.html">http://nginx.org/en/docs/http/ngx_http_ssl_module.html</a></li><li><a href="https://www.linode.com/docs/websites/nginx/how-to-install-nginx-and-a-startssl-certificate-on-debian-7-wheezy">https://www.linode.com/docs/websites/nginx/how-to-install-nginx-and-a-startssl-certificate-on-debian-7-wheezy</a></li><li><a href="https://www.ssllabs.com/ssltest/analyze.html">https://www.ssllabs.com/ssltest/analyze.html</a></li><li><a href="https://imququ.com/post/my-nginx-conf-for-security.html">https://imququ.com/post/my-nginx-conf-for-security.html</a></li></ul>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;If you enable HTTPS and set up the certifications correctly, which means data will not be decrypted or modified during the transportation</summary>
+      
+    
+    
+    
+    <category term="CS" scheme="http://blog.beendless.com/categories/CS/"/>
+    
+    
+    <category term="DevOps" scheme="http://blog.beendless.com/tags/DevOps/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>我的一个夏日清晨，写在天津塘沽码头集装箱爆炸后</title>
+    <link href="http://blog.beendless.com/2015/08/13/%E6%88%91%E7%9A%84%E4%B8%80%E4%B8%AA%E5%A4%8F%E6%97%A5%E6%B8%85%E6%99%A8%EF%BC%8C%E5%86%99%E5%9C%A8%E5%A4%A9%E6%B4%A5%E5%A1%98%E6%B2%BD%E7%A0%81%E5%A4%B4%E9%9B%86%E8%A3%85%E7%AE%B1%E7%88%86%E7%82%B8%E5%90%8E/"/>
+    <id>http://blog.beendless.com/2015/08/13/%E6%88%91%E7%9A%84%E4%B8%80%E4%B8%AA%E5%A4%8F%E6%97%A5%E6%B8%85%E6%99%A8%EF%BC%8C%E5%86%99%E5%9C%A8%E5%A4%A9%E6%B4%A5%E5%A1%98%E6%B2%BD%E7%A0%81%E5%A4%B4%E9%9B%86%E8%A3%85%E7%AE%B1%E7%88%86%E7%82%B8%E5%90%8E/</id>
+    <published>2015-08-13T18:04:11.000Z</published>
+    <updated>2020-09-01T05:45:05.626Z</updated>
+    
+    <content type="html"><![CDATA[<p>8月13日，东一区时间早晨六点多。 </p><p>我朦胧着醒来，习惯性得拿起手机想看看刚回国的男朋友是在做什么。可还没来得及看他的留言，就被公共号订阅里面的一批文章炸醒了。这些天已经关闭了朋友全功能，是为了免去朋友圈刷屏和被刷屏的干扰，安心写作的。但这些一眼望去的小标题们——天津？爆炸？阴谋论？一线？核弹？——足够把我拉出本来就不够有定力的小世界。原来，天津塘沽码头集装箱发生了爆炸，周边数公里内的居民区都受到严重震摄，并且因为爆炸剧烈且有毒气体、液体蔓延，消防和救护都直接升级到牺牲的警戒线。还躺在床上，一个人，刷一些新闻、图片和视频。没说什么话也没人说话，也根本没想要说什么话。起床冲凉前，却发现，眼角已经不知觉得弄湿了枕巾一片。 </p><p>8月12日，东八区时间晚上十一点多。 </p><p>天津塘沽码头集装箱爆炸。我刚去跟导师谈完博论的写作困难和冬天想要去香港开会的事。一个人从学校后院的林子里穿过，再回到办公室楼里。可能隔壁还有一两个年轻博士们在工作，其他人都下班回家好一阵子了。夏日傍晚，最凉爽舒适的应该是小院儿凉亭，自己的沙拉、草地上光脚的孩子，可能再给孩子们拉开小帐篷或装满充气游泳池的水，给他们一个可以数星星的夜晚。我又工作了一两个小时，算是两个多月的疏离和度假终于结束了，那一刻又重新踏上写作的旅程。有一点点疲惫，毕竟是懒惯了。但满心舒畅。回家后打一杯香蕉牛奶，洗个温凉的澡，在裸睡的自由中，伴着清冷的月色，呼吸翌日早晨的阳光。不用想，脚指头都知道，明天大早起来吃面包火腿，用摩卡小壶煮杯咖啡，一条条做完三五个文本，下午要跑去南边一家修道院静修一晚和看望朋友。   </p><p>然而，两个时空的交叠，总是滞后的，却总能改变你原来计划的、有轨道的，哪怕是一切。 是的，生活本来的面貌，原本就是不可预见。   </p><p>于是，这个清晨的我，心头有两个冲动，冲动到不解决不行！ </p><p>第一，骂人。   </p><p>满眼望去，一大片歌颂甚至怂恿消防员去送死的路上！有些媒体的脑袋壳里盛满了豆腐花，要溢出来了，得不停地得往回刷。嘴巴长在屁眼上，一开一合，自以为很享受这样的快感，从不觉臭味熏天。眼睛长在后脑勺上，明亮闪光，但是干涸得像灼热的岩浆一样，明亮却不透彻，闪光得一点水灵都没有。就这样的物种，能在这个嘈杂的世界里被封为神明和伟大的光环，能发号施令，让无以数计的还没有豆腐花、没有屁眼、没有后脑勺眼睛的手机刷屏者们，趋之若鹜。   </p><p>死亡，本不是我们自身可以预见或决定的。但它也绝不在别人的手里或舌头底下！每个人的生命都是值得尊重的，凭什么要消防员去送死，凭什么甚至歌颂——并且用歌颂这种近乎下流的怂恿手段把他们送往大火里？是的，他们正在从事的职业，危险系数高，他们的责任就是主动往大火里走，是“逆行”，就像今天很流行的那个漫画图里画的一样。但这个逆行不应该是为了赴死，更不应该被歌颂为赴死途中的光辉背影。如果作为“人民”的我们，不断为他们有可能面临的死亡而致敬和欢呼，那他们不是赴死，而是我们送他们去死。这个逆行的背后，应该是严密的防护措施和强大的应急系统，应该是先进的救助手段和有保障的社会体系。说得难听也直接一点，应该是更先进的设备、是钢铁侠机器人，是更多可以直接动用的资源和知识，而不人，不是那一具单薄的躯体，不是“刚子”。   </p><p>我没有鲁迅的笔杆子，也一时半会儿写不出他老人家笔下的华老栓。那就懒懒地取个自以为是的捷径吧。如果有人还记得《药》，记得华老栓的话。今天，那个咳嗽得不停，得了肺痨的孩子，是我们自己，是自己。华老栓？呵呵，那些个掌握了话语权的媒体及其代理人！而人血馒头，正在我们手里，就是那一群被呼啦啦、摇旗呐喊助威的消防员等类似的“人民子弟兵”。最重要的是，那用来做血馒头的血，那是我们、甚至某些媒体都看不到、也没有能力看到的这个社会的愚昧。我们看不到愚昧的时候，就把它当做狂欢和“精神”来颂扬。就像山顶洞人看不到自然力的时候，就产生了原始崇拜。当我写下这句话的此刻，很平静，很冷，很平静。 对不起，这一刻，我也逆行了。当朋友圈都在称赞赴死英雄的时候，当朋友圈甚至错用一个词叫“逆火而行”（亲们，在火灾现场，任何人都是要逆火而行，往上风向走啊，难道顺着火势嘛……）的时候，当大家用微信这种祈福方式来自慰的时候。对不起，我选择了逆行。   </p><p>再看镜子里的自己———————— </p><p>我的情绪化和冲动可能不比今天凌晨爆炸时候的 TNT效果一样强劲，但也的确足够不专业。我激动了，激动得想要把这些骂人的话骂出来，想要贴出去，去骂人。重要的不是自己是否骂得爽——因为不给人看，自己骂也偷偷骂过了，我们生活中不都这样吗？聪明人就该这样啊，多简单的道理。相反，骂出去，才把自己置于不利地位，置于一个容易被攻击、被误解、被骂的地位。然而，我今天的激动，第一次让我有勇气站在这样的地位。当然，我激动了，这也是年轻气盛的表现。在还未写出更深刻的文字之前，还不能在短短一小时之内把汉娜阿伦特的“平庸的恶”用最可能的方式交流给读者之前，我自己先激动了。这也好不遮掩得透露了我的浅薄和缺乏定立，这是我活该被骂的地方。只是从来深知自己写得不好，不敢示人。而今拉下脸面，因为本来不是个有脸面的人物，这也还拉得下去。露出本来就不怎么样的写作水平，就像露一个像飞机场一样的胸似的。本来就没有胸线，也勾不起什么注意力。露一下图个自己爽快，也练习一下也许将来会有更多露点的镜头。习惯一下，别把自己看得太认真，也没什么。  </p><p>第二个冲动，于他人无关了吧。是自己的，是强烈的、有极大动力的，计划去一个人徒步旅行。 一个人徒步旅行（无太多计划的搭乘公共交通、随走随住），是我一直以来心中的愿望。虽然也有一个人的“旅行”，也曾一个人在几天里从罗马尼亚到匈牙利再到德国，但觉得远远不够，因为不够有途中的孤独和恐惧。或者你会上瘾，越来越可望更多的孤独和恐惧。曾为此愿景过川西、川藏到拉萨，曾愿景过丝绸之路穿欧亚大陆线，还愿景过南法到西班牙和葡萄牙。然而，我一直是那个躺在床上拿着地图去旅行的人，装在套子里的人。这样的人一般是作家笔下嘲讽和批评的对象，但大多数写出这样作品的作家本人，也是这样的人。也可能正是因为内心充满了对自己的嘲讽，在凌迟笔下的人物时，才能毫不手软。不用千刀万剐，只需每一刀，都是剐在自己身上就好。我常常会产生这样的冲动，今天清晨，或许是被塘沽爆炸的冲击波给震到了吧。</p><p>所以，最可怕的，不是这一次事故或震颤，而是不清醒和遗忘。人们都是短视的，也是记忆力不好的。世世代代和全地球的人都是这样，这个动物就是这样，我也是，你也是。但第一步也是最重要一步，我们至少要成人和面对这一点。在今天刷屏祈福称赞，明天做微店生意数钱，后天发游戏晒旅行照的时代里。风向，更容易吹走回忆。期盼有天把这些教训都收集起来，堆积成改变，而不是遗忘。 所以，最重要的，不是这一次激动，筹划着某天的一个人远地旅行，而是要长长久久记得这样激动的感觉，要跨出“原地旅行”的步子。总是这样，激动一次过后，就像雁过留痕而已，却不见了大雁。至少，要记得一次次的激动，期盼有天把这些激动累积起来，变成踏出去的第一步。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;8月13日，东一区时间早晨六点多。 &lt;/p&gt;
+&lt;p&gt;我朦胧着醒来，习惯性得拿起手机想看看刚回国的男朋友是在做什么。可还没来得及看他的留言，就被公共号订阅里面的一批文章炸醒了。这些天已经关闭了朋友全功能，是为了免去朋友圈刷屏和被刷屏的干扰，安心写作的。但这些一眼望去的小标题们</summary>
+      
+    
+    
+    
+    <category term="行走的樹苗" scheme="http://blog.beendless.com/categories/%E8%A1%8C%E8%B5%B0%E7%9A%84%E6%A8%B9%E8%8B%97/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>走进人生的第一个十年</title>
+    <link href="http://blog.beendless.com/2015/01/05/%E8%B5%B0%E8%BF%9B%E4%BA%BA%E7%94%9F%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%8D%81%E5%B9%B4/"/>
+    <id>http://blog.beendless.com/2015/01/05/%E8%B5%B0%E8%BF%9B%E4%BA%BA%E7%94%9F%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%8D%81%E5%B9%B4/</id>
+    <published>2015-01-05T21:44:40.000Z</published>
+    <updated>2020-09-01T05:45:05.630Z</updated>
+    
+    <content type="html"><![CDATA[<p>2015，我可以把它称作自己的第一个十年。当然，我不是十岁，这不是我的自然生命的第一个十年，而是我打算标记、也可以标记一下的第一个十年。同样，我也不是二十岁或三十岁，这样用十进制来做标记。甚至，这也不是我人生中有多么重要的一个标记——比如像娱乐圈人士走上星光大道的第几个十年，像穿过婚姻殿堂后的第几个十年，甚至开始工作后的第几个十年。真的都不是。如果一定要安置一个名头，那它是我离开家独自生活的第一个十年，也是我进入大学以后的第一个十年——并且我至今还未被放出来。 </p><p>大概一个多月前，跟导师 * 还有他的师弟、也是我的学界前辈兼办公室“室友” * 一起谈什么。他们问起为什么我的邮箱账号里面有一个“05”。其实，尤其是十多年前，因为我们用罗马字母拼写自己的名字，经常会撞车，所以常加数字加以区分。我便告诉他们，这个邮箱用户名是我上大学一年级的时候开始用的，也就是2005年9月，从此就没有改过。* 马上取笑我说，“那明年（即2015）就是你进大学后的第十年！你要庆祝一下吗？”被学界大咖的教授们这样逗逗也没什么，只是提醒我，人生中的第一个十年。这十年也是互联网飞速普及的黄金时段，数字化太快，想到十年前，或许都觉得已经很久远。读中学的时候我也很早就申请过搜狐、雅虎还有乱七八糟的好几个邮箱账号。但从没用处，都各自忘记用户名和密码了。或许里面藏了好多青春期的爱好，谁知道呢。直到上大学后，电子邮箱才有所谓认真的用途，也是最无聊的用途。收发作业、资料等，成为学校内外、人群之间的最快捷的交通工具。这十年，掌上移动互联网已经完全控制了数据传输，电子邮件成为最常用也十分不起眼的基本生活工具，甚至多少面临着被部分替代的命运。 </p><p>当然，我不想、也没能力回顾十年来的互联网发展历程，而且2005到2015也并不对互联网，或者其他的任何人、任何事有任何标志性的意义。这样提起，只是为自己创设一个回顾过去的时空隧道，虚构一个十年弹指一挥间的幻象。在这似清晰似朦胧的画面里，我第一次可以有机会标榜一个人生的十年。二十岁出头的时候，根本不会这样来考虑自己的生命。哪怕是为赋新词强说愁，也断然呼不出“十年”的名号。像我等平凡人，到三四十岁的时候或许可以看到自己走过的某个十年，会有点故事，也有所体悟。现在的我，二十七岁，普普通通仍在大学读书，实在没什么可指摘品评的，根本拿不出什么十年与人述说。然而，唯有文字能够承载心灵的记忆。那些一闪而过的念头，若非执念，就只能如同火花转瞬即逝。别说将来的某一天，甚至下一分钟下一秒，你都不会记得自己刚才在想些什么。对于我这样一个几乎24小时都活在自己的脑袋里的人，如此的失忆，与白活真是没什么两样。所以，我想就这样用流水的汉字做一个标记，记住： </p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2015年的1月4日，在鲁汶家中，我突然想到这是自己人生的可以回首的十年，是我离开家独自生活的十年，是我窝藏在大学校园里的十年。十年之前我还没学会用倒车镜观望自己一路走过的脚印，那样做也的确没什么意义。下一个十年，我或许已不是独自生活，也或许已不在教学楼里。人生中可标记的十年，一双手的数得过来，更何况是这样一段不可复制的青春、这样一种几乎能够决定此生的成长。 </span><br></pre></td></tr></table></figure><p>过去的十年里我活得很简单，跟大部分年轻人类似，却能够在更无聊这个方面略胜一筹。跟全中国大部分学生一样，2005年的高考和进入大学就决定了今后人生的走向。我不是说它决定了后来的人生是什么样子，但“上大学”这三个字低调奢华有内涵，它们像经年累积的河床渠道一样。哪怕是桀骜不驯、肆意改道的黄河，大部分依然能被它们引向它们自身的方向。说得更直白点，这就是成长教育的力量吧。“上大学”意味着你的专业、地域、学校，以及由此而来你重新认识的人、参加或不参加的事、耳闻目睹的怪与不怪的现状。这一切淹没了你，彻彻底底地淹没你，让你完成“走向成年”的最后一个阶段。虽然法律上通常把18或16定为是否成年的标志。但这并不符合中国孩子的教育和经历，至少不符合我这一代人（85后）的现实。再说回自己，被调剂到*大，调剂到历史学专业，调剂到历史学基地班。如果是很有个性的青年，或许在大浪袭来之后马上能只身跳出，策马奔向自己心中的风景。而如我这样中规中矩的孩子，我在呛水之后的反应是非常直接且简单的——第一接受，第二适应，第三反思，第四寻求出路。此处没有任何吐槽嫌疑。从心的勇气和毅力的确是值得称道甚至令人羡慕的，也是这些年越来越被推崇的理念。说得直白点，就是任性。但把“从心”二字变成上下结构，则是“怂”。这个字在今天的口语中被当做妥协的状态，由本意“惊”引申而来。因惊慌害怕而失去本心，容易受外界影响，所以被鼓动而“从他人之心”或“从大多数人之心”，非自己的本心。（此处个人阐释，无参考）“从心”到底是从谁的心，这天地之别看来也只是锱铢之别。“任性”与“韧性”之间的距离可以换个角度来丈量。比如，逆来顺受可以逼自己走出原来的舒适区域，而尝试着认识和理解自己曾经并不喜欢、可能是压根都不了解的世界。这些，都是进了历史基地班才耳濡目染，慢慢懂得的。鬼使神差，在大二的时候居然想要继续学历史而放弃了转专业的机会。这个鬼使神差的缘由是可以分析的——当时可能是多多少少感受到一些历史学的批判态度和智慧，也可能是一种安于现状而不愿迁居的惯性和惰性，也或者是不敢尝试新的专业和学院的怯懦。总之，暂时留下来。谁知道，也因为历史基地班超高保研率的助推力，基于上面这几个原因的延续，这个暂时，就“暂”到了现在。四年本科、三年研究生、直到目前第三年博士在读，我都在这条路上“暂时”，并且越走越远，与其他岔路口的交集也越来越少。与大二时候选择留下的缘由是几乎一样的，我就留到了现在，也走到了现在。虽然换了研究领域、换了学校也换到了国外、换了导师换了环境换了语言，但仔细想来，这留下的缘由还是一样的。也正因为当初这个缘由当中，收纳着各种不同角度的撕扯和纠结，这些隐藏的祸根到今日还如同毒药一般折磨我，让我不停地怀疑，是留？是走？ </p><p>可无论内心多少的挣扎和没出息，事实上能看到的，便是我一直不断地往前走，甚至似乎一路顺利。本科和研究生相继毕业、博士在读，寥寥几个字就可以说完我这个十年。若说它像一眼望得见的平川，它的确清晰明了又水波不兴，甚至单调乏味；但若说它真如白开水，这其中五味杂陈和步履蹒跚，都满满地印在心头。我仍一介学生，虽已成为高龄学生或被称作第三类人，这都并不稀罕。我也几乎与曾经一样接人待物。在处人处事的策略方面，我不会刻意假托十年前的自己如何清纯小白和不谙世事；十年后的今天，我也没能脱胎成一个多么精明能干或对人群驾轻就熟的御姐。我们普通人没有生活在皇宫内院、权力漩涡中，我们的成长不会像甄嬛或武则天那样黑白分明（不过话说电视剧里的反差的确有些太过刻意而显得虚伪了），更何况我一个常年幽居在大学校园里，整日又蜗又宅的女学生。但图书馆和象牙塔让我在另一个世界里环游。我阅得多、历得少。虽无亲身经历职场暗涌和社会险恶，但有机会一窥那阅不尽的沧桑。这安安静静的书屋里装得下上古的史诗和开天地辟洪荒的传说，远至希腊罗马的金戈铁马和春秋战国的唇枪舌剑，幽深的中世纪修道院和墓地魂灵，绽放在巴洛克和文艺复兴时期的辉煌绚烂，汉唐的盛世欢呼与中原逐鹿的厮杀，宋明学人的思想和满清时期的中国与欧洲，法国大革命后的世界，……。如我之笨拙和懒惰，依然在小小的书屋里迷路，精疲力尽。纵使勤力且聪颖的，可能也要好几个十年来摸索这里的道路。于是，我在这里先是找路，再是找可以照路的烛火，然后继续找路。所以，从被调剂到历史基地班到现在的这十年，也是我开始学习历史学并摸过其他哲学文学与文艺批评的书籍的第十年。这十年我听到、看到好多个可能的世界，可以在书中向好多智慧的头脑学习。这十年，也是对我内心的洗礼。真的不得不扯到世界观、价值观、人生观这样最俗最基本最不愿被挂在嘴边的问题了，这十年，的确重新反思了17岁之前的心灵，用批判的态度重新洗脑。这一路也是波澜壮阔的。（具体实在的证据只存在于我自己对一些问题的见识和思考，存在于我所写下来的文字。毕竟初学，写字太少，思而不学则殆了。）思想上的痛苦于我而言定不如它们对一些思想家和天才们的冲击力，但也足以给我一双重新看待黑暗的眼睛。于是，就这样越走越远，与其他岔路口的交集越来越少。到眼下，我的脚步既不是越轻松也不是越沉重，没有陷入泥淖却也无法疾步。只是，只是我劝自己少张望，多走路。 </p><p>忆往昔仍是要看今朝。这篇日志更应该写成2015的新年计划吧。这是我走完人生这第一个十年的最后的机会。能否“华丽转身”，实则取决于2015了。壮志雄心不可缺，却也并不是什么决胜因素。写下新年计划并不能保证真的完成。并非理想丰满现实骨感，而是愿望如画饼充饥，许愿的功夫与空手“画一个圈”没什么两样，实现的道路才要自己有披荆斩棘的勇气和毅力。具体的计划就不写在这里了，另见。 </p><p>么心愿，那惟愿将来的自己能够写下“悉数人生的第*个十年”这样的段落，也有故事可以述说与人听。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;2015，我可以把它称作自己的第一个十年。当然，我不是十岁，这不是我的自然生命的第一个十年，而是我打算标记、也可以标记一下的第一个十年。同样，我也不是二十岁或三十岁，这样用十进制来做标记。甚至，这也不是我人生中有多么重要的一个标记——比如像娱乐圈人士走上星光大道的第几个十年</summary>
+      
+    
+    
+    
+    <category term="行走的樹苗" scheme="http://blog.beendless.com/categories/%E8%A1%8C%E8%B5%B0%E7%9A%84%E6%A8%B9%E8%8B%97/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>2014年10月19日</title>
+    <link href="http://blog.beendless.com/2014/10/19/2014%E5%B9%B410%E6%9C%8819%E6%97%A5/"/>
+    <id>http://blog.beendless.com/2014/10/19/2014%E5%B9%B410%E6%9C%8819%E6%97%A5/</id>
+    <published>2014-10-20T05:36:28.000Z</published>
+    <updated>2020-09-01T05:45:05.610Z</updated>
+    
+    <content type="html"><![CDATA[<p>安穩無憂的日子裡，沒有疼痛，就不會去想愛恨情仇。 痛，才是真實和最寶貴的。 這樣的安穩無憂，是生活的終點，是不快樂的根源。然而，快樂，到底是什麼？幸福，到底是什麼呢？ 苦難，是恩賜，是機遇，是命運的另一種可能。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;安穩無憂的日子裡，沒有疼痛，就不會去想愛恨情仇。 痛，才是真實和最寶貴的。 這樣的安穩無憂，是生活的終點，是不快樂的根源。然而，快樂，到底是什麼？幸福，到底是什麼呢？ 苦難，是恩賜，是機遇，是命運的另一種可能。&lt;/p&gt;
+</summary>
+      
+    
+    
+    
+    <category term="漲潮﹣退潮" scheme="http://blog.beendless.com/categories/%E6%BC%B2%E6%BD%AE%EF%B9%A3%E9%80%80%E6%BD%AE/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>飞鸟</title>
+    <link href="http://blog.beendless.com/2014/10/15/%E9%A3%9E%E9%B8%9F/"/>
+    <id>http://blog.beendless.com/2014/10/15/%E9%A3%9E%E9%B8%9F/</id>
+    <published>2014-10-15T17:54:12.000Z</published>
+    <updated>2020-09-01T05:45:05.633Z</updated>
+    
+    <content type="html"><![CDATA[<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">海水呀，你说的是什么？ </span><br><span class="line">What language is thine, o sea? </span><br><span class="line"></span><br><span class="line">是永恒的疑问。 </span><br><span class="line">The language of eternal question. </span><br><span class="line"></span><br><span class="line">天空呀，你回答的话是什么？ </span><br><span class="line">What language is thy answer, o sky? </span><br><span class="line"></span><br><span class="line">是永恒的沉默。 </span><br><span class="line">The language of eternal silence.   </span><br><span class="line"></span><br><span class="line">我今晨坐在窗前，世界如一個路人似的，停留了一會，向我點點頭又走過去了。 </span><br><span class="line">I sit at my window this morning where the world like a passer-by stops for a moment, nods to me and goes.   </span><br><span class="line"></span><br><span class="line">你看不見你自己，你所看見的只是你的影子。 </span><br><span class="line">What you are you do not see, what you see is your shadow.   </span><br><span class="line"></span><br><span class="line">我不能選擇那最好的。 是那最好的選擇我。 </span><br><span class="line">I cannot choose the best, The best chooses me.   </span><br><span class="line"></span><br><span class="line">神呀，我的那些願望真是愚傻呀，它們雜在你的歌聲中叫囂著呢。 讓我只是靜聽著吧。 </span><br><span class="line">My wishes are fools, they shout across thy song, my master. Let me but listen.   </span><br><span class="line"></span><br><span class="line">人是一個初生的孩子，他的力量，就是生長的力量。 </span><br><span class="line"></span><br><span class="line">Man is a born child, his power is the power of growth.   </span><br><span class="line"></span><br><span class="line">神希望我們酬答他，在於他送給我們的花朵，而不在於太陽和土地。 </span><br><span class="line"></span><br><span class="line">God expects answers for the flowers he sends us, not for the sun and the earth.  </span><br></pre></td></tr></table></figure><p><strong>──节选自泰戈爾的《飞鸟集》</strong></p><p>这并不是一个多么愉快的清晨。不，已经日上三竿了，但还是不那么愉快的。幸运的是，这样的不愉快让我想到叔本华和飞鸟。并不相关的东西么？不， 哲学家和诗人是看似相距甚远的两个星球，但却是两个一模一样的星球。</p><p>依然是不愉快，就好像牙疼还不见起色一样。但这并不影响窗外的阳光，不影响婆娑的落叶，不影响树林子红红黄黄的，秋天的轻轻的脚步。哲学家可能还在吧台边或者已经在课堂上，诗人也该起床了。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class</summary>
+      
+    
+    
+    
+    <category term="漲潮﹣退潮" scheme="http://blog.beendless.com/categories/%E6%BC%B2%E6%BD%AE%EF%B9%A3%E9%80%80%E6%BD%AE/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>写作，再一个重头开始</title>
+    <link href="http://blog.beendless.com/2014/09/22/%E5%86%99%E4%BD%9C%EF%BC%8C%E5%86%8D%E4%B8%80%E4%B8%AA%E9%87%8D%E5%A4%B4%E5%BC%80%E5%A7%8B/"/>
+    <id>http://blog.beendless.com/2014/09/22/%E5%86%99%E4%BD%9C%EF%BC%8C%E5%86%8D%E4%B8%80%E4%B8%AA%E9%87%8D%E5%A4%B4%E5%BC%80%E5%A7%8B/</id>
+    <published>2014-09-23T06:02:27.000Z</published>
+    <updated>2020-09-01T05:45:05.621Z</updated>
+    
+    <content type="html"><![CDATA[<p>或许是欺骗了自己很多年，或许是辜负了自己很多年――我一直以为自己深爱写作，却从未成为一个成功的作者，甚至已经好几年不去尝试。 </p><p>开始喜欢写作大概是从初中一年级，那才是可以基本摆脱字典来读汉字的年纪。也是青春期叛逆的年纪吧，我总是扎在人群里，陷在一个每天都吵成一锅粥的家里，就用写作的方式为自己搭起了真空窝，跟自己谈心。那也是新概念作文奖和一群新秀在作协崭露头脚的黄金年代。读着那些与自己的世界相差不算太大的文字，便自以为是地与写作亲近了很多，开始梦想着也成为一个作者。 </p><p>一个不为人知的梦想被我怀揣了大概六七年，高考后从西北的小城到了西北的大城，黄河水的荤腥气又把我们赶到另一个山窝窝里。慢慢的也就不写了。对大千世界的想像力都变成一眼可以望得到头的大学生活。在你不到二十岁的年纪里却困在一个村里过起了六十岁的退休生活，在你还不懂得互联网和华尔街的花里胡哨之前就落进了历史系那个讲求寂寞踏实和岁月沧桑的深井。这样的际遇也不是每个人都有。此时并不是抱怨这有什么不好。事实上，不同的际遇和经历便造就了不同的青春，后来就是不同的人生路。我几乎算是以草包形象进入历史系的，历史这一科本来就是我所有文科专业最差的一项，更别提教科书以外的任何知识背景了。或许正是因为这样，它突然为我打开了另一个全新的世界，一个远离今天、远离人群的世界。于是，就在这条通往永恒无知的时间隧道里，我开始往回走，往过去而不是未来的方向走，走到现在只是第十个年头。好像一路在摸黑了，越读书越看到自己的浅薄，越觉得自己连个好读者都算不上，于是也越来越不记得曾经还有个想当作者的梦想。 </p><p>第十个年头，这在中国古代的私塾可能还没读完四书五经。但在时间概念和世界观已经全体相对化的今天，这已经是一个“学生”要变为“学者”的年头。学者，顾名思义就是学习的人、甚至终身学习、以学习为业的人，但已经不能强调那个“生”字了。于是，也担负起一些责任，不能光自己学了，还要帮助别人学。这才是“学”成为一种职业的意义。好吧，眼下看来，它是我的职业。自己当海绵的时候还是挺简单的，吸得饱就是自己的幸福；可现在是要挤的时候，那怎么样才能挤得出，又让别人吸得进呢？写作，这个问题在十年后重新回到我的写字台。这些年，写字台都当成阅读台来用了。 </p><p>面对着眼前在写作中遇到的技术困难，也回想起曾经想要成为的那种作者，对比一下此刻首先要成为的写学术论文的作者，我疑惑了好久。最近的日子都是在挣扎中度过的。因为研究思想史和学术史的缘故，我也自认为在书里认识了不少前现代时期的中外学者，也专门研习过他们的经验之谈。这算是站在写作门外的功课吧。而要进入门内，只有一把钥匙——写。听道理、懂道理，我们都不难做到，但怎样才能做得有道理、活得有道理，答案只能在于你自己是如何做、如何活的。其实，这几年我也不是没有写过东西，但从未示人。因为怕自己写得不好，借用甄嬛阿姨的话说，“恐污了尊耳”。久而久之，我都写成了自言自语。甚至连学术论文都变成这样，老师说我一直在添加自己的知识背景，但却没有授读者以鱼，更别说是渔了。 </p><p>两年前就跟男朋友专门在美国留了一个服务器来开设自己的网站，美其名曰在这里练笔，后来的它只变成了堆积尘土的后花园，刚开始最多也是杂草丛生，现在几乎成了寸草不生。 </p><hr><p>写到此处，临时接到翻译的活，一口气干了两天。这里也接不上茬了。也罢也罢。 </p><p>翻旧账于事无补。今天的改变也没太大的雄心壮志，也可能谈不上有什么意义。但是，就这样开始写起来了呢。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;或许是欺骗了自己很多年，或许是辜负了自己很多年――我一直以为自己深爱写作，却从未成为一个成功的作者，甚至已经好几年不去尝试。 &lt;/p&gt;
+&lt;p&gt;开始喜欢写作大概是从初中一年级，那才是可以基本摆脱字典来读汉字的年纪。也是青春期叛逆的年纪吧，我总是扎在人群里，陷在一个每天都吵成一</summary>
+      
+    
+    
+    
+    <category term="行走的樹苗" scheme="http://blog.beendless.com/categories/%E8%A1%8C%E8%B5%B0%E7%9A%84%E6%A8%B9%E8%8B%97/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>写遗嘱之前</title>
+    <link href="http://blog.beendless.com/2014/06/07/%E5%86%99%E9%81%97%E5%98%B1%E4%B9%8B%E5%89%8D/"/>
+    <id>http://blog.beendless.com/2014/06/07/%E5%86%99%E9%81%97%E5%98%B1%E4%B9%8B%E5%89%8D/</id>
+    <published>2014-06-07T17:33:07.000Z</published>
+    <updated>2020-09-01T05:45:05.622Z</updated>
+    
+    <content type="html"><![CDATA[<p>我满脑子只有一个念头：</p><p>薄薄的刀片，在我的房间里随处可见；</p><p>用它划开左手的手腕，正面、平放，最清晰的动脉；</p><p>轻轻地划开一厘米就够了。</p><p>是不是一厘米就够了，可能需要做个小小的知识调查，或者，亲自的实验一下也可以。 </p><p>就只有这样一个念头，死去。 </p><p>已经不是第一次有这样的念头，但依然为此感到恐惧。</p><p>我发现自己在颤抖，在哭泣，哭得出了声。 </p><p>也许是太懦弱所以才不止一次地想到了死，也正是因为太懦弱才不敢去死。 </p><p>我知道答案，我必然会有一天不再如此懦弱，至少必然会有一次不是如此懦弱。 </p><p>现在唯一的未知是，某天当我勇敢起来的时候，是勇敢地面对死，还是勇敢地面对生。 </p><p>写份遗嘱，或许是必要的。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;我满脑子只有一个念头：&lt;/p&gt;
+&lt;p&gt;薄薄的刀片，在我的房间里随处可见；&lt;/p&gt;
+&lt;p&gt;用它划开左手的手腕，正面、平放，最清晰的动脉；&lt;/p&gt;
+&lt;p&gt;轻轻地划开一厘米就够了。&lt;/p&gt;
+&lt;p&gt;是不是一厘米就够了，可能需要做个小小的知识调查，或者，亲自的实验一下也可以。 &lt;/p</summary>
+      
+    
+    
+    
+    <category term="漲潮﹣退潮" scheme="http://blog.beendless.com/categories/%E6%BC%B2%E6%BD%AE%EF%B9%A3%E9%80%80%E6%BD%AE/"/>
+    
+    
+  </entry>
+  
+</feed>
