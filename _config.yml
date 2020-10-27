@@ -5,8 +5,8 @@
 # Site
 title: Beendless ~ 快节奏,慢生活,无止境
 subtitle: Move Fast, Live Happily, With No End
-description:
-keywords:
+description: Move Fast, Live Happily, With No End
+keywords: AI, JavaScript, NodeJS, Python, Machine Learning
 author: Yabo Du & Yanrong Chen
 language: en
 timezone: America/Los_Angeles
@@ -56,6 +56,12 @@ prismjs:
   preprocess: true
   line_number: true
   tab_replace: ''
+
+sitemap:
+  path: sitemap.xml
+  rel: false
+  tags: true
+  categories: true
 
 # Home page setting
 # path: Root path for your blogs index page. (default = '')
