@@ -6,7 +6,7 @@
   <link href="http://blog.beendless.com/atom.xml" rel="self"/>
   
   <link href="http://blog.beendless.com/"/>
-  <updated>2020-10-27T00:58:36.249Z</updated>
+  <updated>2021-07-06T01:54:58.579Z</updated>
   <id>http://blog.beendless.com/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Understand Golang&#39;s Function Type</title>
+    <link href="http://blog.beendless.com/2021/07/06/Understand%20Golang&#39;s%20Function%20Type/"/>
+    <id>http://blog.beendless.com/2021/07/06/Understand%20Golang&#39;s%20Function%20Type/</id>
+    <published>2021-07-06T09:20:48.000Z</published>
+    <updated>2021-07-06T01:54:58.579Z</updated>
+    
+    <content type="html"><![CDATA[<p>Based on Golang’s <a href="http://weekly.golang.org/doc/go_spec.html#Function_types">function type</a> spec:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A function type denotes the set of all functions with the same parameter and result types</span><br></pre></td></tr></table></figure><p>And <a href="http://weekly.golang.org/doc/go_spec.html#Type_identity">type identity</a>:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Two function types are identical if they have the same number of parameters and result types, corresponding parameters and result types are identical, and either both functions have variadic or neither is. Parameter and result names are not required to match</span><br></pre></td></tr></table></figure><p>It means that if two functions have the same signature(parameters and result types), they share one function type. Golang allows us to use the <code>type</code> keyword to define a <code>struct</code> (or <code>function type</code>). You may think it is just a sort of coding documentation, but in practice, user-defined function types are really useful. <strong>They allow functions to implement interfaces.</strong> The most common usage is for HTTP handlers. </p><p>An HTTP handler processes and HTTP server request. Based on the <a href="https://golang.org/pkg/net/http/#Handler">interface documentation</a>, it’s an interface with a method <code>ServeHttp</code>.</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">type Handler interface &#123;</span><br><span class="line">    ServeHTTP(ResponseWriter, *Request)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>Function type <code>http.HanderFunc</code> is an adapter to allow the use of ordinary functions as HTTP handlers. If f is a function with the appropriate signature, <code>HandlerFunc(f)</code> is a Handler that calls <code>f</code>.</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">type HandlerFunc func(ResponseWriter, *Request)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; ServeHTTP calls f(w, r).</span><br><span class="line">func (f HandlerFunc) ServeHTTP(w ResponseWriter, r *Request) &#123;</span><br><span class="line">f(w, r)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure><p>Which means we can define a handler below</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">func handleGreeting(format string) http.HandlerFunc &#123;</span><br><span class="line">    return func(w http.ResponseWriter, r *http.Request) &#123;</span><br><span class="line">        fmt.Fprintf(w, format, &quot;World&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>This is valid return type since the anonymous function’s signature and return type is the same as <code>http.HandlerFunc</code>, so we don’t need to explictly convert it. It’s the same as </p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">func handleGreeting(format string) http.HandlerFunc &#123;</span><br><span class="line">    return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) &#123;</span><br><span class="line">        fmt.Fprintf(w, format, &quot;World&quot;)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;Based on Golang’s &lt;a href=&quot;http://weekly.golang.org/doc/go_spec.html#Function_types&quot;&gt;function type&lt;/a&gt; spec:&lt;/p&gt;
+&lt;figure class=&quot;highlight</summary>
+      
+    
+    
+    
+    <category term="CS" scheme="http://blog.beendless.com/categories/CS/"/>
+    
+    
+    <category term="Golang" scheme="http://blog.beendless.com/tags/Golang/"/>
+    
+  </entry>
   
   <entry>
     <title>JavaScript Async Ready Looping</title>
@@ -495,32 +520,6 @@
     
     
     <category term="行走的樹苗" scheme="http://blog.beendless.com/categories/%E8%A1%8C%E8%B5%B0%E7%9A%84%E6%A8%B9%E8%8B%97/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>写遗嘱之前</title>
-    <link href="http://blog.beendless.com/2014/06/07/%E5%86%99%E9%81%97%E5%98%B1%E4%B9%8B%E5%89%8D/"/>
-    <id>http://blog.beendless.com/2014/06/07/%E5%86%99%E9%81%97%E5%98%B1%E4%B9%8B%E5%89%8D/</id>
-    <published>2014-06-07T17:33:07.000Z</published>
-    <updated>2020-09-01T05:45:05.622Z</updated>
-    
-    <content type="html"><![CDATA[<p>我满脑子只有一个念头：</p><p>薄薄的刀片，在我的房间里随处可见；</p><p>用它划开左手的手腕，正面、平放，最清晰的动脉；</p><p>轻轻地划开一厘米就够了。</p><p>是不是一厘米就够了，可能需要做个小小的知识调查，或者，亲自的实验一下也可以。 </p><p>就只有这样一个念头，死去。 </p><p>已经不是第一次有这样的念头，但依然为此感到恐惧。</p><p>我发现自己在颤抖，在哭泣，哭得出了声。 </p><p>也许是太懦弱所以才不止一次地想到了死，也正是因为太懦弱才不敢去死。 </p><p>我知道答案，我必然会有一天不再如此懦弱，至少必然会有一次不是如此懦弱。 </p><p>现在唯一的未知是，某天当我勇敢起来的时候，是勇敢地面对死，还是勇敢地面对生。 </p><p>写份遗嘱，或许是必要的。</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;我满脑子只有一个念头：&lt;/p&gt;
-&lt;p&gt;薄薄的刀片，在我的房间里随处可见；&lt;/p&gt;
-&lt;p&gt;用它划开左手的手腕，正面、平放，最清晰的动脉；&lt;/p&gt;
-&lt;p&gt;轻轻地划开一厘米就够了。&lt;/p&gt;
-&lt;p&gt;是不是一厘米就够了，可能需要做个小小的知识调查，或者，亲自的实验一下也可以。 &lt;/p</summary>
-      
-    
-    
-    
-    <category term="漲潮﹣退潮" scheme="http://blog.beendless.com/categories/%E6%BC%B2%E6%BD%AE%EF%B9%A3%E9%80%80%E6%BD%AE/"/>
     
     
   </entry>
