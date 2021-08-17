@@ -187,7 +187,60 @@ func x(n int) {
 Similar like 8.b, the time complexity will be T(n) = 2 * T(n - 1) + 1 = 4 * T(n - 2) + 2 + 1 = 8 * T(n - 3) + 4 + 2 + 1 = ... = 2$n$ * T(0) + 2$n-1$ + 2$n-2$ + ... + 4 + 2 + 1 = 2$n + 1$  - 1 [Geometric Sequence]
 
 
-=========================================================
+e. T(n) = T(n / 2) + 1 =>  O({% mathjax %}\log{_2}{n}{% endmathjax %}) [Classic Binary Search]
+```golang
+func x(n int) {
+	if (n > 1) {
+		//statements
+		return x(n/2)
+	}
+	return 1
+}
+
+```
+*Explaination*:
+
+Similar like 8.b, the time complexity will be T(n) = T(n - 1) + 1 = T(n - 2) + 1 + 1 = ... = T({% mathjax %}\log{_2}{n}{% endmathjax %}) + {% mathjax %}\log{_2}{n}{% endmathjax %} * 1
+
+
+f. T(n) = T(n / 2) + n =>  O(n)
+```golang
+func x(n int) {
+	if (n > 1) {
+		for i := 0; i < n; i++ {
+			//statements	
+		}
+		return x(n/2)
+	}
+	return 1
+}
+
+```
+*Explaination*:
+
+Similar like 8.3, the time complexity will be T(n) = T(n/2) + n = T(n/4) + n / 2 + n = ... = T(n/2$k$) + n / 2$k-1$ + ... + n / 2$1$ + n / 2$0$ = T(1) + n * (1 / 2$k-1$ + ... + 1 / 2$1$ + 1 / 2$0$) = O(n) [Geometric Sequence]
+
+
+g. T(n) = 2T(n / 2) + n =>  O(n{% mathjax %}\log{_2}{n}{% endmathjax %})
+```golang
+func x(n int) {
+	if (n > 1) {
+		for i := 0; i < n; i++ {
+			//statements	
+		}
+		return x(n/2)
+	}
+	return 1
+}
+
+```
+
+*Explaination*:
+
+Similar like 8.3, the time complexity will be T(n) = 2 * T(n/2) + n = 4 * T(n/4) + n + n = 8 * T(n / 8) + n + n + n = ... = 2$k$ * T(n / 2$k$) + k * n = n * T(1) + {% mathjax %}\log{_2}{n}{% endmathjax %} * n = O(n{% mathjax %}\log{_2}{n}{% endmathjax %})
+
+
+<hr/>
 
 Now, Let's take a look at a problem from Leetcode [50. Pow(x, n)](https://leetcode.com/problems/powx-n/).
 
@@ -298,4 +351,4 @@ Golang Playbook: https://play.golang.org/p/lzC2k6QgLlF
 The only difference between `c` and `d` is we cached the result of the function call `recursivePow`. This will be similar like the binary search, each time we save half of the computation time.
 
 [Refs]
-*
+* https://www.youtube.com/playlist?list=PLDN4rrl48XKpZkf03iYFl-O29szjTrs_O
