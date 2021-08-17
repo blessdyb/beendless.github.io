@@ -121,9 +121,77 @@ for i := 0; i * i < n; i++ {
 
 We need to find the solution for k$2$ < n =>  `k` < {% mathjax %}\sqrt{n}{% endmathjax %}
 
-8. Time complexity for resursion. Let's take a look at a problem from Leetcode [50. Pow(x, n)](https://leetcode.com/problems/powx-n/).
+8. Time complexity for resursion. 
 
-a. Brute-force solution O(n) => template #1
+a. T(n) = T(n - 1) + 1 => O(n)
+```golang
+func x(n int) {
+	if (n > 0) {
+		return x(n - 1)
+	}
+	return 1
+}
+
+```
+
+b. T(n) = T(n - 1) + n =>  O(n$2$)
+```golang
+func x(n int) {
+	if (n > 0) {
+		for i := 0; i < n; i++ {
+			//statements
+		}
+		return x(n - 1)
+	}
+	return 1
+}
+
+```
+*Explaination*:
+
+T(n) = T(n - 1) + n = T(n - 2) + (n - 1) + n = T(n - 3) + (n - 2) + (n - 1) + n = ... = T(1) + 1 + 2 + 3 + ... + n 
+
+c. T(n) = T(n - 1) + {% mathjax %}\log{_2}{n}{% endmathjax %} =>  O({% mathjax %}n\log{_2}{n}{% endmathjax %})
+```golang
+func x(n int) {
+	if (n > 0) {
+		for i := 0; i < n; i *= 2 {
+			//statements
+		}
+		return x(n - 1)
+	}
+	return 1
+}
+
+```
+*Explaination*:
+
+Similar like 8.b, the time complexity will be {% mathjax %}\log{_2}{1}{% endmathjax %} + {% mathjax %}\log{_2}{2}{% endmathjax %} + {% mathjax %}\log{_2}{3}{% endmathjax %} + ... + {% mathjax %}\log{_2}{n}{% endmathjax %} = {% mathjax %}\log{_2}{n!}{% endmathjax %} ≈  n{% mathjax %}\log{_2}{n}{% endmathjax %}
+
+
+d. T(n) = 2 * T(n - 1) + 1 =>  O(2$n$)
+```golang
+func x(n int) {
+	if (n > 0) {
+		for i := 0; i < n; i *= 2 {
+			//statements
+		}
+		return x(n - 1)
+	}
+	return 1
+}
+
+```
+*Explaination*:
+
+Similar like 8.b, the time complexity will be T(n) = 2 * T(n - 1) + 1 = 4 * T(n - 2) + 2 + 1 = 8 * T(n - 3) + 4 + 2 + 1 = ... = 2$n$ * T(0) + 2$n-1$ + 2$n-2$ + ... + 4 + 2 + 1 = 2$n + 1$  - 1 [Geometric Sequence]
+
+
+=========================================================
+
+Now, Let's take a look at a problem from Leetcode [50. Pow(x, n)](https://leetcode.com/problems/powx-n/).
+
+a. Brute-force solution O(n) => template #8.a
 
 ```golang
 func myPow(x float64, n int) float64 {
@@ -228,3 +296,6 @@ func myPow(x float64, n int) float64 {
 Golang Playbook: https://play.golang.org/p/lzC2k6QgLlF
 
 The only difference between `c` and `d` is we cached the result of the function call `recursivePow`. This will be similar like the binary search, each time we save half of the computation time.
+
+[Refs]
+*
