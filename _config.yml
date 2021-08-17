@@ -111,6 +111,9 @@ ignore:
 ## Themes: https://hexo.io/themes/
 theme: maupassant
 
+sup:
+  markup: '$'
+
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:

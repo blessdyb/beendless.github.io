@@ -7,6 +7,7 @@ tags:
     - Algorithms
     - Leetcode
     - Binary Search
+    - Array
 ---
 
 Let's take a look at a easy problem on Leetcode [704. Binary Search](https://leetcode.com/problems/binary-search/). Besides the brute-force O(n) solution, it's not hard to get the O(log(n)) solution from the constrains `unique` and `sorted in ascending order`. Binary search is one of the most basic algorithms we are using, but most people couldn't get the right code.
@@ -19,7 +20,7 @@ Two tips if you chose this one：
 * Use `left <= right` for the loop condition checking
 * When narrowing dow to a sub-range, use `left = middle + 1` or `right = middle - 1`
 
-```
+```golang
 func search(nums []int, target int) int {
 	start, end := 0, len(nums) - 1
 	for start <= end {
@@ -44,7 +45,7 @@ Samething above, two similar tips for this template:
 * Use `left < right` for the loop condition checking, it's because 0-based array list, the right open interval is invalid index.
 * When narrowing down to a sub-range, use `left = middle + 1` and `right = middle` to keep the consistance of the intervals
 
-```
+```golang
 func search(nums []int, target int) int {
 	left, right := 0, len(nums)
 	for left < right {
