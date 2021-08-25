@@ -6,7 +6,7 @@
   <link href="http://blog.beendless.com/atom.xml" rel="self"/>
   
   <link href="http://blog.beendless.com/"/>
-  <updated>2021-08-24T16:13:26.643Z</updated>
+  <updated>2021-08-25T03:25:28.583Z</updated>
   <id>http://blog.beendless.com/</id>
   
   <author>
@@ -15,6 +15,36 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Remove Linked List Elements</title>
+    <link href="http://blog.beendless.com/2021/08/24/Remove-Linked-List-Elements/"/>
+    <id>http://blog.beendless.com/2021/08/24/Remove-Linked-List-Elements/</id>
+    <published>2021-08-25T05:45:23.000Z</published>
+    <updated>2021-08-25T03:25:28.583Z</updated>
+    
+    <content type="html"><![CDATA[<p>Let’s take a look at a easy problem on Leetcode <a href="https://leetcode.com/problems/remove-linked-list-elements/">203. Remove Linked List Elements</a>. We will demonstrate how to remove elements from a linked list.</p><p>Basically there are two ways to make it done. </p><p>a. Since all nodes in the linked list have a previous node except the head node, we can use those node’s previous node to delete those node. But if we have to remove the head node, we need to use a special logic. </p><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">removeElements</span><span class="params">(head *ListNode, val <span class="keyword">int</span>)</span> *<span class="title">ListNode</span></span> &#123;</span><br><span class="line">    <span class="keyword">for</span> ; head != <span class="literal">nil</span> &amp;&amp; head.Val == val; &#123;</span><br><span class="line">        head = head.Next</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> p := head; p != <span class="literal">nil</span> &amp;&amp; p.Next != <span class="literal">nil</span>; &#123;</span><br><span class="line">        <span class="keyword">if</span> p.Val == val &#123;</span><br><span class="line">            p.Next = p.Next.Next</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            p = p.Next</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> head</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>Golang Playbook: <a href="https://play.golang.org/p/ij55kvVD3aM">https://play.golang.org/p/ij55kvVD3aM</a></p><p>b. We can also add a virtual node to point to the head node, so all nodes including the head node have a previous node. With this change.</p><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">removeElements</span><span class="params">(head *ListNode, val <span class="keyword">int</span>)</span> *<span class="title">ListNode</span></span> &#123;</span><br><span class="line">virtualNode := &amp;ListNode&#123;<span class="number">0</span>, head&#125;</span><br><span class="line"><span class="keyword">for</span> p := virtualNode; p != <span class="literal">nil</span> &amp;&amp; p.Next != <span class="literal">nil</span>; &#123;</span><br><span class="line"><span class="keyword">if</span> p.Next.Val == val &#123;</span><br><span class="line">p.Next = p.Next.Next</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">p = p.Next</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> virtualNode.Next</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>Golang Playbook: <a href="https://play.golang.org/p/1tvSzIGDAm7">https://play.golang.org/p/1tvSzIGDAm7</a></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;Let’s take a look at a easy problem on Leetcode &lt;a href=&quot;https://leetcode.com/problems/remove-linked-list-elements/&quot;&gt;203. Remove Linked L</summary>
+      
+    
+    
+    
+    <category term="CS" scheme="http://blog.beendless.com/categories/CS/"/>
+    
+    
+    <category term="Golang" scheme="http://blog.beendless.com/tags/Golang/"/>
+    
+    <category term="Algorithms" scheme="http://blog.beendless.com/tags/Algorithms/"/>
+    
+    <category term="Leetcode" scheme="http://blog.beendless.com/tags/Leetcode/"/>
+    
+    <category term="Linked List" scheme="http://blog.beendless.com/tags/Linked-List/"/>
+    
+  </entry>
   
   <entry>
     <title>Traverse Spiral Matrix</title>
@@ -539,29 +569,6 @@
     
     
     <category term="DevOps" scheme="http://blog.beendless.com/tags/DevOps/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>我的一个夏日清晨，写在天津塘沽码头集装箱爆炸后</title>
-    <link href="http://blog.beendless.com/2015/08/13/%E6%88%91%E7%9A%84%E4%B8%80%E4%B8%AA%E5%A4%8F%E6%97%A5%E6%B8%85%E6%99%A8%EF%BC%8C%E5%86%99%E5%9C%A8%E5%A4%A9%E6%B4%A5%E5%A1%98%E6%B2%BD%E7%A0%81%E5%A4%B4%E9%9B%86%E8%A3%85%E7%AE%B1%E7%88%86%E7%82%B8%E5%90%8E/"/>
-    <id>http://blog.beendless.com/2015/08/13/%E6%88%91%E7%9A%84%E4%B8%80%E4%B8%AA%E5%A4%8F%E6%97%A5%E6%B8%85%E6%99%A8%EF%BC%8C%E5%86%99%E5%9C%A8%E5%A4%A9%E6%B4%A5%E5%A1%98%E6%B2%BD%E7%A0%81%E5%A4%B4%E9%9B%86%E8%A3%85%E7%AE%B1%E7%88%86%E7%82%B8%E5%90%8E/</id>
-    <published>2015-08-13T18:04:11.000Z</published>
-    <updated>2020-09-01T05:45:05.626Z</updated>
-    
-    <content type="html"><![CDATA[<p>8月13日，东一区时间早晨六点多。 </p><p>我朦胧着醒来，习惯性得拿起手机想看看刚回国的男朋友是在做什么。可还没来得及看他的留言，就被公共号订阅里面的一批文章炸醒了。这些天已经关闭了朋友全功能，是为了免去朋友圈刷屏和被刷屏的干扰，安心写作的。但这些一眼望去的小标题们——天津？爆炸？阴谋论？一线？核弹？——足够把我拉出本来就不够有定力的小世界。原来，天津塘沽码头集装箱发生了爆炸，周边数公里内的居民区都受到严重震摄，并且因为爆炸剧烈且有毒气体、液体蔓延，消防和救护都直接升级到牺牲的警戒线。还躺在床上，一个人，刷一些新闻、图片和视频。没说什么话也没人说话，也根本没想要说什么话。起床冲凉前，却发现，眼角已经不知觉得弄湿了枕巾一片。 </p><p>8月12日，东八区时间晚上十一点多。 </p><p>天津塘沽码头集装箱爆炸。我刚去跟导师谈完博论的写作困难和冬天想要去香港开会的事。一个人从学校后院的林子里穿过，再回到办公室楼里。可能隔壁还有一两个年轻博士们在工作，其他人都下班回家好一阵子了。夏日傍晚，最凉爽舒适的应该是小院儿凉亭，自己的沙拉、草地上光脚的孩子，可能再给孩子们拉开小帐篷或装满充气游泳池的水，给他们一个可以数星星的夜晚。我又工作了一两个小时，算是两个多月的疏离和度假终于结束了，那一刻又重新踏上写作的旅程。有一点点疲惫，毕竟是懒惯了。但满心舒畅。回家后打一杯香蕉牛奶，洗个温凉的澡，在裸睡的自由中，伴着清冷的月色，呼吸翌日早晨的阳光。不用想，脚指头都知道，明天大早起来吃面包火腿，用摩卡小壶煮杯咖啡，一条条做完三五个文本，下午要跑去南边一家修道院静修一晚和看望朋友。   </p><p>然而，两个时空的交叠，总是滞后的，却总能改变你原来计划的、有轨道的，哪怕是一切。 是的，生活本来的面貌，原本就是不可预见。   </p><p>于是，这个清晨的我，心头有两个冲动，冲动到不解决不行！ </p><p>第一，骂人。   </p><p>满眼望去，一大片歌颂甚至怂恿消防员去送死的路上！有些媒体的脑袋壳里盛满了豆腐花，要溢出来了，得不停地得往回刷。嘴巴长在屁眼上，一开一合，自以为很享受这样的快感，从不觉臭味熏天。眼睛长在后脑勺上，明亮闪光，但是干涸得像灼热的岩浆一样，明亮却不透彻，闪光得一点水灵都没有。就这样的物种，能在这个嘈杂的世界里被封为神明和伟大的光环，能发号施令，让无以数计的还没有豆腐花、没有屁眼、没有后脑勺眼睛的手机刷屏者们，趋之若鹜。   </p><p>死亡，本不是我们自身可以预见或决定的。但它也绝不在别人的手里或舌头底下！每个人的生命都是值得尊重的，凭什么要消防员去送死，凭什么甚至歌颂——并且用歌颂这种近乎下流的怂恿手段把他们送往大火里？是的，他们正在从事的职业，危险系数高，他们的责任就是主动往大火里走，是“逆行”，就像今天很流行的那个漫画图里画的一样。但这个逆行不应该是为了赴死，更不应该被歌颂为赴死途中的光辉背影。如果作为“人民”的我们，不断为他们有可能面临的死亡而致敬和欢呼，那他们不是赴死，而是我们送他们去死。这个逆行的背后，应该是严密的防护措施和强大的应急系统，应该是先进的救助手段和有保障的社会体系。说得难听也直接一点，应该是更先进的设备、是钢铁侠机器人，是更多可以直接动用的资源和知识，而不人，不是那一具单薄的躯体，不是“刚子”。   </p><p>我没有鲁迅的笔杆子，也一时半会儿写不出他老人家笔下的华老栓。那就懒懒地取个自以为是的捷径吧。如果有人还记得《药》，记得华老栓的话。今天，那个咳嗽得不停，得了肺痨的孩子，是我们自己，是自己。华老栓？呵呵，那些个掌握了话语权的媒体及其代理人！而人血馒头，正在我们手里，就是那一群被呼啦啦、摇旗呐喊助威的消防员等类似的“人民子弟兵”。最重要的是，那用来做血馒头的血，那是我们、甚至某些媒体都看不到、也没有能力看到的这个社会的愚昧。我们看不到愚昧的时候，就把它当做狂欢和“精神”来颂扬。就像山顶洞人看不到自然力的时候，就产生了原始崇拜。当我写下这句话的此刻，很平静，很冷，很平静。 对不起，这一刻，我也逆行了。当朋友圈都在称赞赴死英雄的时候，当朋友圈甚至错用一个词叫“逆火而行”（亲们，在火灾现场，任何人都是要逆火而行，往上风向走啊，难道顺着火势嘛……）的时候，当大家用微信这种祈福方式来自慰的时候。对不起，我选择了逆行。   </p><p>再看镜子里的自己———————— </p><p>我的情绪化和冲动可能不比今天凌晨爆炸时候的 TNT效果一样强劲，但也的确足够不专业。我激动了，激动得想要把这些骂人的话骂出来，想要贴出去，去骂人。重要的不是自己是否骂得爽——因为不给人看，自己骂也偷偷骂过了，我们生活中不都这样吗？聪明人就该这样啊，多简单的道理。相反，骂出去，才把自己置于不利地位，置于一个容易被攻击、被误解、被骂的地位。然而，我今天的激动，第一次让我有勇气站在这样的地位。当然，我激动了，这也是年轻气盛的表现。在还未写出更深刻的文字之前，还不能在短短一小时之内把汉娜阿伦特的“平庸的恶”用最可能的方式交流给读者之前，我自己先激动了。这也好不遮掩得透露了我的浅薄和缺乏定立，这是我活该被骂的地方。只是从来深知自己写得不好，不敢示人。而今拉下脸面，因为本来不是个有脸面的人物，这也还拉得下去。露出本来就不怎么样的写作水平，就像露一个像飞机场一样的胸似的。本来就没有胸线，也勾不起什么注意力。露一下图个自己爽快，也练习一下也许将来会有更多露点的镜头。习惯一下，别把自己看得太认真，也没什么。  </p><p>第二个冲动，于他人无关了吧。是自己的，是强烈的、有极大动力的，计划去一个人徒步旅行。 一个人徒步旅行（无太多计划的搭乘公共交通、随走随住），是我一直以来心中的愿望。虽然也有一个人的“旅行”，也曾一个人在几天里从罗马尼亚到匈牙利再到德国，但觉得远远不够，因为不够有途中的孤独和恐惧。或者你会上瘾，越来越可望更多的孤独和恐惧。曾为此愿景过川西、川藏到拉萨，曾愿景过丝绸之路穿欧亚大陆线，还愿景过南法到西班牙和葡萄牙。然而，我一直是那个躺在床上拿着地图去旅行的人，装在套子里的人。这样的人一般是作家笔下嘲讽和批评的对象，但大多数写出这样作品的作家本人，也是这样的人。也可能正是因为内心充满了对自己的嘲讽，在凌迟笔下的人物时，才能毫不手软。不用千刀万剐，只需每一刀，都是剐在自己身上就好。我常常会产生这样的冲动，今天清晨，或许是被塘沽爆炸的冲击波给震到了吧。</p><p>所以，最可怕的，不是这一次事故或震颤，而是不清醒和遗忘。人们都是短视的，也是记忆力不好的。世世代代和全地球的人都是这样，这个动物就是这样，我也是，你也是。但第一步也是最重要一步，我们至少要成人和面对这一点。在今天刷屏祈福称赞，明天做微店生意数钱，后天发游戏晒旅行照的时代里。风向，更容易吹走回忆。期盼有天把这些教训都收集起来，堆积成改变，而不是遗忘。 所以，最重要的，不是这一次激动，筹划着某天的一个人远地旅行，而是要长长久久记得这样激动的感觉，要跨出“原地旅行”的步子。总是这样，激动一次过后，就像雁过留痕而已，却不见了大雁。至少，要记得一次次的激动，期盼有天把这些激动累积起来，变成踏出去的第一步。</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;8月13日，东一区时间早晨六点多。 &lt;/p&gt;
-&lt;p&gt;我朦胧着醒来，习惯性得拿起手机想看看刚回国的男朋友是在做什么。可还没来得及看他的留言，就被公共号订阅里面的一批文章炸醒了。这些天已经关闭了朋友全功能，是为了免去朋友圈刷屏和被刷屏的干扰，安心写作的。但这些一眼望去的小标题们</summary>
-      
-    
-    
-    
-    <category term="行走的樹苗" scheme="http://blog.beendless.com/categories/%E8%A1%8C%E8%B5%B0%E7%9A%84%E6%A8%B9%E8%8B%97/"/>
-    
     
   </entry>
   
