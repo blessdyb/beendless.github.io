@@ -1,12 +1,13 @@
 ---
-title: Two Pointers Array
-date: 2021-08-17 22:45:23
+title: Two Pointers
+date: 2021-08-31 00:45:23
 categories: CS
 tags:
     - Golang
     - Algorithms
     - Leetcode
     - Array
+    - Linked List
 ---
 
 1. Array Elements In-Placed Removal
@@ -81,3 +82,44 @@ func minSubArrayLen(target int, nums []int) int {
 Golang Playbook: https://play.golang.org/p/EjMpnZJvBaW
 
 Since all elements will be visited by the sliding window at most twice (entering or exiting), so the time complexity is O(n) instead of O(n$2$)
+
+4. Reverse a Linked List
+
+It's easy to use an additional Linked List to reverse a Linked List. But we can use two pointers to reduce the space complexity down to O(1). Let's check a LeetCode problem [206. Reverse Linked List](https://leetcode.com/problems/reverse-linked-list/)
+
+```golang
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+func reverseList(head *ListNode) *ListNode {
+	var pre *ListNode
+	cur := head
+	for cur != nil {
+		temp := cur.Next
+		cur.Next = pre
+		pre = cur
+		cur = temp
+	}
+	return pre
+}
+```
+
+We can also solve it with a recursive solution
+```golang
+func helper(pre, node *ListNode) *ListNode {
+    if node == nil {
+        return pre
+    }    
+    next := node.Next
+    node.Next = pre
+    return helper(node, next)
+}
+
+func reverseList(head *ListNode) *ListNode {
+    return helper(nil, head)
+}
+```
