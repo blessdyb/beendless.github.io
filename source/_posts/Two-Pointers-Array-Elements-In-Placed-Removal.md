@@ -1,6 +1,6 @@
 ---
 title: Two Pointers
-date: 2021-08-31 00:45:23
+date: 2021-09-01 00:45:23
 categories: CS
 tags:
     - Golang
@@ -121,5 +121,140 @@ func helper(pre, node *ListNode) *ListNode {
 
 func reverseList(head *ListNode) *ListNode {
     return helper(nil, head)
+}
+```
+
+5. Remove the last Nth node from a Linked List
+
+The two pointers method can also help us to remove the last Nth node from a Linked List within one iteration. Let's check LeetCode problem [19. Remove Nth Node From End of List](https://leetcode.com/problems/remove-nth-node-from-end-of-list/submissions/). Another tip for Linked List node removal, with the help of a dummy node pointing to the head node, it will simplify the process.
+
+```golang
+func removeNthFromEnd(head *ListNode, n int) *ListNode {
+	dummy := &ListNode{
+		Next: head,
+	}
+	pre, cur := dummy, dummy
+	for i := 0; cur != nil; i++ {
+		cur = cur.Next
+		if i > n {  // Since deleting a node, we must get its previous node, so the distance between those two pointers is n + 1 instead of n
+			pre = pre.Next
+		}
+	}
+	pre.Next = pre.Next.Next
+	return dummy.Next
+}
+```
+
+6. Swap Nodes in Pairs
+
+[24. Swap Nodes in Pairs](https://leetcode.com/problems/swap-nodes-in-pairs/) is a similar problem similar to #4 and #5 above. We can quickly solve it with dummy node and two pointers. 
+
+```golang
+func swapPairs(head *ListNode) *ListNode {
+	dummy := &ListNode{
+		Next: head,
+	}
+	p := dummy
+	for head != nil && head.Next != nil {
+		p.Next = head.Next
+		temp := p.Next.Next
+		p.Next.Next = head
+		head.Next = temp
+		p = head
+		head = temp
+	}
+	return dummy.Next
+}
+```
+
+**Tip:**
+We can come up with a template here, whenever the solution expects a `*ListNode` as return value, we should consider using dummy node pointing to the head node.
+
+
+7. Intersection of Two Linked Lists
+
+[160. Intersection of Two Linked Lists](https://leetcode.com/problems/intersection-of-two-linked-lists/) The key point to solve this problem is to understand the meaning of the intersected Linked List. Based on the examples and description, after the intersected nodes, the two Linked Lists share the same tail nodes. So we just need to find the shorter one's length N and compare the last N nodes of the given two Linked List.
+```golang
+func getIntersectionNode(headA, headB *ListNode) *ListNode {
+ 	m, n := 0, 0
+ 	p, q := headA, headB
+ 	for p != nil {
+ 		p = p.Next
+ 		m++
+ 	}
+ 	for q != nil {
+ 		q = q.Next
+ 		n++
+ 	}
+ 	l, s := headA, headB
+ 	k := m - n
+ 	if m < n {
+ 		l, s = s, l
+ 		k = n - m
+ 	}
+ 	for l != nil {
+ 		if k <= 0 {
+ 			if s == l {
+ 				return s
+ 			}
+ 			s = s.Next
+ 		} else {
+ 			k--
+ 		}
+ 		l = l.Next
+ 	}
+}
+```
+
+8. Detect Circles I
+
+A classical usage of two pointers is to detect if a Linked List contains a circle. We can have a faster and a slower pointer. If there's a circle, the faster pointer should meet the slower one before it reaches to the end of the Linked List. The faster pointer's moving speed can be set to two times of the slower one's. [141. Linked List Cycle](https://leetcode.com/problems/linked-list-cycle/)
+```golang
+func hasCycle(head *ListNode) bool {
+	if head != nil && head.Next != nil {
+		f, l := head, head.Next
+		for f != l {
+			if f == nil || f.Next == nil {
+				return false
+			}
+			f = f.Next.Next
+			l = l.Next
+		}
+		return true
+	}
+	return false
+}
+```
+
+**Tip:**
+If we make the faster pointer pointing to the head node, the slower pointer pointing to the next node of the head node, and the speed of faster one is 2 times of the slower one. They will meet when we make the first move.
+
+
+9. Detect Circle's Starting Node 
+
+Continue to the circle detection problem, how to find the starting node of the circle? Let's check [142. Linked List Cycle II](https://leetcode.com/problems/linked-list-cycle-ii/). Given the starting node of the circle A, let's define below variables:
+
+* x : the distance between the head node and A
+* y : the distance between A and the met node P
+* z : the distance between the met node P and A
+
+Since faster node's speed is two times of the slower one. We can get `(x + y) * 2 = n * (y + z) + (x + y)` => `x = n * (y + z) - y` => `x = (n - 1) * (y + z) + z` . It means after those two pointers meet at P,  if the slower pointer continues moving to A, the moved distance will be the same length if we move a new pointer from head to A. More information you can get from (https://github.com/youngyangyang04/leetcode-master/blob/master/problems/0142.%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8II.md)
+
+```golang
+func detectCycle(head *ListNode) *ListNode {
+	f, s := head, head
+	for f != nil && f.Next != nil {
+		f = f.Next.Next
+		s = s.Next
+		if f == s {
+			t := head
+			for t != s {
+				t = t.Next
+				s = s.Next
+			}
+			return t
+		}
+	}
+	return nil
 }
 ```
