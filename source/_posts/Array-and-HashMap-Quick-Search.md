@@ -102,3 +102,39 @@ func commonChars(words []string) []string {
 **Tip:**
 
 If the common items searching problem has keyworks like `frequency`, `lowercase` English characters, we can try if hashmap + array method
+
+## [349. Intersection of Two Arrays](https://leetcode.com/problems/intersection-of-two-arrays/)
+
+Getting two array intersection, we can try `Set` or with the help of hashmap 
+```golang
+func intersection(nums1 []int, nums2 []int) []int {
+	cache := make(map[int]int)
+	result := make([]int, 0)
+	for _, i := range nums1 {
+		cache[i] = 1
+	}
+	for _, i := range nums2 {
+		if v, ok := cache[i]; ok && v > 0 {
+			cache[i] = 0
+			result = append(result, i)
+		}
+	}
+	return result
+}
+```
+
+## [Two Sum](https://leetcode.com/problems/two-sum/)
+
+Using hashmap can solve two-sum in `O(n)` complexity.
+```golang
+func twoSum(nums []int, target int) []int {
+	cache := make(map[int]int)
+	for i, v := range nums {
+		if index, ok := cache[target - v]; ok {
+			return []int{i, index}
+		}
+		cache[v] = i
+	}
+	return []int{}
+}
+```
