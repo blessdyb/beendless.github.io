@@ -1,6 +1,6 @@
 ---
 title: Two Pointers
-date: 2021-09-01 00:45:23
+date: 2021-09-06 00:45:23
 categories: CS
 tags:
     - Golang
@@ -256,5 +256,95 @@ func detectCycle(head *ListNode) *ListNode {
 		}
 	}
 	return nil
+}
+```
+
+10. 3 Sum
+
+For LeetCode questtion [15. 3Sum](https://leetcode.com/problems/3sum/), the brute-force solution's time complexity is at least O(n^3). We can convert it to a two sum problem in side of a loop. We can compare the adjacent elements to remove the duplicated solution.
+```golang
+import "sort"
+func threeSum(nums []int) [][]int {
+	result := [][]int{}
+	sort.Ints(nums)
+	length := len(nums)
+	for i := 0; i < length - 2; i++ {
+		n1 = nums[i]
+		if n1 > 0 {
+			break
+		}
+		if i > 0 && n1 == nums[i - 1] {
+			continue
+		}
+		j := i + 1
+		k := length - 1
+		for j < k {
+			n2 := nums[j]
+			n3 := nums[k]
+			t := n1 + n2 + n3
+			if t == 0 {
+				result = append(result, []int{n1, n2, n3})
+				while j < k && n2 == nums[j] {
+					j++
+				}
+				while k > j && n3 == nums[k] {
+					k--
+				}
+			} else t < 0 {
+				j++
+			} else {
+				k--
+			}
+		}
+	}
+	return result
+}
+```
+
+11. 4 Sum
+
+Similar to 3 Sum, we can solve [18. 4Sum](https://leetcode.com/problems/4sum/) with two pointers.
+```golang
+import "sort"
+func fourSum(nums []int, target int) [][]int {
+	result := [][]int{}
+	sort.Ints(nums)
+	length := len(nums)
+	for i := 0; i < length - 3; i++ {
+		n1 := nums[i]
+		if target >= 0 && n1 > target { // Note: if target is negative, we can't break the loop
+			break
+		}
+		if i > 0 && n1 == nums[i - 1] {
+			continue
+		}
+		for j := i + 1; j < length - 2; j++ {
+			n2 := nums[j]
+			if j > i + 1 && n2 == nums[j - 1] {
+				continue
+			}
+			k := j + 1
+			l := length - 1
+			for k < l {
+				n3 := nums[k]
+				n4 := nums[l]
+				t := n1 + n2 + n3 + n4
+				if t == target {
+					result = append(result, []int{n1, n2, n3, n4})
+					for k < l && n3 == nums[k] {
+						k++
+					}
+					for l > k && n4 == nums[l] {
+						l--
+					}
+				} else if t < 0 {
+					k++
+				} else {
+					l--
+				}
+			}
+		}
+	}
+	return result
 }
 ```
