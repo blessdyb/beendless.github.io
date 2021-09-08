@@ -1,6 +1,6 @@
 ---
 title: Two Pointers
-date: 2021-09-06 00:45:23
+date: 2021-09-07 00:45:23
 categories: CS
 tags:
     - Golang
@@ -346,5 +346,147 @@ func fourSum(nums []int, target int) [][]int {
 		}
 	}
 	return result
+}
+```
+
+12. [344. Reverse String](https://leetcode.com/problems/reverse-string/)
+
+We can reverse a string with O(1) extra space by using two pointers method.
+```golang
+func reverseString(s []byte)  {
+	length := len(nums)
+	for i, j := 0, length - 1; i < j; {
+		s[i], s[j] = s[j], s[i]
+		i++
+		j--
+	}
+}
+```
+
+13. [541. Reverse String II](https://leetcode.com/problems/reverse-string-ii/)
+
+Note, since the string in Go is immutable, if we need to manipulate a string's contenet, we need to convert it to a byte slice first. 
+
+```golang
+func reverseStr(s string, k int) string {
+	bs := []byte(s)
+	length := len(bs)
+	for i := 0; i < length; i += 2 * k {
+		if i + k < length {
+			reverse(bs[i:i+k])
+		} else {
+			reverse(bs[i:])
+		}
+	}
+	return string(bs)
+}
+
+func reverse(s []byte) {
+	length := len(s)
+	for i, j := 0, length - 1; i < j; i, j = i + 1, j - 1 {
+		s[i], s[j] = s[j], s[i]
+	}
+}
+```
+
+14. [URL Encoding](https://leetcode-cn.com/problems/ti-huan-kong-ge-lcof/)
+
+Besides the brute-force solution, we can solve it with O(1) space if the string is mutable.
+```golang
+func replaceSpace(s string) string {
+	n := 0
+	length := len(s)
+	bs := []byte(s)
+	for i := 0; i < length; i++ {
+		n += 2 // Replace ' ' with '%20', so we will need 2*k additional bytes
+	}
+	temp := make([]byte, n)
+	bs = append(bs, temp...)
+	for i, j := length - 1, length + n - 1; i >= 0; {
+		if bs[i] == ' ' {
+			bs[j] = '0'
+			bs[j - 1] = '2'
+			bs[j - 2] = '%'
+			j -= 3
+		} else {
+			bs[j] = bs[i]
+			j--
+		}
+		i--
+	}
+	return string(bs)
+}
+```
+
+15.[151. Reverse Words in a String](https://leetcode.com/problems/reverse-words-in-a-string/)
+
+A quickly solution will be we split the string with regexp to a list, then construct a new string by traversing the list from the end to the beginning. But it will take O(n) space. Let's solve it with a in-place method (assume the string is mutable). 
+
+a. Use two pointers (fast/slow) to trim the spaces at the beginning, in this step, the fast pointer will stop at the first non-space character.
+b. Start shifting the slice to left if the fast pointer and its previous element are space. So the slow and the fast pointers both moving, and the slower one will stop at the last non-space character or the only space left in the new string (if there are more than one adjacent spaces at the end of the original string)
+c. Remove the spaces at the end
+d. Reverse the whole new string
+e. Reverse the words one by one
+
+```golang
+func reverseWords(s string) string {
+    bs := []byte(s)
+    length := len(bs)
+    s, f := 0, 0
+    // move faster pointer to the first non-space character
+    for ; f < length && bs[f] == ' '; f++ {}
+    // merge the adjacent spaces into one, if we have two adjacent spaces, move both the fast amd slow pointers to shift the slice to left
+    for ; f < length; f++ {
+    	if f > 1 && bs[f] == ' ' && bs[f - 1] == ' ' {
+    		continue
+    	}
+    	bs[s] = bs[f]
+    	s++
+    }
+    //Till now, the slow pointer is pointing to the end of non-space character. So we just need to remove the tailing space
+    if s > 1 && bs[s - 1] == ' ' {
+    	bs = bs[:s - 1]
+    } else {
+    	bs = bs[:s]
+    }
+    // Two pinters to reverse the string
+    reverse(bs)
+    for i := 0; i < len(bs);{
+    	for t := i; t < len(bs) && bs[t] != ' '; t++ {}
+    	reverse(bs[i:t])
+    	i = t
+    	i++ // Skip space
+    }
+    return string(bs)
+}
+
+func reverse(s []byte) {
+	length := len(s)
+	for i, j := 0, length - 1; i < j; i, j = i + 1, j - 1 {
+		s[i], s[j] = s[j], s[i]
+	}
+}
+```
+
+16. (Swap string's left and right sides)[https://leetcode-cn.com/problems/zuo-xuan-zhuan-zi-fu-chuan-lcof/]
+
+We can simply reconstruct the string with O(n) space. but if we want to use O(1) space if the string is mutable, two pointers reverse can help us to make it done.
+
+a. Reverse the first n elements
+b. Reverse the elements after n
+c. Reverse the whole slice
+```golang
+func reverseLeftWords(s string, n int) string {
+    bs := []byte(s)
+    reverse(bs[0:n])
+    reverse(bs[n:])
+    reverse(bs)
+    return string(bs)
+}
+func reverse(s []byte) {
+    length := len(s)
+    for i, j := 0, length - 1; i < j; i, j = i + 1, j - 1 {
+        s[i], s[j] = s[j], s[i]
+    }
 }
 ```
