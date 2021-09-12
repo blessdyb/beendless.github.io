@@ -6,7 +6,7 @@
   <link href="http://blog.beendless.com/atom.xml" rel="self"/>
   
   <link href="http://blog.beendless.com/"/>
-  <updated>2021-09-10T06:27:52.409Z</updated>
+  <updated>2021-09-12T19:58:05.976Z</updated>
   <id>http://blog.beendless.com/</id>
   
   <author>
@@ -15,6 +15,70 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Design a Stack with Queue</title>
+    <link href="http://blog.beendless.com/2021/09/12/Design-a-Stack-with-Queue/"/>
+    <id>http://blog.beendless.com/2021/09/12/Design-a-Stack-with-Queue/</id>
+    <published>2021-09-12T18:45:23.000Z</published>
+    <updated>2021-09-12T19:58:05.976Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="225-Implement-Stack-using-Queues"><a href="#225-Implement-Stack-using-Queues" class="headerlink" title="225. Implement Stack using Queues"></a><a href="https://leetcode.com/problems/implement-stack-using-queues/">225. Implement Stack using Queues</a></h2><p>We can’t use the similar solution we did for <a href="/2021/09/11/Design-a-Queue-with-Stack/">Design a Queue with Stack</a>. It is because unlike <code>Stack</code>,  moving elements from one <code>Queue</code> to another one won’t change the sequence of elements. We have to pop out all previous elements added into the queue when adding a new element, in this way we can simulate a Stack.</p><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Queue []<span class="keyword">int</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(q *Queue)</span><span class="title">Empty</span><span class="params">()</span> <span class="title">bool</span></span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">len</span>(*q) == <span class="number">0</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(q *Queue)</span><span class="title">Push</span><span class="params">(x <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">    *q = <span class="built_in">append</span>(*q, x)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(q *Queue)</span><span class="title">Pop</span><span class="params">()</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> ret <span class="keyword">int</span></span><br><span class="line">    <span class="keyword">if</span> !q.Empty() &#123;</span><br><span class="line">        ret = (*q)[<span class="number">0</span>]</span><br><span class="line">        *q = (*q)[<span class="number">1</span>:]</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ret</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(q *Queue)</span><span class="title">Top</span><span class="params">()</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> ret <span class="keyword">int</span></span><br><span class="line">    <span class="keyword">if</span> !q.Empty() &#123;</span><br><span class="line">        ret = (*q)[<span class="number">0</span>]</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ret</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> MyStack <span class="keyword">struct</span> &#123;</span><br><span class="line">    m *Queue</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Constructor</span><span class="params">()</span> <span class="title">MyStack</span></span>  &#123;</span><br><span class="line">    <span class="keyword">return</span> MyStack&#123;</span><br><span class="line">        &amp;Queue&#123;&#125;,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *MyStack)</span> <span class="title">Empty</span><span class="params">()</span> <span class="title">bool</span></span> &#123;</span><br><span class="line">    <span class="keyword">return</span> s.m.Empty()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *MyStack)</span> <span class="title">Top</span><span class="params">()</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    <span class="keyword">return</span> s.m.Top()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *MyStack)</span> <span class="title">Pop</span><span class="params">()</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    <span class="keyword">return</span> s.m.Pop()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *MyStack)</span> <span class="title">Push</span><span class="params">(x <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">    n := <span class="built_in">len</span>(*((*s).m))</span><br><span class="line">    s.m.Push(x)</span><br><span class="line">    <span class="keyword">for</span> n &gt; <span class="number">0</span> &#123;</span><br><span class="line">        s.m.Push(s.m.Pop())</span><br><span class="line">        n--</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;225-Implement-Stack-using-Queues&quot;&gt;&lt;a href=&quot;#225-Implement-Stack-using-Queues&quot; class=&quot;headerlink&quot; title=&quot;225. Implement Stack using Q</summary>
+      
+    
+    
+    
+    <category term="CS" scheme="http://blog.beendless.com/categories/CS/"/>
+    
+    
+    <category term="Golang" scheme="http://blog.beendless.com/tags/Golang/"/>
+    
+    <category term="Algorithms" scheme="http://blog.beendless.com/tags/Algorithms/"/>
+    
+    <category term="Leetcode" scheme="http://blog.beendless.com/tags/Leetcode/"/>
+    
+    <category term="Queue" scheme="http://blog.beendless.com/tags/Queue/"/>
+    
+    <category term="Stack" scheme="http://blog.beendless.com/tags/Stack/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Design a Queue with Stack</title>
+    <link href="http://blog.beendless.com/2021/09/11/Design-a-Queue-with-Stack/"/>
+    <id>http://blog.beendless.com/2021/09/11/Design-a-Queue-with-Stack/</id>
+    <published>2021-09-11T18:45:23.000Z</published>
+    <updated>2021-09-12T18:51:12.689Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="232-Implement-Queue-using-Stacks"><a href="#232-Implement-Queue-using-Stacks" class="headerlink" title="232. Implement Queue using Stacks"></a><a href="https://leetcode.com/problems/implement-queue-using-stacks/">232. Implement Queue using Stacks</a></h2><p>Since <code>Queue</code> is <code>FIFO</code> but <code>Stack</code> is <code>FILO</code>. If we need to use <code>Stack</code> to implement a <code>Queue</code>, we need to use at least two <code>Stack</code>s. So we use one stack which only handle <code>Push</code> operations, and another <code>Stack</code> which only handle <code>Pop</code>/<code>Peek</code> operations. And we move elements from the <code>Pop</code> only <code>Stack</code> to the other one when <code>Pop</code>/<code>Peek</code> get called. It will reverse the <code>FILO</code> stack elements sequence after that. So we get a <code>FIFO</code> sequence.</p><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Stack []<span class="keyword">int</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *Stack)</span><span class="title">Empty</span><span class="params">()</span> <span class="title">bool</span></span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">len</span>(*s) == <span class="number">0</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *Stack)</span><span class="title">Push</span><span class="params">(x <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">    *s = <span class="built_in">append</span>(*s, x)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *Stack)</span><span class="title">Pop</span><span class="params">()</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> ret <span class="keyword">int</span></span><br><span class="line">    <span class="keyword">if</span> !s.Empty() &#123;</span><br><span class="line">        lastIndex := <span class="built_in">len</span>(*s) - <span class="number">1</span></span><br><span class="line">        ret = (*s)[lastIndex]</span><br><span class="line">        *s = (*s)[:lastIndex]</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ret</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *Stack)</span><span class="title">Peek</span><span class="params">()</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> ret <span class="keyword">int</span></span><br><span class="line">    <span class="keyword">if</span> !s.Empty() &#123;</span><br><span class="line">        ret = (*s)[<span class="built_in">len</span>(*s) - <span class="number">1</span>]</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ret</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> MyQueue <span class="keyword">struct</span> &#123;</span><br><span class="line">    m, n *Stack</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Constructor</span><span class="params">()</span> <span class="title">MyQueue</span></span> &#123;</span><br><span class="line">    <span class="keyword">return</span> MyQueue&#123;</span><br><span class="line">        &amp;Stack&#123;&#125;,</span><br><span class="line">        &amp;Stack&#123;&#125;,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(q *MyQueue)</span><span class="title">Push</span><span class="params">(x <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">    q.m.Push(x)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(q *MyQueue)</span><span class="title">Pop</span><span class="params">()</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    q.Peek()</span><br><span class="line">    <span class="keyword">return</span> q.n.Pop()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(q *MyQueue)</span><span class="title">Peek</span><span class="params">()</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> q.n.Empty() &#123;</span><br><span class="line">        <span class="keyword">for</span> !q.m.Empty() &#123;</span><br><span class="line">            q.n.Push(q.m.Pop())</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> q.n.Peek()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(q *MyQueue)</span><span class="title">Empty</span><span class="params">()</span> <span class="title">bool</span></span> &#123;</span><br><span class="line">    <span class="keyword">return</span> q.m.Empty() &amp;&amp; q.n.Empty()</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure><ul><li><a href="https://leetcode.com/problems/implement-queue-using-stacks/discuss/64206/Short-O">https://leetcode.com/problems/implement-queue-using-stacks/discuss/64206/Short-O</a>(1</li></ul>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;232-Implement-Queue-using-Stacks&quot;&gt;&lt;a href=&quot;#232-Implement-Queue-using-Stacks&quot; class=&quot;headerlink&quot; title=&quot;232. Implement Queue using S</summary>
+      
+    
+    
+    
+    <category term="CS" scheme="http://blog.beendless.com/categories/CS/"/>
+    
+    
+    <category term="Golang" scheme="http://blog.beendless.com/tags/Golang/"/>
+    
+    <category term="Algorithms" scheme="http://blog.beendless.com/tags/Algorithms/"/>
+    
+    <category term="Leetcode" scheme="http://blog.beendless.com/tags/Leetcode/"/>
+    
+    <category term="Queue" scheme="http://blog.beendless.com/tags/Queue/"/>
+    
+    <category term="Stack" scheme="http://blog.beendless.com/tags/Stack/"/>
+    
+  </entry>
   
   <entry>
     <title>String Match with KMP Algorithm</title>
@@ -531,63 +595,6 @@
     
     
     <category term="Deep Learning" scheme="http://blog.beendless.com/tags/Deep-Learning/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Started to go through convnetjs</title>
-    <link href="http://blog.beendless.com/2018/12/23/Started-to-go-through-convnetjs/"/>
-    <id>http://blog.beendless.com/2018/12/23/Started-to-go-through-convnetjs/</id>
-    <published>2018-12-23T09:15:19.000Z</published>
-    <updated>2020-09-01T05:45:05.614Z</updated>
-    
-    <content type="html"><![CDATA[<p>After reading several books about deep learning, now I can use <code>keras</code> / <code>tensorflow</code> to train some models, but the mathmatical implementations behind the libraries are still have to follow. </p><p>Two years ago, when I played with <code>Karpathy</code>‘s [ConvnetJS], I was shocked by the agrighms behind that. I think now it’s time to go through his code, I started a small project to annotate <code>ConvnetJS</code> source code and re-write it with <code>TypeScript</code>.  You can check my progress from <a href="https://github.com/blessdyb/convnetjs-source">ConvnetJS Source Annotation</a>, you can also check the <a href="https://convnetjs.beendless.com/">documentation</a> directly.</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;After reading several books about deep learning, now I can use &lt;code&gt;keras&lt;/code&gt; / &lt;code&gt;tensorflow&lt;/code&gt; to train some models, but the</summary>
-      
-    
-    
-    
-    <category term="CS" scheme="http://blog.beendless.com/categories/CS/"/>
-    
-    
-    <category term="Deep Learning" scheme="http://blog.beendless.com/tags/Deep-Learning/"/>
-    
-    <category term="JavaScript" scheme="http://blog.beendless.com/tags/JavaScript/"/>
-    
-    <category term="ConvnetJS" scheme="http://blog.beendless.com/tags/ConvnetJS/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Scaling NodeJS Apps -- Archtectural Patterns</title>
-    <link href="http://blog.beendless.com/2018/12/20/Scaling-NodeJS-Apps-Archetectural-Patterns/"/>
-    <id>http://blog.beendless.com/2018/12/20/Scaling-NodeJS-Apps-Archetectural-Patterns/</id>
-    <published>2018-12-21T07:00:00.000Z</published>
-    <updated>2020-09-01T05:45:05.612Z</updated>
-    
-    <content type="html"><![CDATA[<p>This is the notes when I read the book <a href="https://www.apress.com/de/book/9781484239902">Scaling Your Nodej.js Apps</a>.</p><h2 id="Layered-Architecture"><a href="#Layered-Architecture" class="headerlink" title="Layered Architecture"></a>Layered Architecture</h2><p>It is based on the logistic seperation of concerns of your application (or platform) into layers. And the layers must comply with the following points:</p><ul><li>Each layer must have a well-defined purpose (presentation layer, business layer, and so on)</li><li>Each layer cannot speak (or send data) to any other layer that is not the one directly below it</li></ul><h2 id="MVC"><a href="#MVC" class="headerlink" title="MVC"></a>MVC</h2><p>Many web frameworks have adopted this pattern, because the structure of most web projects resembles this approach. </p><ul><li>MVP (Model, View, Presenter) pattern aims to remove that unwanted interaction between Model and View, making Presenter the sole man-in-the-middle talking care of passing information between its associated View and it’s Model.</li><li>MVVM (Model, View, ViewModel) aims for a two-way data binding between the View and ViewModel. This is in turns allows for automatic updates on the view, based on changes in the model.</li></ul><h2 id="Client-Server"><a href="#Client-Server" class="headerlink" title="Client-Server"></a>Client-Server</h2><p>It consists of having a powerful server that provides meaningful services to many clients.</p><ul><li>Clients always start the data communication.</li><li>The servers are always listening for new connections from clients to start a new communcation.</li></ul><h2 id="Master-Slave"><a href="#Master-Slave" class="headerlink" title="Master-Slave"></a>Master-Slave</h2><p>It implies a single channel of communication between two parties. Instead of having one centralized hub for the business logic and heavy processing of data, you have a one-way controlled communication between a controlling node (the master) and many decentralized nodes (the slaves). The heavy processing and expensive tasks are usually performed in the slaves, while the master merely funnels the requests from outside into them. </p><ul><li>Any behavior-affecting message are one-way, from the master to the slaves. Slaves don’t have the ability to affect the master.</li><li>Not all slaves need to work on the same tasks.</li><li>Some versions of this partern allow slaves to elect one of their own as a new master, if the current master is no longer working.</li></ul><p>It can be used for database architecture, increased parallel processing capacity, and so on.</p><h2 id="Event-Bus-or-Event-Driven-Architectures"><a href="#Event-Bus-or-Event-Driven-Architectures" class="headerlink" title="Event-Bus or Event-Driven Architectures"></a>Event-Bus or Event-Driven Architectures</h2><p>The relationships between components are usually many-to-many. The components can be defined as follows:</p><ul><li>Event sources: these are the components that generate events and publish them into the event bus.</li><li>Event consumers: the consumers are the components that are expecting a particular set of events and are ready to react to them once received.</li><li>Event bus: the channel through which the events will be districuted.</li><li>The actual event: the data cummunicated between different components.</li></ul><p>A classic example of this approach consists of using a message queue as the event bus. There are lots of solutions like RabbitMQ, Kafka, ZeroMQ. The event bus and event-driven reactions are all asynchronous. So you platform must be able to function asynchronously.</p><h2 id="Microservices-Architecture"><a href="#Microservices-Architecture" class="headerlink" title="Microservices Architecture"></a>Microservices Architecture</h2><p>The core behind this pattern is your understanding of the different features your platform is supposed to have (that is, the different services it needs to provide). If you properly understand your platform, you can probably split the services into a set of smaller services that, when used together by the client app, yield the same result you would get from a single block of code with all features bundle together. With a microservice-based architecture, we get control of our services in a fine granularity level.</p><ul><li>Gain total control over which component of your application to scale.</li><li>Improve the development process.</li><li>Add the ability to switch versions of your components.</li><li>Gain the ability to reuse components or modules among applications.</li></ul><p>Below are some of the most common issues you might run into which developing microservices:</p><ul><li>Communications between difference micro-services need to be planned and defined carefully and clearly, otherwise, the whole performance of the system will be affected, especially when you get the high traffic.</li><li>Too many microservices might create a chaotic architecture.</li><li>Deployments of microservices-based architecture can be quite a pain, especially if you are not properly automating the process.</li></ul><h2 id="The-Broker-Pattern"><a href="#The-Broker-Pattern" class="headerlink" title="The Broker Pattern"></a>The Broker Pattern</h2><p>One of the pain points for the latter was that given a high enough number of microservices, you begin to need a form of orchestration; otherwise, your clients start to lose the ability to communicate easily with your platform.</p><p>The purpose of the broken node is to centralize and redistribute requests among different services. Another key characteristic of this pattern is that by default it is not the broken that “knows” about its servers; instead, it’s the servers that register with the borker once they come online, and provide all the information it needs to understand the services they provide.</p><p>This pattern has a few setbacks:</p><ul><li>The broker becomes the single point of failure.</li><li>It’s hard to scale your platform unless you also scale up your broker</li><li>It adds an extra layer of indirection between client and services; thus extra latency is added to the request time.</li></ul><h2 id="Lambda-Architectures"><a href="#Lambda-Architectures" class="headerlink" title="Lambda Architectures"></a>Lambda Architectures</h2><p>Lambda architecutres are a special pattern designed to provide a high-throughput platform that is able to process very large quantities of data both in real time and in batches.</p><p>This is a solution that has a very high maintenance cost associated with it since you basically are maintaining two parallel architecture at once, which in ture need to keep a centralized repository of data in a synchronized matter.</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;This is the notes when I read the book &lt;a href=&quot;https://www.apress.com/de/book/9781484239902&quot;&gt;Scaling Your Nodej.js Apps&lt;/a&gt;.&lt;/p&gt;
-&lt;h2 id=</summary>
-      
-    
-    
-    
-    <category term="CS" scheme="http://blog.beendless.com/categories/CS/"/>
-    
-    
-    <category term="DevOps" scheme="http://blog.beendless.com/tags/DevOps/"/>
-    
-    <category term="NodeJS" scheme="http://blog.beendless.com/tags/NodeJS/"/>
-    
-    <category term="Archetecture" scheme="http://blog.beendless.com/tags/Archetecture/"/>
     
   </entry>
   
