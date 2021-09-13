@@ -491,3 +491,22 @@ func reverse(s []byte) {
     }
 }
 ```
+
+17. [1047. Remove All Adjacent Duplicates In String](https://leetcode.com/problems/remove-all-adjacent-duplicates-in-string/)
+
+```golang
+func removeDuplicates(s string) string {
+	bs := []byte(s)
+	i := 0
+	length := len(s)
+	for j := 0; i < length; j++ {
+		bs[i] = bs[j]
+		if i > 0 && bs[i] == bs[i - 1] {
+			i--
+		} else {
+			i++
+		}
+	}
+	return string(bs[:i])
+}
+```
