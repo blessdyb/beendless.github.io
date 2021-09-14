@@ -1,6 +1,6 @@
 ---
 title: Query with Stack
-date: 2021-09-12 14:45:23
+date: 2021-09-12 15:45:23
 categories: CS
 tags:
     - Golang
@@ -118,5 +118,28 @@ func maxSlidingWindow(nums []int, k int) []int {
         }
     }
     return result
+}
+```
+
+## [71. Simplify Path](https://leetcode.com/problems/simplify-path/)
+
+`Stack` is one of the best data structure to solve Path manipulation realted problems. 
+```golang
+import "strings"
+func simplifyPath(path string) string {
+    dirs := []string{}
+    paths := strings.Split(path, "/")
+    for i := 0; i < len(paths); i++ {
+        if paths[i] == ".." {
+            if len(dirs) > 0 {
+                dirs = dirs[:len(dirs) - 1]
+            }
+        } else if paths[i] == "" || paths[i] == "." || paths[i] == "/" {
+            continue
+        } else {
+            dirs = append(dirs, paths[i])
+        }
+    }
+    return "/" + strings.Join(dirs, "/")
 }
 ```
