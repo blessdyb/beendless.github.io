@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.beendless.com/2021/09/14/Tree-Traversals-BFS/</loc>
+    
+    <lastmod>2021-09-15</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.beendless.com/2021/09/13/Tree-Traversals-DFS/</loc>
+    
+    <lastmod>2021-09-15</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.beendless.com/2021/09/12/Query-with-Stack/</loc>
     
     <lastmod>2021-09-14</lastmod>
@@ -515,7 +529,7 @@
 
   <url>
     <loc>http://blog.beendless.com/</loc>
-    <lastmod>2021-09-14</lastmod>
+    <lastmod>2021-09-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -523,224 +537,245 @@
   
   <url>
     <loc>http://blog.beendless.com/tags/Python/</loc>
-    <lastmod>2021-09-14</lastmod>
+    <lastmod>2021-09-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://blog.beendless.com/tags/Async/</loc>
-    <lastmod>2021-09-14</lastmod>
+    <lastmod>2021-09-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://blog.beendless.com/tags/HTTP/</loc>
-    <lastmod>2021-09-14</lastmod>
+    <lastmod>2021-09-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://blog.beendless.com/tags/Machine-Learning/</loc>
-    <lastmod>2021-09-14</lastmod>
+    <lastmod>2021-09-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://blog.beendless.com/tags/DevOps/</loc>
-    <lastmod>2021-09-14</lastmod>
+    <lastmod>2021-09-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://blog.beendless.com/tags/NodeJS/</loc>
-    <lastmod>2021-09-14</lastmod>
+    <lastmod>2021-09-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://blog.beendless.com/tags/Archetecture/</loc>
-    <lastmod>2021-09-14</lastmod>
+    <lastmod>2021-09-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://blog.beendless.com/tags/Deep-Learning/</loc>
-    <lastmod>2021-09-14</lastmod>
+    <lastmod>2021-09-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://blog.beendless.com/tags/JavaScript/</loc>
-    <lastmod>2021-09-14</lastmod>
+    <lastmod>2021-09-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://blog.beendless.com/tags/ConvnetJS/</loc>
-    <lastmod>2021-09-14</lastmod>
+    <lastmod>2021-09-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://blog.beendless.com/tags/Google-Colab/</loc>
-    <lastmod>2021-09-14</lastmod>
+    <lastmod>2021-09-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://blog.beendless.com/tags/CNN/</loc>
-    <lastmod>2021-09-14</lastmod>
+    <lastmod>2021-09-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://blog.beendless.com/tags/Deep-Learning-with-TensorFlow-2-and-Keras/</loc>
-    <lastmod>2021-09-14</lastmod>
+    <lastmod>2021-09-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://blog.beendless.com/tags/AWS/</loc>
-    <lastmod>2021-09-14</lastmod>
+    <lastmod>2021-09-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://blog.beendless.com/tags/Functional-Programming/</loc>
-    <lastmod>2021-09-14</lastmod>
+    <lastmod>2021-09-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://blog.beendless.com/tags/Golang/</loc>
-    <lastmod>2021-09-14</lastmod>
+    <lastmod>2021-09-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://blog.beendless.com/tags/Algorithms/</loc>
-    <lastmod>2021-09-14</lastmod>
+    <lastmod>2021-09-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://blog.beendless.com/tags/Leetcode/</loc>
-    <lastmod>2021-09-14</lastmod>
+    <lastmod>2021-09-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://blog.beendless.com/tags/Binary-Search/</loc>
-    <lastmod>2021-09-14</lastmod>
+    <lastmod>2021-09-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://blog.beendless.com/tags/Time-complexity/</loc>
-    <lastmod>2021-09-14</lastmod>
+    <lastmod>2021-09-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://blog.beendless.com/tags/Array/</loc>
-    <lastmod>2021-09-14</lastmod>
+    <lastmod>2021-09-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://blog.beendless.com/tags/Matrix/</loc>
-    <lastmod>2021-09-14</lastmod>
+    <lastmod>2021-09-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://blog.beendless.com/tags/Linked-List/</loc>
-    <lastmod>2021-09-14</lastmod>
+    <lastmod>2021-09-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://blog.beendless.com/tags/HashMap/</loc>
-    <lastmod>2021-09-14</lastmod>
+    <lastmod>2021-09-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://blog.beendless.com/tags/String/</loc>
-    <lastmod>2021-09-14</lastmod>
+    <lastmod>2021-09-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://blog.beendless.com/tags/KMP/</loc>
-    <lastmod>2021-09-14</lastmod>
+    <lastmod>2021-09-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://blog.beendless.com/tags/Queue/</loc>
-    <lastmod>2021-09-14</lastmod>
+    <lastmod>2021-09-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://blog.beendless.com/tags/Stack/</loc>
-    <lastmod>2021-09-14</lastmod>
+    <lastmod>2021-09-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://blog.beendless.com/tags/Bucket-Sort/</loc>
-    <lastmod>2021-09-14</lastmod>
+    <lastmod>2021-09-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://blog.beendless.com/tags/Top-K-Frequent/</loc>
-    <lastmod>2021-09-14</lastmod>
+    <lastmod>2021-09-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://blog.beendless.com/tags/Heap/</loc>
-    <lastmod>2021-09-14</lastmod>
+    <lastmod>2021-09-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://blog.beendless.com/tags/Priority-Queue/</loc>
-    <lastmod>2021-09-14</lastmod>
+    <lastmod>2021-09-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.beendless.com/tags/Binary-Tree/</loc>
+    <lastmod>2021-09-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.beendless.com/tags/BFS/</loc>
+    <lastmod>2021-09-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.beendless.com/tags/DFS/</loc>
+    <lastmod>2021-09-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
@@ -749,28 +784,28 @@
   
   <url>
     <loc>http://blog.beendless.com/categories/CS/</loc>
-    <lastmod>2021-09-14</lastmod>
+    <lastmod>2021-09-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://blog.beendless.com/categories/%E6%BC%B2%E6%BD%AE%EF%B9%A3%E9%80%80%E6%BD%AE/</loc>
-    <lastmod>2021-09-14</lastmod>
+    <lastmod>2021-09-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://blog.beendless.com/categories/%E8%A1%8C%E8%B5%B0%E7%9A%84%E6%A8%B9%E8%8B%97/</loc>
-    <lastmod>2021-09-14</lastmod>
+    <lastmod>2021-09-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://blog.beendless.com/categories/%E7%84%A1%E7%9F%A5%EF%B9%A3%E6%97%A0%E7%9F%A5/</loc>
-    <lastmod>2021-09-14</lastmod>
+    <lastmod>2021-09-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
