@@ -60,6 +60,56 @@ func testSymmetric(a, b *TreeNode) bool {
 }
 ```
 
+## [100. Same Tree](https://leetcode.com/problems/same-tree/)
+
+Same to the symmetric tree question.
+```golang
+func isSameTree(p *TreeNode, q *TreeNode) bool {
+    if p == nil && q == nil {
+        return true
+    } else if p != nil && q != nil && p.Val == q.Val {
+        return isSameTree(p.Left, q.Left) && isSameTree(p.Right, q.Right)
+    }
+    return false
+}
+```
+
+## [572. Subtree of Another Tree](https://leetcode.com/problems/subtree-of-another-tree/)
+
+a. Naive DFS solution
+
+We will check if the given two trees are the same or not, if not, then check if the subRoot is the sub tree of the root tree's child nodes.
+```golang
+func isSubtree(root *TreeNode, subRoot *TreeNode) bool {
+    if isSameTree(root, subRoot) {
+        return true
+    }
+    return root != nil && (isSubtree(root.Left, subRoot) || isSubtree(root.Right, subRoot))
+}
+
+func isSameTree(p *TreeNode, q *TreeNode) bool {
+    if p == nil && q == nil {
+        return true
+    } else if p != nil && q != nil && p.Val == q.Val{
+        return isSameTree(p.Left, q.Left) && isSameTree(p.Right, q.Right)
+    }
+    return false
+}
+```
+
+b. Serialize tree to string and compare the string
+```golang
+func isSubtree(root *TreeNode, subRoot *TreeNode) bool {
+    return toString(root) == toString(subRoot) || (root != nil && (isSubtree(root.Left, subRoot) ||  isSubtree(root.Right, subRoot)))
+}
+
+func toString(root *TreeNode) string {
+    if root == nil {
+        return "#"
+    }
+    return strconv.Itoa(root.Val) + toString(root.Left) + toString(root.Right)
+}
+```
 ## [559. Maximum Depth of N-ary Tree](https://leetcode.com/problems/maximum-depth-of-n-ary-tree/)
 
 a. DFS solution
@@ -200,10 +250,71 @@ When we traversing the tree, we need to push the parent nodes inforamtion to a q
 
 a. DFS
 ```golang
-
+import "strconv"
+func binaryTreePaths(root *TreeNode) []string {
+    result := []string{}
+    var dfs func(*TreeNode, string)
+    dfs = func(node *TreeNode, paths string) {
+        if node != nil {
+            p := paths + "->" + strconv.Itoa(node.Val)
+            if paths == "" {
+                p = strconv.Itoa(node.Val)
+            }
+            if node.Left == nil && node.Right == nil {
+                result = append(result, p)
+            } else {
+                if node.Left != nil {
+                    dfs(node.Left, p)
+                }
+                if node.Right != nil {
+                    dfs(node.Right, p)
+                }
+            }
+        }
+    }
+    dfs(root, "")
+    return result
+}
 ```
 
 b. BFS
 ```golang
+import "strconv"
+type TreeNodeWithPath struct {
+    Node *TreeNode
+    Path string
+}
 
+func binaryTreePaths(root *TreeNode) []string {
+    result := []string{}
+    queue := []*TreeNodeWithPath{&TreeNodeWithPath{
+        Node: root,
+        Path: strconv.Itoa(root.Val),
+    }}
+    n := 1
+    for n > 0 {
+        for i := 0; i < n; i++ {
+            twp := queue[i]
+            if twp.Node.Left == nil && twp.Node.Right == nil {
+                result = append(result, twp.Path)
+            } else {
+                if twp.Node.Left != nil {
+                    queue = append(queue, &TreeNodeWithPath{
+                        Node: twp.Node.Left,
+                        Path: twp.Path + "->" + strconv.Itoa(twp.Node.Left.Val),
+                    })
+                }
+                if twp.Node.Right != nil {
+                    queue = append(queue, &TreeNodeWithPath{
+                        Node: twp.Node.Right,
+                        Path: twp.Path + "->" + strconv.Itoa(twp.Node.Right.Val),
+                    })
+                }
+            }
+        }
+        queue = queue[n:]
+        n = len(queue)
+    }
+    return result
+}
 ```
