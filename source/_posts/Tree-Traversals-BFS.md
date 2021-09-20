@@ -1,6 +1,6 @@
 ---
 title: Tree Traversals BFS
-date: 2021-09-14 22:35:23
+date: 2021-09-14 22:35:24
 categories: CS
 tags:
     - Golang
@@ -236,6 +236,27 @@ func connect(root *Node) *Node {
 }
 ```
 
+b. DFS solution. Since the given tree is a full complete tree, we can easily use the parent node to get it's siblings children nodes.
+
+```golang
+func connect(root *Node) *Node {
+    parent := root
+    for parent.Left != nil { // Has child node
+        current := parent
+        for current != nil { // Moving from left to right
+            current.Left.Next = current.Right
+            if current.Next != nil {
+                current.Right.Next = current.Next.Left
+            }
+            current = current.Next
+        }
+        parent = parent.Left // Move to the next layer
+    }
+    return root
+}
+```
+
+* https://leetcode.wang/leetcode-116-Populating-Next-Right-Pointers-in-Each-Node.html
 
 ## [117. Populating Next Right Pointers in Each Node II](https://leetcode.com/problems/populating-next-right-pointers-in-each-node-ii/)
 
@@ -264,5 +285,80 @@ func connect(root *Node) *Node {
         }
     }
     return root
+}
+```
+
+b. DFS solution
+
+```golang
+func connect(root *Node) *Node {
+    current := root
+    for current != nil {
+        dummy := &Node{}    // Dummy pointer which points to the first node in current node's child layer
+        tail := dummy       // Using tail node to construct a linked list which head is dummy node
+        for current != nil {
+            if current.Left != nil {
+                tail.Next = current.Left
+                tail := tail.Next
+            }
+            if current.Right != nil {
+                tail.Next = current.Right
+                tail = tail.Next
+            }
+            current = current.Next
+        }
+        current = dummy.Next
+    }
+    return root
+}
+```
+
+* https://leetcode.wang/leetcode-117-Populating-Next-Right-Pointers-in-Each-NodeII.html
+
+## [104. Maximum Depth of Binary Tree](https://leetcode.com/problems/maximum-depth-of-binary-tree/)
+
+a. BFS
+```golang
+func maxDepth(root *TreeNode) int {
+    ret := 0
+    if root != nil {
+        queue := []*TreeNode{root}
+        n := len(queue)
+        for n > 0 {
+            for i := 0; i < n; i++ {
+                if node := queue[i]; node != nil {
+                    if node.Left != nil {
+                        queue = append(queue, node.Left)
+                    }
+                    if node.Right != nil {
+                        queue = append(queue, node.Right)
+                    }
+                }
+            }
+            queue = queue[n:]
+            n = len(queue)
+            ret++
+        }
+    }
+    return ret    
+}
+```
+
+b. DFS
+```golang
+func maxDepth(root *TreeNode) int {
+    return getDepth(root)
+}
+
+func getDepth(node *TreeNode) int {
+    if node != nil {
+        left := getDepth(node.Left)
+        right := getDepth(node.Right)
+        if left > right {
+            return left + 1
+        }
+        return right + 1
+    }
+    return 0
 }
 ```

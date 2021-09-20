@@ -1,6 +1,6 @@
 ---
 title: Tree Traversals DFS
-date: 2021-09-13 22:45:23
+date: 2021-09-13 22:45:24
 categories: CS
 tags:
     - Golang
@@ -295,3 +295,101 @@ func levelOrderBottom(root *TreeNode) [][]int {
     return result
 }
 ```
+
+## [111. Minimum Depth of Binary Tree](https://leetcode.com/problems/minimum-depth-of-binary-tree/)
+
+We need to pay attention to the edge case when a node only have one child node.
+```golang
+func minDepth(root *TreeNode) int {
+    return getDepth(root)
+}
+
+func getDepth(node *TreeNode) int {
+    if node != nil {
+        left := getDepth(node.Left)
+        right := getDepth(node.Right)
+        if node.Left == nil {
+            return 1 + right
+        } else if node.Right == nil {
+            return 1 + left
+        } else if left > right {
+            return 1 + right
+        }
+        return 1 + left
+    }
+    return 0
+}
+```
+
+## [226. Invert Binary Tree](https://leetcode.com/problems/invert-binary-tree/)
+
+a. DFS recursive solution
+```golang
+func invertTree(root *TreeNode) *TreeNode {
+    if root != nil {
+        root.Left, root.Right = invertTree(root.Right), invertTree(root.Left)
+    }
+    return root   
+}
+```
+
+b. BFS with queue
+```golang
+func invertTree(root *TreeNode) *TreeNode {
+    queue := []*TreeNode{root}
+    n := 1
+    for n > 0 {
+        for i := 0; i < n; i++ {
+            node := queue[i]
+            if node != nil {
+                node.Left, node.Right = node.Right, node.Left
+                queue = append(queue, node.Left)
+                queue = append(queue, node.Right)
+            }
+        }
+        queue = queue[n:]
+        n = len(queue)
+    }
+    return root   
+}
+```
+
+c. DFS without recursion (PreOrder)
+```golang
+func invertTree(root *TreeNode) *TreeNode {
+    stack := []*TreeNode{root}
+    for len(stack) > 0{
+        node := stack[len(stack) - 1]
+        stack = stack[:len(stack) - 1]
+        if node != nil {
+            node.Left, node.Right = node.Right, node.Left
+            stack = append(stack, node.Right)
+            stack = append(stack, node.Left)
+        }
+    }
+    return root
+}
+```
+
+d. DFS without recursion (PostOrder)
+```golang
+func invertTree(root *TreeNode) *TreeNode {
+    stack := []*TreeNode{root, root}
+    for len(stack) > 0 {
+        node := stack[len(stack) - 1]
+        stack = stack[:len(stack) - 1]
+        if node != nil {
+            if len(stack) > 0 && node == stack[len(stack) - 1] {
+                stack = append(stack, node.Right)
+                stack = append(stack, node.Right)
+                stack = append(stack, node.Left)
+                stack = append(stack, node.Left)
+            } else {
+                node.Left, node.Right =  node.Right, node.Left
+            }
+        }
+    }
+    return root
+}
+```
+
