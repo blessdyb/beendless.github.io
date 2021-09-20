@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.beendless.com/2021/09/19/Tree-Properties/</loc>
+    
+    <lastmod>2021-09-20</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.beendless.com/2021/09/13/Tree-Traversals-DFS/</loc>
     
     <lastmod>2021-09-20</lastmod>
