@@ -162,3 +162,48 @@ func countNodes(root *TreeNode) int {
     return countNodes(root.Left) + countNodes(root.Right) + 1
 }
 ```
+
+## [110. Balanced Binary Tree](https://leetcode.com/problems/balanced-binary-tree/)
+
+The key to solve this challenge is to get the depth of given node's left and right child.
+
+```golang
+import "math"
+func isBalanced(root *TreeNode) bool {
+    if root != nil {
+        left := getDepth(root.Left)
+        right := getDepth(root.Right)
+        if math.Abs(float64(left - right)) > float64(1) {
+            return false
+        }
+        return isBalanced(root.Left) && isBalanced(root.Right)
+    }
+    return true
+}
+
+func getDepth(root *TreeNode) int {
+    if root != nil {
+        left := getDepth(root.Left)
+        right := getDepth(root.Right)
+        if left > right {
+            return 1 + left
+        }
+        return 1 + right
+    }
+    return 0
+}
+```
+
+## [257. Binary Tree Paths](https://leetcode.com/problems/binary-tree-paths/)
+
+When we traversing the tree, we need to push the parent nodes inforamtion to a queue.
+
+a. DFS
+```golang
+
+```
+
+b. BFS
+```golang
+
+```
