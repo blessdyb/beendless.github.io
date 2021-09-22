@@ -318,3 +318,191 @@ func binaryTreePaths(root *TreeNode) []string {
     return result
 }
 ```
+
+## [404. Sum of Left Leaves](https://leetcode.com/problems/sum-of-left-leaves/)
+
+a. DFS recursive solution
+```golang
+func sumOfLeftLeaves(root *TreeNode) int {
+    if root != nil {
+        left := 0
+        right := sumOfLeftLeaves(root.Right)
+        if root.Left != nil && root.Left.Left == nil && root.Left.Right == nil {
+            left = root.Left.Val
+        } else {
+            left = sumOfLeftLeaves(root.Left)
+        }
+        return left + right
+    }
+    return 0
+}
+```
+
+b. DFS with stack (PreOrder)
+```golang
+func sumOfLeftLeaves(root *TreeNode) int {
+    result := 0
+    stack := []*TreeNode{}
+    current := root
+    for {
+        if current != nil {
+            stack = append(stack, current)
+            current = current.Left
+        } else if len(stack) > 0 {
+            current = stack[len(stack) - 1]
+            stack = stack[:len(stack) - 1]
+            if current.Left != nil && current.Left.Left == nil && current.Left.Right == nil {
+                result += current.Left.Val
+            }
+            current = current.Right
+        } else {
+            break
+        }
+    }
+    return result
+}
+```
+
+## [513. Find Bottom Left Tree Value](https://leetcode.com/problems/find-bottom-left-tree-value/)
+
+a. Naive solution is to use BFS and get the first node of last layer.
+```golang
+func findBottomLeftValue(root *TreeNode) int {
+    queue := []*TreeNode{root}
+    n := 1
+    var result int
+    for n > 0 {
+        for i := 0; i < n; i++ {
+            node := queue[i]
+            if node.Left != nil {
+                queue = append(queue, node.Left)
+            }
+            if node.Right != nil {
+                queue = append(queue, node.Right)
+            }
+        }
+        if len(queue) == n {
+            result = queue[0].Val
+            break
+        }
+        queue = queue[n:]
+        n = len(queue)
+    }
+    return result
+}
+```
+
+b. The bottom-left leaf node means two things: 1) this node laid at the bottom layer 2) this node will be reached first if we go with DFS In-Order traversal.
+```golang
+unc findBottomLeftValue(root *TreeNode) int {
+    max := 0
+    ret := root.Val
+    
+    var dfs func(*TreeNode, int)
+    dfs = func(node *TreeNode, level int) {
+        if node.Left == nil && node.Right == nil && level > max {
+            max = level
+            ret = node.Val
+        }
+        if node.Left != nil {
+            dfs(node.Left, level + 1)    
+        }
+        if node.Right != nil {
+            dfs(node.Right, level + 1)
+        }
+    }
+    dfs(root, 0)
+    return ret
+}
+```
+
+## [112. Path Sum](https://leetcode.com/problems/path-sum/)
+
+Naive DFS solution with target passing down to the next layer
+
+```golang
+func hasPathSum(root *TreeNode, targetSum int) bool {
+    if root != nil {
+        if root.Left == nil && root.Right == nil && root.Val == targetSum {
+            return true
+        }
+        return hasPathSum(root.Left, targetSum - root.Val) || hasPathSum(root.Right, targetSum - root.Val)
+    }
+    return false
+}
+```
+
+## [113. Path Sum II](https://leetcode.com/problems/path-sum-ii/)
+
+Similar to the above one, we just need to store extra information
+```golang
+func pathSum(root *TreeNode, targetSum int) [][]int {    
+    type TreeNodeWithPath struct {
+        node *TreeNode
+        path []int
+    }
+    result := [][]int{}
+    cloneAppend := func(source []int, item int) []int {
+        ret := make([]int, len(source))
+        copy(ret, source)
+        return append(ret, item)
+    }
+    var dfs func(*TreeNodeWithPath, int)
+    dfs = func(root *TreeNodeWithPath, targetSum int) {
+        if root.node != nil {
+            if root.node.Left == nil && root.node.Right == nil && root.node.Val == targetSum {
+                result = append(result, cloneAppend(root.path, root.node.Val))
+            } else {
+                dfs(&TreeNodeWithPath{
+                    node: root.node.Left,
+                    path: cloneAppend(root.path, root.node.Val),
+                }, targetSum - root.node.Val)
+                dfs(&TreeNodeWithPath{
+                    node: root.node.Right,
+                    path: cloneAppend(root.path, root.node.Val),
+                }, targetSum - root.node.Val)   
+            }
+        }
+    }
+    dfs(&TreeNodeWithPath{
+        node: root,
+        path: []int{},
+    }, targetSum)
+    return result
+}
+```
+
+**Note:**
+
+If we need to clone a slice in golang, usually we will use the snipped as below:
+
+```golang
+var a []int
+b := make([]int, len(a))
+copy(b, a)
+fmt.Println(a == nil, b == nil)
+```
+But it's not perfect, if a is nil, b wont' be nil. So we need to use `b = append(a[:0:0], a...)`
+
+* https://github.com/go101/go101/wiki/How-to-perfectly-clone-a-slice%3F
+
+## [437. Path Sum III](https://leetcode.com/problems/path-sum-iii/)
+
+Based on the problem description, we need to find out all paths from all subtrees of the given tree which sum equals to the targetSum. There's a pitfall as the edge case, once we got one path (which means the targetSum reaches to 0), we still need to continue the searching since the rest path below may get a total sum 0.
+
+```golang
+func pathSum(root *TreeNode, targetSum int) int {
+    return targetPath(root, targetSum) + pathSum(root.left, targetSum) + pathSum(root.right, targetSum)
+}
+
+func targetPath(root *TreeNode, targetSum int) int {
+    if root != nil {
+        restPath := targetPath(root.Left, targetSum - root.Val) + targetPath(root.right, targetSum - root.Val)
+        if root.Val == targetSum {
+            return 1 + restPath
+        }
+        return restPath
+    }
+    return 0
+}
+```
