@@ -6,7 +6,7 @@
   <link href="http://blog.beendless.com/atom.xml" rel="self"/>
   
   <link href="http://blog.beendless.com/"/>
-  <updated>2021-09-28T06:07:26.291Z</updated>
+  <updated>2021-09-28T06:37:01.848Z</updated>
   <id>http://blog.beendless.com/</id>
   
   <author>
@@ -15,6 +15,36 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Modify Trees</title>
+    <link href="http://blog.beendless.com/2021/09/27/Modify%20Trees/"/>
+    <id>http://blog.beendless.com/2021/09/27/Modify%20Trees/</id>
+    <published>2021-09-28T06:35:24.000Z</published>
+    <updated>2021-09-28T06:37:01.848Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="701-Insert-into-a-Binary-Search-Tree"><a href="#701-Insert-into-a-Binary-Search-Tree" class="headerlink" title="701. Insert into a Binary Search Tree"></a><a href="https://leetcode.com/problems/insert-into-a-binary-search-tree/">701. Insert into a Binary Search Tree</a></h2><p>Naive BST recursively traversal</p><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">insertIntoBST</span><span class="params">(root *TreeNode, val <span class="keyword">int</span>)</span> *<span class="title">TreeNode</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> root == <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> &amp;TreeNode&#123;val&#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> root.Val &gt; val &#123;</span><br><span class="line">        root.Left = insertIntoBST(root.Left, val)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> root.Val &lt; val &#123;</span><br><span class="line">        root.Right = insertIntoBST(root.Right, val)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> root</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h2 id="450-Delete-Node-in-a-BST"><a href="#450-Delete-Node-in-a-BST" class="headerlink" title="450. Delete Node in a BST"></a><a href="https://leetcode.com/problems/delete-node-in-a-bst/">450. Delete Node in a BST</a></h2><p>Naive BST recursively traversal</p><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">deleteNode</span><span class="params">(root *TreeNode, key <span class="keyword">int</span>)</span> *<span class="title">TreeNode</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> root != <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> root.Val == key &#123;</span><br><span class="line">            <span class="keyword">if</span> root.Right == <span class="literal">nil</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> root.Left</span><br><span class="line">            &#125;</span><br><span class="line">            node := root.Right</span><br><span class="line">            <span class="keyword">for</span> node.Left != <span class="literal">nil</span> &#123;</span><br><span class="line">                node = node.Left</span><br><span class="line">            &#125;</span><br><span class="line">            node.Left = root.Left</span><br><span class="line">            <span class="keyword">return</span> root.Right</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> root.Val &lt; key &#123;</span><br><span class="line">            root.Right = deleteNode(root.Right, key)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            root.Left = deleteNode(root.Left, key)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> root</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h2 id="108-Convert-Sorted-Array-to-Binary-Search-Tree"><a href="#108-Convert-Sorted-Array-to-Binary-Search-Tree" class="headerlink" title="108. Convert Sorted Array to Binary Search Tree"></a><a href="https://leetcode.com/problems/convert-sorted-array-to-Binary-search-tree/">108. Convert Sorted Array to Binary Search Tree</a></h2><h2 id="669-Trim-a-Binary-Search-Tree"><a href="#669-Trim-a-Binary-Search-Tree" class="headerlink" title="669. Trim a Binary Search Tree"></a><a href="https://leetcode.com/problems/trim-a-binary-search-tree/">669. Trim a Binary Search Tree</a></h2><h2 id="538-Convert-BST-to-Greater-Tree"><a href="#538-Convert-BST-to-Greater-Tree" class="headerlink" title="538. Convert BST to Greater Tree"></a><a href="https://leetcode.com/problems/convert-bst-to-greater-tree/">538. Convert BST to Greater Tree</a></h2>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;701-Insert-into-a-Binary-Search-Tree&quot;&gt;&lt;a href=&quot;#701-Insert-into-a-Binary-Search-Tree&quot; class=&quot;headerlink&quot; title=&quot;701. Insert into a B</summary>
+      
+    
+    
+    
+    <category term="CS" scheme="http://blog.beendless.com/categories/CS/"/>
+    
+    
+    <category term="Golang" scheme="http://blog.beendless.com/tags/Golang/"/>
+    
+    <category term="Algorithms" scheme="http://blog.beendless.com/tags/Algorithms/"/>
+    
+    <category term="Leetcode" scheme="http://blog.beendless.com/tags/Leetcode/"/>
+    
+    <category term="Binary Tree" scheme="http://blog.beendless.com/tags/Binary-Tree/"/>
+    
+  </entry>
   
   <entry>
     <title>Search in Trees</title>
@@ -607,32 +637,6 @@
     <category term="JavaScript" scheme="http://blog.beendless.com/tags/JavaScript/"/>
     
     <category term="Functional Programming" scheme="http://blog.beendless.com/tags/Functional-Programming/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Understand X-Forwarded-Proto</title>
-    <link href="http://blog.beendless.com/2020/10/26/Understand-X-Forwarded-Proto/"/>
-    <id>http://blog.beendless.com/2020/10/26/Understand-X-Forwarded-Proto/</id>
-    <published>2020-10-27T00:13:24.000Z</published>
-    <updated>2020-10-27T00:27:45.542Z</updated>
-    
-    <content type="html"><![CDATA[<p>HTTP requests and HTTP responses use header fields to send information about the HTTP messages. Header fields are colon-separated name-value pairs that are separated by a carriage return (CR) and a line feed (LF). A standard set of HTTP header fields is defined in RFC 2616. There are also non-standard HTTP headers available that are widely used by the applications. Some of the non-standard HTTP headers have an X-Forwarded prefix. </p><p>The <code>X-Forwarded-Proto</code> request header helps you identify the protocol (HTTP or HTTPS) that a client used to connect to your servers. For example, if you host your website application behind a proxy server, let’s say AWS Loadbalancer. If there’s only one layer in front of the AWS load balancer, then the <code>X-Forwarded-Proto</code> value could be either <code>http</code> or <code>https</code> (it depends on how client connect to the load balancer). </p><p>Usually it won’t be an issue. But if you have multiple proxy servers in front of your application, for instance, user will have to go through CDN, WAF, Load balancer to hit your application, then the value of <code>X-Forwarded-Proto</code> depends on how the last two layers connect to each other instead of the protocal from client. Which means if user open the website with HTTPS mode, then you will have issue to set up the <code>secured cookie</code> in your HTTP response. </p><p>Here is an example, you set up an applicatio with ExpressJS under HTTPS model. In front your application, you have <code>Fastly</code>, <code>Imperva</code> and <code>AWS ALB</code>. Now if you are using <code>express-session</code> to set up your user session with below configuration:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">proxy: true,</span><br><span class="line">cookie: &#123;</span><br><span class="line">  secure: true,</span><br><span class="line">  httpOnly: true,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>Then if you rely on the default value of <code>X-Forwarded-Proto</code> from <code>AWS ALB</code>, you are not able to set up the session cookie. You have to either force <code>AWS ALB</code> to pass <code>X-Forwarded-Proto</code> as <code>HTTPS</code> or you can write a simple middleware to ignore the value from load balancer like below:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;* eslint-disable no-param-reassign *&#x2F;</span><br><span class="line">app.use((req, res, next) &#x3D;&gt; &#123;</span><br><span class="line">  req.headers[&#39;x-forwarded-proto&#39;] &#x3D; &#39;https&#39;;</span><br><span class="line">  return next();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;HTTP requests and HTTP responses use header fields to send information about the HTTP messages. Header fields are colon-separated name-va</summary>
-      
-    
-    
-    
-    
-    <category term="HTTP" scheme="http://blog.beendless.com/tags/HTTP/"/>
-    
-    <category term="NodeJS" scheme="http://blog.beendless.com/tags/NodeJS/"/>
-    
-    <category term="AWS" scheme="http://blog.beendless.com/tags/AWS/"/>
     
   </entry>
   
