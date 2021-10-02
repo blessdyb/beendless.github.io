@@ -6,7 +6,7 @@
   <link href="http://blog.beendless.com/atom.xml" rel="self"/>
   
   <link href="http://blog.beendless.com/"/>
-  <updated>2021-10-02T01:07:37.589Z</updated>
+  <updated>2021-10-02T04:22:43.318Z</updated>
   <id>http://blog.beendless.com/</id>
   
   <author>
@@ -15,6 +15,36 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Backtracking - Subsets</title>
+    <link href="http://blog.beendless.com/2021/10/01/Backtracking%20-%20Subsets/"/>
+    <id>http://blog.beendless.com/2021/10/01/Backtracking%20-%20Subsets/</id>
+    <published>2021-10-02T03:05:24.000Z</published>
+    <updated>2021-10-02T04:22:43.318Z</updated>
+    
+    <content type="html"><![CDATA[<p>Backtracking can also help us to get all subsets of a given slice. If Combination and Partitioning problems can be converted to get root-to-leaf paths during a tree DFS traversal, Subsets can be treated as getting all root-to-node paths during a tree DFS traversal.</p><h2 id="78-Subsets"><a href="#78-Subsets" class="headerlink" title="78. Subsets"></a><a href="https://leetcode.com/problems/subsets/">78. Subsets</a></h2><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">subsets</span><span class="params">(nums []<span class="keyword">int</span>)</span> [][]<span class="title">int</span></span> &#123;</span><br><span class="line">    result := [][]<span class="keyword">int</span>&#123;[]<span class="keyword">int</span>&#123;&#125;&#125;</span><br><span class="line">    path := []<span class="keyword">int</span>&#123;&#125;</span><br><span class="line">    length := <span class="built_in">len</span>(nums)</span><br><span class="line">    <span class="keyword">var</span> backtracking <span class="function"><span class="keyword">func</span><span class="params">(<span class="keyword">int</span>)</span></span></span><br><span class="line">    backtracking = <span class="function"><span class="keyword">func</span><span class="params">(index <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">        <span class="keyword">if</span> index == length &#123;</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; length; i++ &#123;</span><br><span class="line">            path = <span class="built_in">append</span>(path, nums[i])</span><br><span class="line">            temp := <span class="built_in">make</span>([]<span class="keyword">int</span>, <span class="built_in">len</span>(path))</span><br><span class="line">            <span class="built_in">copy</span>(temp, path)</span><br><span class="line">            result = <span class="built_in">append</span>(result, temp)</span><br><span class="line">            backtracking(i + <span class="number">1</span>)</span><br><span class="line">            path = path[:<span class="built_in">len</span>(path) - <span class="number">1</span>]</span><br><span class="line">        &#125; </span><br><span class="line">    &#125;</span><br><span class="line">    backtracking(<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h2 id="90-Subsets-II"><a href="#90-Subsets-II" class="headerlink" title="90. Subsets II"></a><a href="https://leetcode.com/problems/subsets-ii/">90. Subsets II</a></h2>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;Backtracking can also help us to get all subsets of a given slice. If Combination and Partitioning problems can be converted to get root-</summary>
+      
+    
+    
+    
+    <category term="CS" scheme="http://blog.beendless.com/categories/CS/"/>
+    
+    
+    <category term="Golang" scheme="http://blog.beendless.com/tags/Golang/"/>
+    
+    <category term="Algorithms" scheme="http://blog.beendless.com/tags/Algorithms/"/>
+    
+    <category term="Leetcode" scheme="http://blog.beendless.com/tags/Leetcode/"/>
+    
+    <category term="Subsets" scheme="http://blog.beendless.com/tags/Subsets/"/>
+    
+  </entry>
   
   <entry>
     <title>Backtracking - Partioning</title>
@@ -615,38 +645,6 @@
     <category term="Leetcode" scheme="http://blog.beendless.com/tags/Leetcode/"/>
     
     <category term="Time complexity" scheme="http://blog.beendless.com/tags/Time-complexity/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Binary Search Code Template Deep Dive</title>
-    <link href="http://blog.beendless.com/2021/08/12/Binary-Search-Deep-Dive/"/>
-    <id>http://blog.beendless.com/2021/08/12/Binary-Search-Deep-Dive/</id>
-    <published>2021-08-13T05:45:23.000Z</published>
-    <updated>2021-08-17T02:58:56.619Z</updated>
-    
-    <content type="html"><![CDATA[<p>Let’s take a look at a easy problem on Leetcode <a href="https://leetcode.com/problems/binary-search/">704. Binary Search</a>. Besides the brute-force O(n) solution, it’s not hard to get the O(log(n)) solution from the constrains <code>unique</code> and <code>sorted in ascending order</code>. Binary search is one of the most basic algorithms we are using, but most people couldn’t get the right code.</p><p>Based on the open/close intervals, there are two different templates for Binary Search code:</p><h2 id="Left-closed-Right-closed-left-right"><a href="#Left-closed-Right-closed-left-right" class="headerlink" title="Left-closed, Right-closed [left, right]"></a>Left-closed, Right-closed [left, right]</h2><p>Two tips if you chose this one：</p><ul><li>Use <code>left &lt;= right</code> for the loop condition checking</li><li>When narrowing dow to a sub-range, use <code>left = middle + 1</code> or <code>right = middle - 1</code></li></ul><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">search</span><span class="params">(nums []<span class="keyword">int</span>, target <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">start, end := <span class="number">0</span>, <span class="built_in">len</span>(nums) - <span class="number">1</span></span><br><span class="line"><span class="keyword">for</span> start &lt;= end &#123;</span><br><span class="line">middle := (start + end) / <span class="number">2</span></span><br><span class="line"><span class="keyword">if</span> nums[middle] == target &#123;</span><br><span class="line"><span class="keyword">return</span> middle</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> nums[middle] &gt; target &#123;</span><br><span class="line">end = middle - <span class="number">1</span></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">start = middle + <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>Golang Playbook: <a href="https://play.golang.org/p/g_mimUUYz2H">https://play.golang.org/p/g_mimUUYz2H</a></p><h2 id="Left-closed-Right-opened-left-right"><a href="#Left-closed-Right-opened-left-right" class="headerlink" title="Left-closed, Right-opened [left, right)"></a>Left-closed, Right-opened [left, right)</h2><p>Samething above, two similar tips for this template:</p><ul><li>Use <code>left &lt; right</code> for the loop condition checking, it’s because 0-based array list, the right open interval is invalid index.</li><li>When narrowing down to a sub-range, use <code>left = middle + 1</code> and <code>right = middle</code> to keep the consistance of the intervals</li></ul><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">search</span><span class="params">(nums []<span class="keyword">int</span>, target <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">left, right := <span class="number">0</span>, <span class="built_in">len</span>(nums)</span><br><span class="line"><span class="keyword">for</span> left &lt; right &#123;</span><br><span class="line">middle := left + (right-left)/<span class="number">2</span></span><br><span class="line"><span class="keyword">if</span> nums[middle] == target &#123;</span><br><span class="line"><span class="keyword">return</span> middle</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> nums[middle] &gt; target &#123;</span><br><span class="line">right = middle</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">left = middle + <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>Golang Playbook: <a href="https://play.golang.org/p/tkUkoNElKSV">https://play.golang.org/p/tkUkoNElKSV</a></p><p>Another important thing to keep in mind is that the range overflow. You may notice that when we calculate the new sub ranges above, we are using <code>middle := left + (right-left)/2</code> instead of <code>middle := (left + right)/2</code>. So what’s the difference between those two? Mathmatically there’s no difference, but in computer world, the later one postentially can cause an overflow issue when the range of the array is too large. <code>left + right</code> could be larger than the biggest <code>int</code>.</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;Let’s take a look at a easy problem on Leetcode &lt;a href=&quot;https://leetcode.com/problems/binary-search/&quot;&gt;704. Binary Search&lt;/a&gt;. Besides th</summary>
-      
-    
-    
-    
-    <category term="CS" scheme="http://blog.beendless.com/categories/CS/"/>
-    
-    
-    <category term="Golang" scheme="http://blog.beendless.com/tags/Golang/"/>
-    
-    <category term="Algorithms" scheme="http://blog.beendless.com/tags/Algorithms/"/>
-    
-    <category term="Leetcode" scheme="http://blog.beendless.com/tags/Leetcode/"/>
-    
-    <category term="Binary Search" scheme="http://blog.beendless.com/tags/Binary-Search/"/>
-    
-    <category term="Array" scheme="http://blog.beendless.com/tags/Array/"/>
     
   </entry>
   
