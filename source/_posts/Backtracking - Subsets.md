@@ -37,3 +37,34 @@ func subsets(nums []int) [][]int {
 ```
 
 ## [90. Subsets II](https://leetcode.com/problems/subsets-ii/)
+
+It's similar to #78, the only difference is we can't have duplicated subsets, which means we can't pick the same value at the same tree level during traversal.
+
+```golang
+import "sort"
+func subsetsWithDup(nums []int) [][]int {
+    sort.Ints(nums)
+    result := [][]int{[]int{}}
+    path := []int{}
+    length := len(nums)
+    var backtracking func(int)
+    backtracking = func(index int) {
+        if index == length {
+            return
+        }
+        for i := index; i < length; i++ {
+            if i > index && nums[i] == nums[i - 1] {
+                continue
+            }
+            path := append(path, nums[i])
+            temp := make([]int, len(path))
+            copy(temp, path)
+            result = append(result, temp)
+            backtracking(i + 1)
+            path = path[:len(path) - 1]
+        }
+    }
+    backtracking(0)
+    return result
+}
+```
