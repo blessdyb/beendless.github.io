@@ -68,3 +68,38 @@ func subsetsWithDup(nums []int) [][]int {
     return result
 }
 ```
+
+## [491. Increasing Subsequences](https://leetcode.com/problems/increasing-subsequences/)
+
+Since we can't sort the given slice, so we have to use a hashmap / array to save the used nodes in the same layer.
+
+```golang
+func findSubsequences(nums []int) [][]int {
+    result := [][]int{}
+    path := []int{}
+    length := len(nums)
+    var backtracking func(int)
+    backtracking = func(index int) {
+        if len(apth) == length {
+            return
+        }
+        used := make(map[int]bool)
+        for i := index; i < length; i++ {
+            if (len(path) > 0 && path[len(path) - 1] > nums[i]) || used[nums[i]] {
+                continue
+            }
+            used[nums[i]] = true
+            path = append(path, nums[i])
+            if len(path) >= 2 {
+                temp := make([]int, len(path))
+                copy(temp, path)
+                result = append(result, temp)
+            }
+            backtracking(i + 1)
+            path = path[:len(path) - 1]
+         }
+    }
+    backtracking(0)
+    return result
+}
+```

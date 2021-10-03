@@ -393,3 +393,34 @@ func invertTree(root *TreeNode) *TreeNode {
 }
 ```
 
+## [332. Reconstruct Itinerary](https://leetcode.com/problems/reconstruct-itinerary/)
+
+We are given a direct graph, and we need to get the node traversal result. 
+```golang
+import "sort"
+func findItinerary(tickets [][]string) []string {
+    ticketsMap := make(map[string][]string)
+    for _, ticket := range tickets {
+        ticketsMap[ticket[0]] = append(ticketsMap[ticket[0]], ticket[1])
+    }
+    for key := range ticketsMap {
+        sort.Strings(ticketsMap[key])
+    }
+    path := []string{}
+    var visit func(string)
+    visit = func(from string) {
+        for len(ticketsMap[from]) > 0 {
+            to := ticketsMap[from][0]
+            ticketsMap[from] = ticketsMap[from][1:]
+            visit(to)
+        }
+        path = append(path, from)
+    }
+    visit("JFK")
+    for i, j := 0, len(path) - 1; i < j; i, j = i + 1, j - 1 {
+        path[i], path[j] = path[j], path[i]
+    }
+    return path
+}
+```
+
