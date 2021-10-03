@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.beendless.com/2021/10/01/Backtracking%20-%20Chessboard/</loc>
+    
+    <lastmod>2021-10-03</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.beendless.com/2021/10/01/Backtracking%20-%20Subsets/</loc>
     
     <lastmod>2021-10-03</lastmod>
