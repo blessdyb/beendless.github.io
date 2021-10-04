@@ -184,7 +184,7 @@ A naive idea is to iterate over all nodes, so the worse time complexity could be
     3          4
 ```
 
-The first jump range is 1~2, the second is 3~4, here the range 3~2 doesn't need to be visited again. With this in mind, we can use tree-like traversal solution with queue or two pointers sliding window to fix this issue.
+The first jump range is 1 ~ 2, the second is 3 ~ 4, here the range 3 ~ 2 doesn't need to be visited again. With this in mind, we can use tree-like traversal solution with queue or two pointers sliding window to fix this issue.
 
 
 a. Queue with traversal solution
