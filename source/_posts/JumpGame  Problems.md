@@ -60,12 +60,15 @@ a. Greedy solution
 
 Each time, we will jump to a position which can make us future jumping even further. And each jump will resolve to a coverage range as below, so the total jump steps will be the sum of times we reach to the edge of the coverge range.
 
+```
 | 2 | 3 | 1 | 1 | 4 | 5 | 1 | 2 |
 
 |---------->|
     |-------------->|
 
                 |-------------->|
+```
+
 ```golang
 func jump(nums []int) int {
     result := 0
@@ -173,11 +176,13 @@ func canReach(arr []int, start int) bool {
 
 A naive idea is to iterate over all nodes, so the worse time complexity could be O(n * k) [K = maxJump - minJump] which most likely will cause a TLE issue. A keypoint to solve this problem is we need to avoid the duplicated node visiting. One way is we can use a hashmap to note all visited elements. Another method is that we can bypass the overlap like below:
 
+```
 01010101010101011111
   |--------->|
   1          2
     |--------->|
     3          4
+```
 
 The first jump range is 1~2, the second is 3~4, here the range 3~2 doesn't need to be visited again. With this in mind, we can use tree-like traversal solution with queue or two pointers sliding window to fix this issue.
 
