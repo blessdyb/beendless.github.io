@@ -7,6 +7,7 @@ tags:
     - Algorithms
     - Leetcode
     - Stack
+    - Sliding Window
 ---
 
 ## [20. Valid Parentheses](https://leetcode.com/problems/valid-parentheses/)

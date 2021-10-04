@@ -12,6 +12,7 @@ tags:
     - DFS
     - Dynamic Programming
     - Two Pointers
+    - Sliding Window
 ---
 
 ## [55. Jump Game](https://leetcode.com/problems/jump-game/)
@@ -172,9 +173,47 @@ func canReach(arr []int, start int) bool {
 
 ## [1696. Jump Game VI](https://leetcode.com/problems/jump-game-vi/)
 
+A naive idea is to iterate over all nodes, so the worse time complexity could be O(n * k) [K = maxJump - minJump] which most likely will cause a TLE issue. This one can be considered as a classic [sliding window](/tags/Sliding-Window/) maximum problem. Since dp[i] = nums[i] + max(dp[i - k], ... , dp[i - 1]). We just need to maintain the maximum dp value in the sliding window during the iteration.
+
+```
+01010101010101011111
+
+|---------(i)------|
+    |----->|
+    i-k    i-1
+|----------(i + 1)------|
+     |----->|
+     i-k+1  i
+```
+
+
+```golang
+func maxResult(nums []int, k int) int {
+    length := len(nums)
+    queue := []int{0}      // stores the dp indexes of the sliding window items
+    dp := make([]int, length)
+    dp[0] = nums[0]
+    for i := 1; i < length; i++ {
+        maxSumIndex := queue[0]
+        dp[i] = nums[i] + dp[maxSumIndex]
+        for len(queue) > 0 && dp[queue[len(queue) - 1]] <= dp[i] { // sliding window queue contains all values in a desending order
+            queue = queue[:len(queue) - 1]
+        }
+        for len(queue) > 0 && i - queue[0] >= k {  // remove the index which is going to out of the window
+            queue = queue[1:]
+        }
+        queue = append(queue, dp[i])
+    }
+    return dp[length - 1]
+}
+```
+
+
+
+
 ## [1871. Jump Game VII](https://leetcode.com/problems/jump-game-vii/)
 
-A naive idea is to iterate over all nodes, so the worse time complexity could be O(n * k) [K = maxJump - minJump] which most likely will cause a TLE issue. A keypoint to solve this problem is we need to avoid the duplicated node visiting. One way is we can use a hashmap to note all visited elements. Another method is that we can bypass the overlap like below:
+Same as the above one, a naive dp will get a TLE. A keypoint to solve this problem is we need to avoid the duplicated node visiting. One way is we can use a hashmap to note all visited elements. Another method is that we can bypass the overlap like below:
 
 ```
 01010101010101011111

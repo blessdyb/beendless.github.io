@@ -9,6 +9,20 @@
   </url>
   
   <url>
+    <loc>http://blog.beendless.com/2021/09/12/Query-with-Stack/</loc>
+    
+    <lastmod>2021-10-04</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.beendless.com/2021/09/07/Two-Pointers/</loc>
+    
+    <lastmod>2021-10-04</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.beendless.com/2021/10/03/Stock%20Exchange%20Problems/</loc>
     
     <lastmod>2021-10-04</lastmod>
@@ -93,23 +107,9 @@
   </url>
   
   <url>
-    <loc>http://blog.beendless.com/2021/09/12/Query-with-Stack/</loc>
-    
-    <lastmod>2021-09-14</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://blog.beendless.com/2021/09/13/Heap-and-Heap-Sort/</loc>
     
     <lastmod>2021-09-13</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.beendless.com/2021/09/07/Two-Pointers/</loc>
-    
-    <lastmod>2021-09-12</lastmod>
     
   </url>
   
@@ -901,6 +901,13 @@
   
   <url>
     <loc>http://blog.beendless.com/tags/Two-Pointers/</loc>
+    <lastmod>2021-10-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.beendless.com/tags/Sliding-Window/</loc>
     <lastmod>2021-10-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
