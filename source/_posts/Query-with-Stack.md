@@ -8,6 +8,7 @@ tags:
     - Leetcode
     - Stack
     - Sliding Window
+    - Dynamic Programming
 ---
 
 ## [20. Valid Parentheses](https://leetcode.com/problems/valid-parentheses/)
@@ -144,3 +145,64 @@ func simplifyPath(path string) string {
     return "/" + strings.Join(dirs, "/")
 }
 ```
+
+## [32. Longest Valid Parentheses](https://leetcode.com/problems/longest-valid-parentheses/)
+
+a. Stack solution
+
+Since it's a pattern matching problem, the first algorithm in our toolbox could be stack. If we store the previous index of current valid parentheses on the top of the stack, we can quickly get the length of the valid parentheses end with current index by using the current index minus the peak value at the stack
+
+```golang
+func longestValidParentheses(s string) int {
+    max := 0
+    stack := []int{-1}
+    for i := 0; i < len(s); i++ {
+        if s[i] == '(' {
+            stack = append(stack, i)
+        } else {
+            stack = stack[:len(stack) - 1]
+            if len(stack) > 0 {
+                if max < i - stack[len(stack) - 1] {
+                    max = i - stack[len(stack) - 1]
+                }
+            } else {
+                stack = append(stack, i)
+            }
+        }
+    }
+    return max
+}
+```
+
+
+b. Dynamic programming solution
+
+Usually if the requirement is to get a min/max value, we can try dynamic programming.
+
+```golang
+func longestValidParentheses(s string) int {
+    max := 0
+    dp := make(int[], len(s))  // dp[i] denotes the valid parentheses string end with index i, it means if s[i] is left parentheses, dp[i] is 0
+    for i := 1; i < len(s); i++ {
+        if s[i] == ')' {
+            if s[i - 1] == '(' {   // for cases end with a valid parentheses .....()
+                if i >= 2 {
+                    dp[i] = dp[i - 2] + 2
+                } else {
+                    dp[i] = 2
+                }
+            } else if i - dp[i - 1] > 0 && s[i - dp[i - 1] - 1] == ')' { // for cases end with two right parentheses  .......))
+                dp[i] = dp[i - 1] + 2
+                if i - dp[i - 1] >= 2 {
+                    dp[i] += dp[i - dp[i - 1] - 2]
+                }
+            }
+            if max < dp[i] {
+                max = dp[i]
+            }
+        }
+    }
+    return max
+}
+```
+
