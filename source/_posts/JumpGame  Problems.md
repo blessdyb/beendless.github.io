@@ -222,6 +222,46 @@ func minJumps(arr []int) int {
 
 ## [1340. Jump Game V](https://leetcode.com/problems/jump-game-v/)
 
+To resolve this problem, we need to understand ` you can only jump from index i to index j if arr[i] > arr[j] and arr[i] > arr[k] for all indices k between i and j (More formally min(i, j) < k < max(i, j)).`. Let's say we stand at index i, and jumping from i - 1, i + 1 until i - d, i + d inside of for loops. We need to break the loop if we find a k between [i-d, i) or (i, i + d] which makes arr[k] >= arr[i].
+
+```golang
+func maxJumps(arr []int, d int) int {
+    result := 0
+    length := len(arr)
+    dp := make([]int, length)
+    max := func(a, b int) int {
+        if a > b {
+            return a
+        }
+        return b
+    }
+    min := func(a, b int) int {
+        if a > b {
+            return b
+        }
+        return a
+    }
+    var jump func(int) int
+    jump = func(index int) int {
+        if dp[index] == 0 {
+            dp[index] = 1
+            for i := index - 1; i >= max(0, index - d) && arr[i] < arr[index]; i-- {
+                dp[index] = max(dp[index], jump(i) + 1)
+            }
+            for i := index + 1; i <= min(length - 1, index + d) && arr[i] < arr[index]; i++ {
+                dp[index] = max(dp[index], jump(i) + 1)
+            }
+        }
+        return dp[index]
+    }
+    for i := 0; i < length; i++ {
+        dp[i] = jump(i)
+        result = max(dp[i], result)
+    }
+    return result
+}
+```
+
 ## [1696. Jump Game VI](https://leetcode.com/problems/jump-game-vi/)
 
 A naive idea is to iterate over all nodes, so the worse time complexity could be O(n * k) [K = maxJump - minJump] which most likely will cause a TLE issue. This one can be considered as a classic [sliding window](/tags/Sliding-Window/) maximum problem. Since dp[i] = nums[i] + max(dp[i - k], ... , dp[i - 1]). We just need to maintain the maximum dp value in the sliding window during the iteration.
@@ -318,7 +358,7 @@ func canReach(s string, minJump int, maxJump int) bool {
 }
 ```
 
-b. Two pointers sliding window
+b. Two pointers
 
 
 ```golang
