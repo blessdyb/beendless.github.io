@@ -67,8 +67,6 @@ func canCompleteCircuit(gas []int, cost []int) int {
 
 ## [135. Candy](https://leetcode.com/problems/candy/)
 
-a. Greedy solution
-
 Since the rating only have effect to neighbour candy distribution. We can start from one end to distribution the candy once, to make sure all children are happy when looking to their right. Then we make another round from the other end.
 
 ```golang
