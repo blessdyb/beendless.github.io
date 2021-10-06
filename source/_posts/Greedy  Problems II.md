@@ -93,3 +93,41 @@ func candy(ratings []int) int {
     return result
 }
 ```
+
+## [860. Lemonade Change](https://leetcode.com/problems/lemonade-change/)
+
+A greedy solution will be if we have $10, we provide $10 to customers who pay with $20.
+
+```golang
+func lemonadeChange(bills []int) bool {
+    five := 0
+    ten := 0
+    for i := 0; i < len(bills); i++ {
+        switch bills[i] {
+        case 5:
+            five++
+        case 10:
+            ten++
+            if five >= 1 {
+                five --
+            } else {
+                return false
+            }
+        case 20:
+            if ten == 0 {
+                if five < 3 {
+                    return false
+                }
+                five -= 3
+            } else if ten > 0 {
+                ten--
+                if five == 0 {
+                    return false
+                }
+                five--
+            }   
+        }
+    }
+    return true
+}
+```
