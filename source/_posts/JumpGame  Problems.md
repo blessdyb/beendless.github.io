@@ -10,6 +10,7 @@ tags:
     - JumpGame
     - Binary Tree
     - DFS
+    - BFS
     - Dynamic Programming
     - Two Pointers
     - Sliding Window
@@ -168,6 +169,56 @@ func canReach(arr []int, start int) bool {
 ```
 
 ## [1345. Jump Game IV](https://leetcode.com/problems/jump-game-iv/)
+
+This is a classical tree traversal with BFS problem. From each array index we can jump to multiple elements simoteniously, those nextstep elements can be consiered as the tree node's child nodes. So we jump to all nodes's children nodes at once which can be considered as one jump (BFS). Since the same value of the nodes can jump to each other, we have to mark the nodes values which have been pushed to the queue to make sure we don't push the same nodes back to the queue (even we have a visited flag, we can easily run out of memory without another same number flag under this edge case if we have 1000 same value nodes in the slice). 
+
+```golang
+func minJumps(arr []int) int {
+    length := len(arr)
+    if length < 3 {
+        return length - 1
+    }
+    jumpIndexes := make(map[int][]int)
+    for i, v := range arr {
+        jumpIndexes[v] = append(jumpIndexes[v], i)
+    }
+    queue := make([]int, 1)
+    queue[0] = 0
+    result := 0
+    visited := make([]bool, length)
+    sameNumberVisited := make(map[int]bool) // Have a flag is one thing, another solution is to remove the sameNumber key from the jumpIndexes hashmap.
+    n := len(queue)
+    for n > 0 {
+        for i := 0; i < n; i++ {
+            index := queue[i]
+            if index == length - 1 {
+                return result
+            }
+            if !visited[index] {
+                visited[index] = true
+                if index - 1 >= 0 && !visited[index - 1]{
+                    queue = append(queue, index - 1)
+                }
+                if index + 1 < length && !visited[index + 1] {
+                    queue = append(queue, index + 1)
+                }
+                if !sameNumberVisited[arr[index]] {
+                    sameNumberVisited[arr[index]] = true
+                    for _, v := range jumpIndexes[arr[index]] {
+                        if !visited[v] {
+                            queue = append(queue, v)
+                        }
+                    }
+                }
+            }
+        }
+        queue = queue[n:]
+        n = len(queue)
+        result++
+    }
+    return result
+}
+```
 
 ## [1340. Jump Game V](https://leetcode.com/problems/jump-game-v/)
 
