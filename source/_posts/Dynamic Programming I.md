@@ -64,3 +64,45 @@ func climbStairs(n int) int {
     return dp[n]
 }
 ```
+
+## [746. Min Cost Climbing Stairs](https://leetcode.com/problems/min-cost-climbing-stairs/)
+
+Denote dp[i] to the cost we want to step away from stair ith,  so the state transition function: `dp[i] = dp[i - 1] + dp[i - 2]`. 
+
+```golang
+func minCostClimbingStairs(cost []int) int {
+    n := len(cost)
+    dp := make([]int, n)
+    min := func(a, b int) int {
+        if a < b {
+            return a
+        }
+        return b
+    }
+    dp[0] = cost[0]
+    dp[1] = cost[1]
+    for i := 2; i < n; i++ {
+        dp[i] = min(dp[i - 1], dp[i - 2]) + cost[i]
+    }
+    return min(dp[n - 1], dp[n - 2])
+}
+```
+
+Another way to think about it 
+
+```golang
+func minCostClimbingStairs(cost []int) int {
+    n := len(cost)
+    dp := make([]int, n + 1)
+    min := func(a, b int) int {
+        if a < b {
+            return a
+        }
+        return b
+    }
+    for i := 2; i <= n; i++ {
+        dp[i] = min(dp[i - 1] + cost[i - 1], dp[i - 2] + cost[i - 2])
+    }
+    return dp[n]
+}
+```
