@@ -131,3 +131,25 @@ func lemonadeChange(bills []int) bool {
     return true
 }
 ```
+
+## [406. Queue Reconstruction by Height](https://leetcode.com/problems/queue-reconstruction-by-height/)
+
+Since there are to demensions, and the demension k depends on h, the idea is we sort the given slice by h as the primary order, k as the secondary order. After that, we use the insert sorting algorithm to insert all slice items one by one based on the k value to a new slice.
+
+```golang
+func reconstructQueue(people [][]int) [][]int {
+    result := [][]int{}
+    sort.Slice(people, func(a, b int) bool { // order by h desc, order by k asc
+        if people[a][0] == people[b][0] {
+            return people[a][1] < people[b][1]
+        }
+        return people[a][0] > people[b][0]
+    })
+    for _, p := range people {
+        result = append(result, p)
+        copy(result[p[1] + 1:], result[p[1]:])
+        result[p[1]] = p
+    }
+    return result
+}
+```
