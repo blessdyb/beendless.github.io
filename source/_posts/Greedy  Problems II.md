@@ -153,3 +153,57 @@ func reconstructQueue(people [][]int) [][]int {
     return result
 }
 ```
+
+## [452. Minimum Number of Arrows to Burst Balloons](https://leetcode.com/problems/minimum-number-of-arrows-to-burst-balloons/)
+
+A greedy solution is we choose the shoot point which is the most line segments overlaped as a local optimal, it also leads to a global optimal solution. For example, we have four segments as below. If we sort them by the start point, we can easily get a first point should be between e ~ b. It means we iterate all segments, if the current segment's start point is no great than the previous one's end point, we can merge those two by reseting the current one's end point to the minimum number between itself and the previous one's end point.
+
+```
+|--------------|
+a              b
+    |-----------------|
+    c                 d
+       |---------|
+       e         f
+                   |---------|
+                   g         h
+```
+
+```golang
+func findMinArrowShots(points [][]int) int {
+    sort.Slice(points, func(a, b int) bool {
+        return points[a][0] < points[b][0]
+    })
+    result := 1
+    for i := 1; i < len(points); i++ {
+        if points[i][0] > points[i - 1][1] {
+            result++
+        } else if points[i][1] > points[i - 1][1] {
+            points[i][1] = points[i - 1][1]
+        }
+    }
+    return result
+
+}
+```
+
+## [435. Non-overlapping Intervals](https://leetcode.com/problems/non-overlapping-intervals/)
+
+This one is a similar problem as #452. An intuition to solve this kind of problem is sort if first. Since all line segments have two points, we have two choices to sort it. The local optimal to find the interval is the end of current segment should have a distance between the next one's start point. With this in mind, we can quickly get the total of intervals. So if we sort by the end point, we can iterate from left to right. Otherwise, we need to reverse the iteration order.
+
+```golang
+func eraseOverlapIntervals(intervals [][]int) int {
+    sort.Slice(intervals, func(a, b int) bool {
+        return intervals[a][1] < intervals[b][1]
+    })
+    end := intervals[0][1]
+    count := 1
+    for i := 1; i < len(intervals); i++ {
+        if end <= intervals[i][0] {
+            count++
+            end = intervals[i][1]
+        }
+    }
+    return len(intervals) - count
+}
+```
