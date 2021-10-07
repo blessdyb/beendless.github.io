@@ -106,3 +106,43 @@ func minCostClimbingStairs(cost []int) int {
     return dp[n]
 }
 ```
+
+## [62. Unique Paths](https://leetcode.com/problems/unique-paths/)
+
+It's easy to get the state transition function `dp[i][j] = dp[i - 1][j] + dp[i][j - 1]` . Note for the special case first line and first row, the value is 1.
+
+```golang
+func uniquePaths(m int, n int) int {
+    dp := make([][]int, m)
+    for i := 0; i < m; i++ {
+        dp[i] = make([]int, n)
+        dp[i][0] = 1
+    }
+    for i := 0; i < n; i++ {
+        dp[0][i] = 1
+    }
+    for i := 1; i < m; i++ {
+        for j := 1; j < n; j++ {
+            dp[i][j] = dp[i - 1][j] + dp[i][j - 1]
+        }
+    }
+    return dp[m - 1][n - 1]
+}
+```
+
+Based on the state transition function, dp[i][j] is defined only by two values, so we can optimize the space complexity from O(m * n) to O(n) by using a new state transition function `dp[j] = dp[j] + dp[j - 1]`
+
+```golang
+func uniquePaths(m int, n int) int {
+    dp := make([]int, n)
+    for i := 0; i < n; i++ {
+        dp[i] = 1
+    }
+    for i := 1; i < m; i++ {
+        for j := 1; j < n; j++ {
+            dp[j] += dp[j - 1]
+        }
+    }
+    return dp[n - 1]
+}
+```
