@@ -177,3 +177,34 @@ func uniquePathsWithObstacles(obstacleGrid [][]int) int {
     return dp[n - 1]
 }
 ```
+
+## [343. Integer Break](https://leetcode.com/problems/integer-break/)
+
+The key point of solving this problem is to get the state transition function. There are two cases:
+1) we can split the number i into two i - j and j
+2) we can split the number into more than two, this case we can reuse the cached value from dp array.  dp[i - j] * j 
+
+So the state transition function `dp[i] = max(dp[i], dp[i - j] * j, (i - j) * j)`
+
+```golang
+func integerBreak(n int) int {
+    dp := make([]int, n + 1)
+    dp[1] = 1
+    dp[2] = 1
+    max := func(a, b int) int {
+        if a > b {
+            return a
+        }
+        return b
+    }
+    for i := 3; i <= n; i++ {
+        for j := 1; j < i; j++ {
+            two := j * (i - j)
+            twoMore := j * dp[i - j]
+            dp[i] = max(dp[i], max(two, twoMore))
+        }
+    }
+    return dp[n]
+}
+```
+
