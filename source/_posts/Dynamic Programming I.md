@@ -67,7 +67,7 @@ func climbStairs(n int) int {
 
 ## [746. Min Cost Climbing Stairs](https://leetcode.com/problems/min-cost-climbing-stairs/)
 
-Denote dp[i] to the cost we want to step away from stair ith,  so the state transition function: `dp[i] = dp[i - 1] + dp[i - 2]`. 
+Denote dp[i] to the cost we want to step away from stair ith,  so the state transition function: `min(dp[i - 1], dp[i - 2]) + cost[i]`. 
 
 ```golang
 func minCostClimbingStairs(cost []int) int {
@@ -84,11 +84,11 @@ func minCostClimbingStairs(cost []int) int {
     for i := 2; i < n; i++ {
         dp[i] = min(dp[i - 1], dp[i - 2]) + cost[i]
     }
-    return min(dp[n - 1], dp[n - 2])
+    return min(dp[n - 1], dp[n - 2]) // To reach to stair n, we can step away from n - 1 or n - 2
 }
 ```
 
-Another way to think about it 
+Another way to think about it. If we denote dp[i] as the cost to reach to ith stair, the state transition function is `dp[n] = min(dp[i - 1] + cost[i - 1], dp[i - 2] + cost[i - 2])`
 
 ```golang
 func minCostClimbingStairs(cost []int) int {
