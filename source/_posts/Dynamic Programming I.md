@@ -177,6 +177,3 @@ func uniquePathsWithObstacles(obstacleGrid [][]int) int {
     return dp[n - 1]
 }
 ```
-
-
-## [980. Unique Paths III](https://leetcode.com/problems/unique-paths-iii/)

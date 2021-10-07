@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.beendless.com/2021/10/01/Backtracking%20-%20Chessboard/</loc>
+    
+    <lastmod>2021-10-07</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.beendless.com/2021/10/06/Dynamic%20Programming%20I/</loc>
     
     <lastmod>2021-10-07</lastmod>
@@ -54,13 +61,6 @@
     <loc>http://blog.beendless.com/2021/10/03/Greedy%20%20Problems%20I/</loc>
     
     <lastmod>2021-10-04</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.beendless.com/2021/10/01/Backtracking%20-%20Chessboard/</loc>
-    
-    <lastmod>2021-10-03</lastmod>
     
   </url>
   

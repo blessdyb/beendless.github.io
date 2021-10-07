@@ -167,3 +167,73 @@ func solveSudoku(board [][]byte)  {
     backtracking()
 }
 ```
+
+## [980. Unique Paths III](https://leetcode.com/problems/unique-paths-iii/)
+
+A classical backtracking problem. The backtracking state transition function is `backtracking(i, j) = backtracking(i + 1, j) + backtracking(i - 1, j) + backtracking(i, j - 1) + backtracking(i, j + 1)`, also we need to keep tracking the global state of the grid.
+
+```golang
+func uniquePathsIII(grid [][]int) int {
+    m := len(grid)
+    n := len(grid[0])
+    visited := make([][]bool, m)
+    count := 0
+    start := []int{}
+    end := []int{}
+    for i := 0; i < m; i++ {
+        visited[i] = make([]bool, n)
+        for j := 0; j < n; j++ {
+            if grid[i][j] == 1 {
+                start = []int{i, j}
+                visited[i][j] = true
+            } else if grid[i][j] == 2 {
+                end = []int{i, j}
+            } else if grid[i][j] == -1 {
+                visited[i][j] = true
+            }
+        }
+    }
+    isSuccess := func(x, y int) bool {
+        if x != end[0] || y != end[1] {
+            return false
+        }
+        for i := 0; i < m; i++ {
+            for j := 0; j < n; j++ {
+                if !visited[i][j] {
+                    return false
+                }
+            }
+        }
+        return true
+    }
+    var visit func(i, j int)
+    visit = func(i, j int) {
+        if isSuccess(i, j) {
+            count++
+            return
+        }
+        if i - 1 >= 0 && !visited[i - 1][j] {
+            visited[i-1][j] = true
+            visit(i-1, j)
+            visited[i-1][j] = false
+        }
+        if i + 1 < m && !visited[i + 1][j] {
+            visited[i+1][j] = true
+            visit(i+1, j)
+            visited[i+1][j] = false
+        }
+        if j - 1 >= 0 && !visited[i][j - 1] {
+            visited[i][j-1] = true
+            visit(i, j - 1)
+            visited[i][j-1] = false
+        }    
+        if j + 1 < n && !visited[i][j + 1] {
+            visited[i][j+1] = true
+            visit(i, j + 1)   
+            visited[i][j+1] = false
+        }
+    }
+    visit(start[0], start[1])
+    return count
+}
+```
