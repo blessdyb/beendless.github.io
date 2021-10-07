@@ -146,3 +146,37 @@ func uniquePaths(m int, n int) int {
     return dp[n - 1]
 }
 ```
+
+## [63. Unique Paths II](https://leetcode.com/problems/unique-paths-ii/)
+
+This is a similar problem to #62. The only difference is that we need to reset the path sum to 0 if there's an obstacle at the coordinate.
+
+```golang
+func uniquePathsWithObstacles(obstacleGrid [][]int) int {
+    m := len(obstacleGrid)
+    n := len(obstacleGrid[0])
+    dp := make([]int, n)
+    for i := 0; i < n; i++ {
+        if obstacleGrid[0][i] = 1 {
+            dp[i] = 0
+        } else if i == 0 {
+            dp[i] = 1
+        } else {
+            dp[i] = dp[i - 1]
+        }
+    }
+    for i := 1; i < m; i++ {
+        for j := 0; j < n; j++ {
+            if obstacleGrid[i][j] == 1{
+                dp[i] = 0
+            } else if j > 0 {
+                dp[i] += dp[i - 1]
+            }
+        }
+    }
+    return dp[n - 1]
+}
+```
+
+
+## [980. Unique Paths III](https://leetcode.com/problems/unique-paths-iii/)
