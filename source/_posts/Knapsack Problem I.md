@@ -84,3 +84,4 @@ Note: the two solutions above are using `bool` value as dp array value type, we 
 
 ## [698. Partition to K Equal Sum Subsets](https://leetcode.com/problems/partition-to-k-equal-sum-subsets/)
 
+## [1049. Last Stone Weight II](https://leetcode.com/problems/last-stone-weight-ii/)
