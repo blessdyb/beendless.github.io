@@ -1,6 +1,6 @@
 ---
 title: Knapsack Problems I
-date: 2021-10-06 22:00:24
+date: 2021-10-07 22:00:24
 categories: CS
 tags:
     - Golang
