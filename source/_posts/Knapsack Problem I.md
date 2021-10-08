@@ -80,3 +80,5 @@ func canPartition(nums []int) bool {
 Note: the two solutions above are using `bool` value as dp array value type, we can also use `int` to store the sum we can get. So the state transition function will be `dp[j] = max(dp[j], dp[j - nums[i]] + nums[i])`. At the end, we just need to veryfy `dp[target] == target`.
 
 ## [1049. Last Stone Weight II](https://leetcode.com/problems/last-stone-weight-ii/)
+
+To make the 
