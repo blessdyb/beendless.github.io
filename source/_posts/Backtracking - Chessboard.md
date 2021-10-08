@@ -340,7 +340,7 @@ func canPartitionKSubsets(nums []int, k int) bool {
     if sum % k != 0 {
         return false
     }
-    target := sum / 4
+    target := sum / k
     n := len(nums)
     sort.Slice(nums, func(a, b int) bool { // Sort the slice by desc with a greedy way, so we can quickly get the target number
         return a > b
@@ -364,7 +364,7 @@ func canPartitionKSubsets(nums []int, k int) bool {
         for i := index; i < n; i++ {
             if !visited[i] {
                 visited[i] = true
-                if acc + nums[i] <= target && backtracking(index + 1, partition, acc + nums[i]) {
+                if backtracking(i + 1, partition, acc + nums[i]) {
                     return true
                 }
                 visited[i] = false
