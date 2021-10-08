@@ -1,6 +1,6 @@
 ---
 title: Backtracking - Chessboard
-date: 2021-10-01 22:25:24
+date: 2021-10-01 22:26:24
 categories: CS
 tags:
     - Golang
@@ -235,5 +235,96 @@ func uniquePathsIII(grid [][]int) int {
     }
     visit(start[0], start[1])
     return count
+}
+```
+
+## [473. Matchsticks to Square](https://leetcode.com/problems/matchsticks-to-square/)
+
+Similar to chessboard problem, each matchtick has four choices and we need to try all options.
+
+```golang
+func makesquare(matchsticks []int) bool {
+    sum := 0
+    for _, matchstick := range matchsticks {
+        sum += matchstick
+    }
+    if sum % 4 != 0 {
+        return false
+    }
+    target := sum / 4
+    n := len(matchsticks)
+    sort.Ints(matchsticks)
+    if matchsticks[n - 1] > target {
+        return false
+    }
+    sides := [4]int{0, 0, 0, 0}
+    var backtracking func(int) bool
+    backtracking = func(index int) bool {
+        if index == n {
+            return sides[0] == target && sides[1] == target && sides[2] == target
+        }
+        for i := 0; i < 4; i++ {
+            if sides[i] + matchsticks[index] <= target {
+                sides[i] += matchsticks[index]
+                if backtracking(index + 1) {
+                    return true
+                }
+                sides[i] -= matchsticks[index]
+            }
+        }
+        return false
+    }
+    return backtracking(0)
+}
+```
+
+## [698. Partition to K Equal Sum Subsets](https://leetcode.com/problems/partition-to-k-equal-sum-subsets/)
+
+Same to #473, here we just need to change the sides from 4 to a dynamic value k.
+
+```golang
+func canPartitionKSubsets(nums []int, k int) bool {
+    sum := 0
+    for _, num := range nums {
+        sum += num
+    }
+    if sum % k != 0 {
+        return false
+    }
+    sort.Slice(nums, func(a, b int) bool {
+        return a > b
+    })
+    target := sum / k
+    n := len(nums)
+    if nums[n - 1] > target {
+        return false
+    }
+    for n > 0 && nums[n - 1] == target {
+        n--
+        k--
+    }
+    subsets := make([]int, k)
+    var backtracking func(int) bool
+    backtracking = func(index int) bool {
+        if index == n {
+            for _, subset := range subsets {
+                if subset != target {
+                    return false
+                }
+            }
+            return true
+        }
+        for i := 0; i < k; i++ {
+            if subsets[i] + nums[index] <= target {
+                subsets[i] += nums[index]
+                if backtracking(index + 1) {
+                    return true
+                }
+                subsets[i] -= nums[index]
+            }
+        }
+        return false
+    }
+    return backtracking(0)
 }
 ```
