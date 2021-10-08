@@ -80,3 +80,7 @@ func canPartition(nums []int) bool {
 Note: the two solutions above are using `bool` value as dp array value type, we can also use `int` to store the sum we can get. So the state transition function will be `dp[j] = max(dp[j], dp[j - nums[i]] + nums[i])`. At the end, we just need to veryfy `dp[target] == target`.
 
 
+## [473. Matchsticks to Square](https://leetcode.com/problems/matchsticks-to-square/)
+
+## [698. Partition to K Equal Sum Subsets](https://leetcode.com/problems/partition-to-k-equal-sum-subsets/)
+

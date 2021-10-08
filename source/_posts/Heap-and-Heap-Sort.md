@@ -1,6 +1,6 @@
 ---
 title: Heap and Heap Sort
-date: 2021-09-13 12:45:23
+date: 2021-09-13 12:46:23
 categories: CS
 tags:
     - Golang
@@ -221,4 +221,94 @@ func compareFn(a, b string, mapping map[string]int) bool {
     return strings.Compare(b, a) == -1
 }
 
+```
+
+
+## [1046. Last Stone Weight](https://leetcode.com/problems/last-stone-weight/)
+
+a. Naive solution
+
+```golang
+func lastStoneWeight(stones []int) int {
+    sort.Ints(stones)
+    length := len(stones)
+    for length > 1 {
+        y := stones[length - 1]
+        x := stones[length - 2]
+        stones = stones[:length - 2]
+        length -= 2
+        if y != x {
+            stones = append(stones, y - x)
+            sort.Ints(stones)
+            length++
+        }
+    }
+    if length == 1 {
+        return stones[0]
+    }
+    return 0
+}
+```
+
+b. Heap solution
+
+Since we always need to get the largest numbers, it's easy to get it from a Max-Heap structure.
+
+```golang
+func lastStoneWeight(stones []int) int {
+    n := len(stones)
+    heap := []int{}
+    pushToHeap := func(value int) {
+        heap = append(heap, value)
+        index := len(heap) - 1
+        for index > 0 {
+            parent := (index - 1) / 2
+            if heap[parent] < heap[index] {
+                heap[parent], heap[index] = heap[index], heap[parent]
+                index = parent
+            } else {
+                break
+            }
+        }
+    }
+    popFromHeap := func() int {
+        value := heap[0]
+        heap[0] = heap[len(heap) - 1]
+        heap = heap[:len(heap) - 1]
+        index := 0
+        for index < len(heap) {
+            left := index * 2 + 1
+            right := index * 2 + 2
+            if left < len(heap) && right >= len(heap) && heap[index] < heap[left] {
+                heap[left], heap[index] = heap[index], heap[left]
+                index = left
+            } else if right < len(heap) && (heap[index] < heap[left] || heap[index] < heap[right]) {
+                if heap[left] > heap[right] {
+                    heap[left], heap[index] = heap[index], heap[left]
+                    index = left
+                } else {
+                    heap[right], heap[index] = heap[index], heap[right]
+                    index = right
+                }
+            } else {
+                break   
+            }
+        }
+        return value
+    }
+    for i := 0; i < n; i++ {
+        pushToHeap(stones[i])
+    }
+    for len(heap) > 1 {
+        y := popFromHeap()
+        x := popFromHeap()
+        if x != y {
+            pushToHeap(y - x)
+        }
+    }
+    if len(heap) == 1 {
+        return heap[0]
+    }
+    return 0
+}
 ```
