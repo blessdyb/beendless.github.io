@@ -328,3 +328,50 @@ func canPartitionKSubsets(nums []int, k int) bool {
     return backtracking(0)
 }
 ```
+
+Another faster backtracking solution is to accumulate the successful partition.
+
+```golang
+func canPartitionKSubsets(nums []int, k int) bool {
+    sum := 0
+    for _, num := range nums {
+        sum += num
+    }
+    if sum % k != 0 {
+        return false
+    }
+    target := sum / 4
+    n := len(nums)
+    sort.Slice(nums, func(a, b int) bool { // Sort the slice by desc with a greedy way, so we can quickly get the target number
+        return a > b
+    })
+    if nums[n - 1] > target {
+        return false
+    }
+    for n > 0 && nums[n - 1] == target {
+        n--
+        k--
+    }
+    visited := make([]bool, n)
+    var backtracking func(int, int, int) bool
+    backtracking = func(index, partition, acc int) bool {
+        if partition == k {
+            return true
+        }
+        if acc == target {
+            return backtracking(0, partition + 1, 0)
+        }
+        for i := index; i < n; i++ {
+            if !visited[i] {
+                visited[i] = true
+                if acc + nums[i] <= target && backtracking(index + 1, partition, acc + nums[i]) {
+                    return true
+                }
+                visited[i] = false
+            }
+        }
+        return false
+    }
+    return backtracking(0, 0, 0)
+}
+```
