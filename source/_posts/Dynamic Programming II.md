@@ -68,7 +68,7 @@ func findTargetSumWays(nums []int, target int) int {
 }
 ```
 
-c. Knapsack solution
+c. Knapsack solution (subset sum)
 
 Based on the problem description, we will have two subsets. One with positive symbol (s1) and another one with negative symbol (s2).  So `s1 + s2 = sum`  and `s1 - s2 = target`. We can convert this problem to a 0-1 knapsack problem --- find a subset which subtotal is `s1 = (sum + target) / 2`.
 
@@ -102,5 +102,34 @@ func findTargetSumWays(nums []int, target int) int {
         }
     }
     return dp[n][target] * int(math.Pow(float64(2), float64(zero)))
+}
+```
+
+We can use 1D rolling array to reduce the space complexity.
+
+```golang
+func findTargetSumWays(nums []int, target int) int {
+    sum := 0
+    zeros := 0
+    sort.Ints(nums)
+    for _, num := range nums {
+        sum += num
+        if num == 0 {
+            zeros++
+        }
+    }
+    if sum < target || -sum > target || (sum + target) % 2 == 1 {
+        return 0
+    }
+    n := len(nums)
+    target = (sum + target) / 2
+    dp := make([]int, target + 1)
+    dp[0] = 1
+    for i := 0; i < n; i++ {
+        for j := target; j >= nums[i]; j-- {
+            dp[j] += dp[j - nums[i]]
+        }
+    }
+    return dp[target] * int(math.Pow(float64(2), float64(zeros)))
 }
 ```

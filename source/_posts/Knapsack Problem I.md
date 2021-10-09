@@ -81,6 +81,8 @@ Note: the two solutions above are using `bool` value as dp array value type, we 
 
 ## [1049. Last Stone Weight II](https://leetcode.com/problems/last-stone-weight-ii/)
 
+a. Dynamic programming
+
 To get the minimum result, we need to try our best to split the stones into two similar weight subsets. Let's denote the `sum` as the total weight of all stones, so we need to find `target = sum/2` to get the minimum `sum - 2 * target`
 
 ```golang
@@ -130,3 +132,34 @@ func lastStoneWeightII(stones []int) int {
 }
 ```
 
+b. Brute-force Set 
+
+We can get all possible combinations of the sum and find the minimum absolute value.
+
+```golang
+func lastStoneWeightII(stones []int) int {
+    sum := stones[0]
+    hash := make(map[int]bool)
+    hash[stones[0]] = true
+    hash[-stones[0]] = true
+    n := len(stones)
+    for i := 1; i < n; i++ {
+        sum += stones[i]
+        temp := make(map[int]bool)
+        for key, _ := range hash {
+            temp[key + stones[i]] = true
+            temp[key - stones[i]] = true
+        }
+        hash = temp
+    }
+    result := sum + 1
+    for key, _ := range hash {
+        if key >= 0 && key < result{
+            result = key
+        } else if key < 0 && -key < result {
+            result = -key
+        }
+    }
+    return result
+}
+```
