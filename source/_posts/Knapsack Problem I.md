@@ -81,4 +81,52 @@ Note: the two solutions above are using `bool` value as dp array value type, we 
 
 ## [1049. Last Stone Weight II](https://leetcode.com/problems/last-stone-weight-ii/)
 
-To make the 
+To get the minimum result, we need to try our best to split the stones into two similar weight subsets. Let's denote the `sum` as the total weight of all stones, so we need to find `target = sum/2` to get the minimum `sum - 2 * target`
+
+```golang
+func lastStoneWeightII(stones []int) int {
+    sum := 0
+    for _, stone := range stones {
+        sum += stone
+    }
+    target := sum / 2
+    n := len(stones)
+    dp := make([][]int, n + 1)
+    for i := 0; i <= n; i++ {
+        dp[i] = make([]int, target + 1)
+    }
+    for i := 1; i <= n; i++ {
+        for j := 0; j <= target; j++ {
+            if j >= stones[i - 1] && dp[i - 1][j] < dp[i - 1][j - stones[i - 1]] + stones[i - 1] {
+                dp[i][j] = dp[i - 1][j - stones[i - 1]] + stones[i - 1]
+            } else {
+                dp[i][j] = dp[i - 1][j]
+            }
+        }
+    }
+    return sum - 2 * dp[n][target]
+}
+```
+
+We can use 1D rolling array
+
+```golang
+func lastStoneWeightII(stones []int) int {
+    sum := 0
+    for _, stone := range stones {
+        sum += stone
+    }
+    target := sum / 2
+    n := len(stones)
+    dp := make([]int, target + 1)
+    for i := 0; i < n; i++ {
+        for j := target; j >= stones[i]; j-- {
+            if dp[j] < dp[j - stones[i]] + stones[i] {
+                dp[j] = dp[j - stones[i]] + stones[i]
+            }
+        }
+    }
+    return sum - 2 * dp[target]
+}
+```
+

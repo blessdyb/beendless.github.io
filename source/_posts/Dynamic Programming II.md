@@ -44,7 +44,7 @@ func findTargetSumWays(nums []int, target int) int {
     for _, num := range nums {
         sum += num
     }
-    if sum < target || -sum > target {
+    if sum < target || -sum > target || (sum + target) % 2 != 0 {
         return 0
     }
     n := len(nums)
@@ -53,14 +53,18 @@ func findTargetSumWays(nums []int, target int) int {
         dp[i] = make([]int, 2 * sum + 1)
     }
     dp[0][sum + nums[0]] = 1
-    dp[0][sum - nums[0]] += 1 // in case nums[0] is 0
+    dp[0][sum - nums[0]] += 1
     for i := 1; i < n; i++ {
         for j := -sum; j <= sum; j++ {
-            dp[i][j + sum + nums[i]] += dp[i - 1][j + sum]
-            dp[i][j + sum - nums[i]] += dp[i - 1][j + sum]
+            if j + nums[i] < sum + 1 {
+                dp[i][j + sum + nums[i]] += dp[i - 1][j + sum]
+            }   
+            if j + sum - nums[i] >= 0 {
+                dp[i][j + sum - nums[i]] += dp[i - 1][j + sum]   
+            }
         }
     }
-    return dp[n - 1][target + sum]
+    return dp[n - 1][sum + target]
 }
 ```
 
