@@ -1,12 +1,13 @@
 ---
 title: Dynamic Programming I
-date: 2021-10-06 22:00:24
+date: 2021-10-06 22:00:25
 categories: CS
 tags:
     - Golang
     - Algorithms
     - Leetcode
     - Dynamic Programming
+    - Knapsack
 ---
 
 Dynamic Programming (commonly referred to as DP) is an algorithmic technique for solving a problem by recursively breaking it down into simpler subproblems and using the fact that the optimal solution to the overall problem depends upon the optimal solution to it's individual subproblems. Here is an interesting Quora question [How should I explain dynamic programming to a 4-year-old?](https://www.quora.com/How-should-I-explain-dynamic-programming-to-a-4-year-old).
@@ -60,6 +61,24 @@ func climbStairs(n int) int {
     dp[2] = 2
     for i := 3; i <= n; i++ {
         dp[i] = dp[i - 1] + dp[i - 2]
+    }
+    return dp[n]
+}
+```
+
+If given we can climb the stairs from 1 ~ m steps each time, how to solve this problem? It becomes a full knapsack problem now. And the state transition function is `dp[i] += dp[i - j]`, here 2 is the special case.
+
+```golang
+func climbStairs(n int) int {
+    steps := []int{1, 2}
+    dp := make([]int, n + 1)
+    dp[0] = 1
+    for i := 1; i <= n; i++ {
+        for j := 0; j < len(steps); j++ {
+            if i >= steps[j] {
+                dp[i] += dp[i - steps[j]]
+            }
+        }
     }
     return dp[n]
 }
