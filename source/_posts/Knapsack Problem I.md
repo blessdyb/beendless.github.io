@@ -284,13 +284,27 @@ for i := 0; i <= len(nums); i++ {
 }
 ```
 
-**full knapsack template**
+**full knapsack template to get the combination of items**
 ```golang
 dp := make([]int, amount + 1)
 dp[0] = // Initial value based on the problem
 // dp[i] = // Initial value based on the problem, could be 0 for total solutions counting or min/max value to get the maximum/minimum expectation
 for i := 0; i < len(nums); i++ {
     for j := nums[i]; j <= amount; j++ {
+        // state transition function
+        // dp[j] += dp[j - nums[i]]
+        // dp[j] = min(dp[j], dp[j - nums[i]] + nums[i])
+    }
+}
+```
+
+**full knapsack template to get the permutation of items**
+```golang
+dp := make([]int, amount + 1)
+dp[0] = // Initial value based on the problem
+// dp[i] = // Initial value based on the problem, could be 0 for total solutions counting or min/max value to get the maximum/minimum expectation
+for j := 0; j <= amount; j++ {
+    for i := 0; i < len(nums); i++ {
         // state transition function
         // dp[j] += dp[j - nums[i]]
         // dp[j] = min(dp[j], dp[j - nums[i]] + nums[i])
