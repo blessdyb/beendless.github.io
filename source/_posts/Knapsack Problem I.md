@@ -1,6 +1,6 @@
 ---
 title: Knapsack Problems I
-date: 2021-10-07 22:02:24
+date: 2021-10-07 22:12:24
 categories: CS
 tags:
     - Golang
@@ -164,8 +164,6 @@ func lastStoneWeightII(stones []int) int {
 }
 ```
 
-
-
 ## [474. Ones and Zeroes](https://leetcode.com/problems/ones-and-zeroes/)
 
 Each items have two properties (1 amount and 0 amount) and we need to get the maximum sum of a subset based on the two dememsion restrictions (total 1 amount n and total 0 amount m). It can be considered as a classical two dememsion 0-1 knapsack problem. So the state transition function is `dp[i][j] = max(dp[i][j], dp[i - zeros][j - ones] + 1)` (Note, ideally we need 3D array to solve this problem, but based on the state transition function, we can reduce to a 2D rolling array with reverse for-loop).
@@ -251,5 +249,51 @@ func coinChange(coins []int, amount int) int {
         return -1
     }
     return dp[amount]
+}
+```
+
+## [518. Coin Change 2](https://leetcode.com/problems/coin-change-2/)
+
+This is is also a full knapsack problem. The difference between this and the above is that we need to get the amount of combinations. So the state transition function is `dp[i] += dp[i - coins[j]]`. Since here each coin change solution is a combination problem instead of permutation problem, we can only iterate the coins first. If we iterate the knapsack space first, we will get the duplicated result like [[coins[0], coins[1]], [coins[1], coins[0]]]. 
+
+```golang
+func change(amount int, coins []int) int {
+    dp := make([]int, amount + 1)
+    dp[0] = 1
+    for i := 0; i < len(coins); i++ {
+        for j := coins[i]; j <= amount; j++ {
+            dp[j] += dp[j - coins[i]]
+        }
+    }
+    return  dp[amount]
+}
+```
+
+Based on the problems above, we can get a knapsack problem solution template
+
+**0-1 knapsack template**
+```golang
+dp := make([]int, amount + 1)
+dp[0] = // Initial value based on the problem
+for i := 0; i <= len(nums); i++ {
+    for j := amount; j >= nums[i]; j-- {
+        // state transition function
+        // dp[j] = dp[j] || dp[j - nums[i]]
+        // dp[j] = max(dp[j], dp[j - nums[i]] + nums[i])
+    }
+}
+```
+
+**full knapsack template**
+```golang
+dp := make([]int, amount + 1)
+dp[0] = // Initial value based on the problem
+// dp[i] = // Initial value based on the problem, could be 0 for total solutions counting or min/max value to get the maximum/minimum expectation
+for i := 0; i < len(nums); i++ {
+    for j := nums[i]; j <= amount; j++ {
+        // state transition function
+        // dp[j] += dp[j - nums[i]]
+        // dp[j] = min(dp[j], dp[j - nums[i]] + nums[i])
+    }
 }
 ```
