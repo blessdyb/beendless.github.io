@@ -1,6 +1,6 @@
 ---
 title: Knapsack Problems I
-date: 2021-10-07 22:00:24
+date: 2021-10-07 22:02:24
 categories: CS
 tags:
     - Golang
@@ -161,5 +161,33 @@ func lastStoneWeightII(stones []int) int {
         }
     }
     return result
+}
+```
+
+
+
+## [474. Ones and Zeroes](https://leetcode.com/problems/ones-and-zeroes/)
+
+Each items have two properties (1 amount and 0 amount) and we need to get the maximum sum of a subset based on the two dememsion restrictions (total 1 amount n and total 0 amount m). It can be considered as a classical two dememsion 0-1 knapsack problem. So the state transition function is `dp[i][j] = max(dp[i][j], dp[i - zeros][j - ones] + 1)` (Note, ideally we need 3D array to solve this problem, but based on the state transition function, we can reduce to a 2D rolling array with reverse for-loop).
+
+```golang
+func findMaxForm(strs []string, m int, n int) int {
+    dp := make([][]int, m + 1)
+    for i := 0; i <= m; i++ {
+        dp[i] = make([]int, n + 1)
+    }
+    for _, str := range strs {
+        ones := strings.Count("1")
+        zeros := strings.Count("0")
+        for i := m; i >= zeros; i-- {
+            for j := n; j >= ones; j-- {
+                pickme := dp[i - zeros][j - ones] + 1
+                if dp[i][j] < pickme {
+                    dp[i][j] = pickme
+                }
+            }
+        }
+    }
+    return dp[m][j]
 }
 ```
