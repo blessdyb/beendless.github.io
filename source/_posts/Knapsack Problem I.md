@@ -191,3 +191,65 @@ func findMaxForm(strs []string, m int, n int) int {
     return dp[m][j]
 }
 ```
+
+## [322. Coin Change](https://leetcode.com/problems/coin-change/)
+
+This is a classical full knapsack problem. The state transition function is `dp[i] = min(dp[i], dp[i - coins[i]] + 1)`. Since we need to get the minimal number, so the initial value needs to be an integer which is out of the scope (except dp[0] which is 0). We can either use `math.MaxInt32` or `amount + 1`
+
+a. Traverse knapsack volume first.
+
+```golang
+func coinChange(coins []int, amount int) int {
+    dp := make([]int, amount + 1)
+    dp[0] = 0
+    for i := 0; i <= amount; i++ {
+        dp[i] = math.MaxInt32
+    }
+    min := func(a, b int) int {
+        if a < b {
+            return a
+        }
+        return b
+    }
+    for i := 1; i <= amount; i++ {
+        for j := 0; j < len(coins); j++ {
+            if i >= coins[j] && dp[i - coins[j]] != math.MaxInt32 { // If we pick one current coin and there's some calculated solution to the state dp[i - coins[j]] which is not the initial value, then we have a valid solution
+                dp[i] = min(dp[i], dp[i - coins[j]] + 1)
+            }
+        }   
+    }
+    if dp[amount] == math.MaxInt32 {
+        return -1
+    }
+    return dp[amount]
+}
+```
+
+b. Traverse items first.
+
+```golang
+func coinChange(coins []int, amount int) int {
+    dp := make([]int, amount + 1)
+    dp[0] = 0
+    for i := 1; i <= amount; i++ {
+        dp[i] = math.MaxInt32
+    }
+    min := func(a, b int) int {
+        if a < b {
+            return a
+        }
+        return b
+    }
+    for i := 0; i < len(coins); i++ {
+        for j := coins[i]; j <= amount; j++ {
+            if dp[j - coins[i]] != math.MaxInt32 {
+                dp[j] = min(dp[j], dp[j - coins[i]] + 1)   
+            }
+        }
+    }
+    if dp[amount] == math.MaxInt32 {
+        return -1
+    }
+    return dp[amount]
+}
+```
