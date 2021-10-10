@@ -6,7 +6,7 @@
   <link href="http://blog.beendless.com/atom.xml" rel="self"/>
   
   <link href="http://blog.beendless.com/"/>
-  <updated>2021-10-10T06:59:12.097Z</updated>
+  <updated>2021-10-10T06:59:44.587Z</updated>
   <id>http://blog.beendless.com/</id>
   
   <author>
@@ -18,10 +18,10 @@
   
   <entry>
     <title>Knapsack Problems II</title>
-    <link href="http://blog.beendless.com/2021/10/10/Knapsack%20Problem%20II/"/>
-    <id>http://blog.beendless.com/2021/10/10/Knapsack%20Problem%20II/</id>
-    <published>2021-10-11T05:12:24.000Z</published>
-    <updated>2021-10-10T06:59:12.097Z</updated>
+    <link href="http://blog.beendless.com/2021/10/09/Knapsack%20Problem%20II/"/>
+    <id>http://blog.beendless.com/2021/10/09/Knapsack%20Problem%20II/</id>
+    <published>2021-10-10T05:12:24.000Z</published>
+    <updated>2021-10-10T06:59:44.587Z</updated>
     
     <content type="html"><![CDATA[<h2 id="377-Combination-Sum-IV"><a href="#377-Combination-Sum-IV" class="headerlink" title="377. Combination Sum IV"></a><a href="https://leetcode.com/problems/combination-sum-iv">377. Combination Sum IV</a></h2><p>This is also a full knapsack problem. It looks similar to the <a href="/2021/10/07/Knapsack%20Problem%20I/">coins change ii</a>, but the difference here is that we need to get the permutation of the solutions instead of combination. So in this case we need to iterate the knapsack space first, then iterate the items.</p><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">combinationSum4</span><span class="params">(nums []<span class="keyword">int</span>, target <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    dp := <span class="built_in">make</span>([]<span class="keyword">int</span>, target + <span class="number">1</span>)</span><br><span class="line">    dp[<span class="number">0</span>] = <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">1</span>; i &lt;= target; i++ &#123;</span><br><span class="line">        <span class="keyword">for</span> j := <span class="number">0</span>; j &lt; <span class="built_in">len</span>(nums); j++ &#123;</span><br><span class="line">            <span class="keyword">if</span> i &gt;= nums[j] &#123;</span><br><span class="line">                dp[i] += dp[i - nums[j]]</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp[target]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
     
