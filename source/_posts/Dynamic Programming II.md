@@ -1,6 +1,6 @@
 ---
 title: Dynamic Programming II
-date: 2021-10-08 11:02:24
+date: 2021-10-08 11:04:24
 categories: CS
 tags:
     - Golang
@@ -131,5 +131,130 @@ func findTargetSumWays(nums []int, target int) int {
         }
     }
     return dp[target] * int(math.Pow(float64(2), float64(zeros)))
+}
+```
+
+## [198. House Robber](https://leetcode.com/problems/house-robber/)
+
+State transition function: `dp[i] = max(dp[i - 1], dp[i - 2] + value[i]`
+
+```golang
+func rob(nums []int) int {
+    n := len(nums)
+    dp := make([]int, n + 1)
+    dp[1] = nums[0]
+    max := func(a, b int) int {
+        if a > b {
+            return a
+        }
+        return b
+    }
+    for i := 2; i <= n; i++ {
+        dp[i] = max(dp[i - 1], dp[i - 2] + nums[i - 1])
+    }
+    return dp[n]
+}
+```
+
+## [213. House Robber II](https://leetcode.com/problems/house-robber-ii)
+
+Since we only need to compare [0, n-1] and [1, n] cases, and those two can be resolved with the solution we have above.
+
+```golang
+func rob(nums []int) int {
+    max := func(a, b int) int {
+        if a > b {
+            return a
+        }
+        return b
+    }
+    if len(nums) == 1 {
+        return nums[0]
+    }
+    basicRobber := func(nums []int) int{
+        n := len(nums)
+        dp := make([]int, n + 1)
+        dp[1] = nums[0]
+        for i := 2; i <= n; i++ {
+            dp[i] = max(dp[i - 1], dp[i - 2] + nums[i - 1])
+        }
+        return dp[n]
+    }
+    return max(basicRobber(nums[:len(nums) - 1]), basicRobber(nums[1:len(nums)]))
+}
+```
+
+## [337. House Robber III](https://leetcode.com/problems/house-robber-iii)
+
+a. DFS + memorized result
+
+```golang
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func rob(root *TreeNode) int {
+    cache := make(map[*TreeNode]int)
+    var dfs func(*TreeNode) int
+    dfs = func(root *TreeNode) int {
+        if root == nil {
+            return 0
+        }
+        if value, ok := cache[root]; ok {
+            return value
+        }
+        rootValue := root.Val
+        if root.Left != nil {
+            rootValue += dfs(root.Left.Left) + dfs(root.Left.Right)
+        }
+        if root.Right != nil {
+            rootValue += dfs(root.Right.Left) + dfs(root.Right.Right)
+        }
+        childValue := dfs(root.Left) + dfs(root.Right)
+        maxValue := childValue
+        if rootValue > childValue {
+            maxValue = rootValue
+        }
+        cache[root] = maxValue
+        return maxValue
+    }
+    return dfs(root)
+}
+```
+
+b. Dynamic Programming to cache more calculation results.
+
+Since each node has two values, with or without its own value. The above one only caches the maxValue, if we cache both of those in an array, it will speed up the calculating.
+
+```golang
+func rob(root *TreeNode) int {
+    cache := make(map[*TreeNode][2]int)
+    var dfs func(*TreeNode) [2]int
+    max := func(a, b int) int {
+        if a > b {
+            return a
+        }
+        return b
+    }
+    dfs = func(root *TreeNode) [2]int {
+        if root == nil {
+            return [2]int{0, 0}
+        }
+        if value, ok := cache[root]; ok {
+            return value
+        }
+        rootValue := root.Val
+        leftValue := dfs(root.Left)
+        rightValue := dfs(root.Right)
+        childValue := max(leftValue[0], leftValue[1]) + max(rightValue[0], rightValue[1])
+        cache[root] = [2]int{rootValue + leftValue[1] + rightValue[1], childValue}
+        return cache[root]
+    }
+    value := dfs(root)
+    return max(value[0], value[1])
 }
 ```
