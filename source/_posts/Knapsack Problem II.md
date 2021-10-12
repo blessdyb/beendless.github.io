@@ -93,3 +93,40 @@ func numSquares(n int) int {
     return backtracking(n)
 }
 ```
+
+## [139. Word Break](https://leetcode.com/problems/word-break/)
+
+Obviously, an empty string can be part of any string. So if we denote dp[i] as s[:i] which can be constructed by the worddict, dp[0] is true. And the state transition function can be `dp[i] = dp[i - len(words[j]] && words[j] == s[i - len(words[j]):i]`. We can consider this as a full knapsack problem. Words can be consider as items, and the s can be considered as a special knapsack.
+
+```golang
+func wordBreak(s string, wordDict []string) bool {
+    dp := make([]bool, len(s) + 1)
+    dp[0] = true
+    for i := 1; i <= len(s); i++ {
+        for j := 0; j < len(wordDict); j++ {
+            if i >= wordDict[j] {
+                dp[i] = dp[i] || (dp[i - len(wordDict[j])] && wordDict[j] == s[i - len(wordDict[j]):i])
+            }
+        }
+    }
+    return dp[len(s)]
+}
+```
+
+We can also optimize it with a hashmap to store all words
+```golang
+func wordBreak(s string, wordDict []string) bool {
+    dp := make([]bool, len(s) + 1)
+    hash := make(map[string]bool)
+    for _, word := range wordDict {
+        hash[word] = true
+    }
+    dp[0] = true
+    for i := 1; i <= len(s); i++ {
+        for j := 0; j < i; j++ {
+            dp[i] = dp[i] || (dp[j] && hash[s[j:i]])
+        }
+    }
+    return dp[len(s)]
+}
+```
