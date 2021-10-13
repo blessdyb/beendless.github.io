@@ -1,6 +1,6 @@
 ---
 title: Stock Exchange Problems
-date: 2021-10-12 18:26:24
+date: 2021-10-12 18:28:24
 categories: CS
 tags:
     - Golang
@@ -187,6 +187,71 @@ func maxProfit(prices []int) int {
 ```
 
 ## [188. Best Time to Buy and Sell Stock IV](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv/)
+
+Same as the above solution, here each day will won `2 * k + 1` states.
+
+```golang
+func maxProfit(k int, prices []int) int {
+    n := len(prices)
+    if n == 0 {
+        return 0
+    }
+    dp := make([][]int, n)
+    max := func(a, b int) int {
+        if a > b {
+            return a
+        }
+        return b
+    }
+    for i := 0; i < n; i++ {
+        dp[i] = make([]int, 2 * k + 1)
+    }
+    for i := 1; i < 2 * k + 1; i+=2 {
+        dp[0][i] = -prices[0]
+    }
+    for i := 1; i < n; i++ {
+        for j := 1; j < 2 * k + 1; j++ {
+            if j % 2 == 1 {
+                dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - 1] - prices[i])   
+            } else {
+                dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - 1] + prices[i])   
+            }
+        }
+    }
+    return dp[n - 1][2 * k]
+}
+```
+
+We can reduce the space complexity to O(n)
+
+```golang
+func maxProfit(k int, prices []int) int {
+    n := len(prices)
+    if n == 0 {
+        return 0
+    }
+    dp := make([]int, 2 * k + 1)
+    max := func(a, b int) int {
+        if a > b {
+            return a
+        }
+        return b
+    }
+    for i := 1; i < 2 * k + 1; i+=2 {
+        dp[i] = -prices[0]
+    }
+    for i := 1; i < n; i++ {
+        for j := 1; j < 2 * k + 1; j++ {
+            if j % 2 == 1 {
+                dp[j] = max(dp[j], dp[j - 1] - prices[i])   
+            } else {
+                dp[j] = max(dp[j], dp[j - 1] + prices[i])   
+            }
+        }
+    }
+    return dp[2 * k]
+}
+```
 
 ## [309. Best Time to Buy and Sell Stock with Cooldown](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/)
 
