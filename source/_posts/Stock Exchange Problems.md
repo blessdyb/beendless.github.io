@@ -1,6 +1,6 @@
 ---
 title: Stock Exchange Problems
-date: 2021-10-03 18:25:24
+date: 2021-10-12 18:26:24
 categories: CS
 tags:
     - Golang
@@ -10,6 +10,58 @@ tags:
     - Dynamic Programming
     - Stock Exchange
 ---
+
+## [121. Best Time to Buy and Sell Stock](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/)
+
+a. Two pointers greedy solution.
+
+Since the profit is defined by the current price and the minimum price before today. So we can have one pointer holds the minimum price so far, and another pointer holds the max price so far, with the lowerest peak from the left and highest peak from the right, we can get the maximum profit.
+
+```golang
+func maxProfit(prices []int) int {
+    profit := 0
+    for min, i := 100001, 0; i < len(prices); i++ {
+        if min > prices[i] {
+            min = prices[i]
+        }
+        if prices[i] - min > profit {
+            profit = prices[i] - min
+        }
+    }
+    return profit
+}
+```
+
+b. Dynamic programming
+
+Let's denote dp[i] as the profit we have so far, it can be two cases:
+1) dp[i][0] We have stock so the profit we have for the first day if we buy stock is dp[0][0] = -prices[0]
+2) dp[i][1] We don't have stock
+
+so the state transition function will be :
+
+`dp[i][0] = max(dp[i - 1][0], -prices[i])` the maximum value if we bought the stock in the previous day of we buy the stock on day i
+`dp[i][1] = max(dp[i - 1][0] + prices[i], dp[i-1][1])` the maximum value if we bought the stock before and sell it today, or we don't have stock before and won't buy today
+
+```golang
+func maxProfit(prices []int) int {
+    n := len(prices)
+    dp := make([][2]int, n)
+    dp[0][0] = -prices[0]
+    dp[0][1] = 0
+    max := func(a, b int) int {
+        if a > b {
+            return a
+        }
+        return b
+    }
+    for i := 1; i < n; i++ {
+        dp[i][0] = max(dp[i - 1][0], -prices[i])
+        dp[i][1] = max(dp[i - 1][0] + prices[i], dp[i - 1][1])
+    }
+    return dp[n - 1][1]
+}
+```
 
 
 ## [122. Best Time to Buy and Sell Stock II](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/)
@@ -80,5 +132,62 @@ func maxProfit(prices []int) int {
     return max(dp[length - 1][0], dp[length - 1][1])
 }
 ```
+
+## [123. Best Time to Buy and Sell Stock III](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/)
+
+Since we can make two transactions at most, so there will be 5 status for a given day dp[i]
+1) dp[i][0] We have made 0 transaction so far
+2) dp[i][1] We bought the stock once so far
+3) dp[i][2] We have made 1 full transaction once (bought/sold the stock once so far)
+4) dp[i][3] We bought the stock twice and sold once so far
+5) dp[i][4] We have made 2 full transaction once (bought/sold the stock twice so far)
+
+```golang
+func maxProfit(prices []int) int {
+    n := len(prices)
+    dp := make([][5]int, n)
+    dp[0] = [5]int{0, -prices[0], 0, -prices[0], 0}  // dp[0][1] = dp[0][0] - prices[0], dp[0][2] = dp[0][1] + prices[0], dp[0][3] = dp[0][2] - prices[0], dp[0][4] = dp[0][3] + prices[0], 
+    max := func(a, b int) int {
+        if a > b {
+            return a
+        }
+        return b
+    }
+    for i := 1; i < n; i++ {
+        dp[i][0] = dp[i - 1][0]
+        dp[i][1] = max(dp[i - 1][0] - prices[i], dp[i - 1][1])
+        dp[i][2] = max(dp[i - 1][1] + prices[i], dp[i - 1][2])
+        dp[i][3] = max(dp[i - 1][2] - prices[i], dp[i - 1][3])
+        dp[i][4] = max(dp[i - 1][3] + prices[i], dp[i - 1][4])
+    }
+    return dp[n-1][4]
+}
+```
+
+We can also optimize the space complexity.
+
+```golang
+func maxProfit(prices []int) int {
+    n := len(prices)
+    dp := [5]int{0, -prices[0], 0, -prices[0], 0} 
+    max := func(a, b int) int {
+        if a > b {
+            return a
+        }
+        return b
+    }
+    for i := 1; i < n; i++ {
+        dp[1] = max(dp[0] - prices[i], dp[1])
+        dp[2] = max(dp[1] + prices[i], dp[2])
+        dp[3] = max(dp[2] - prices[i], dp[3])
+        dp[4] = max(dp[3] + prices[i], dp[4])
+    }
+    return dp[4]
+}
+```
+
+## [188. Best Time to Buy and Sell Stock IV](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv/)
+
+## [309. Best Time to Buy and Sell Stock with Cooldown](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/)
 
 ## [714. Best Time to Buy and Sell Stock with Transaction Fee](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/)
