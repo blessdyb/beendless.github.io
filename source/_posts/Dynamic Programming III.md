@@ -74,3 +74,21 @@ func findLengthOfLCIS(nums []int) int {
     return result
 }
 ```
+
+## [718. Maximum Length of Repeated Subarray](https://leetcode.com/problems/maximum-length-of-repeated-subarray/)
+
+## [1143. Longest Common Subsequence](https://leetcode.com/problems/longest-common-subsequence/)
+
+## [1035. Uncrossed Lines](https://leetcode.com/problems/uncrossed-lines/)
+
+## [392. Is Subsequence](https://leetcode.com/problems/is-subsequence/)
+
+## [115. Distinct Subsequences](https://leetcode.com/problems/distinct-subsequences/)
+
+## [583. Delete Operation for Two Strings](https://leetcode.com/problems/delete-operation-for-two-strings/submissions/)
+
+## [72. Edit Distance](https://leetcode.com/problems/edit-distance/)
+
+## [647. Palindromic Substrings](https://leetcode.com/problems/palindromic-substrings/)
+
+## [516. Longest Palindromic Subsequence](https://leetcode.com/problems/longest-palindromic-subsequence)
