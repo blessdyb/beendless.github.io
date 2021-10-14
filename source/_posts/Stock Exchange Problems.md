@@ -325,3 +325,24 @@ func maxProfit(prices []int) int {
 
 
 ## [714. Best Time to Buy and Sell Stock with Transaction Fee](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/)
+
+Same like #122, we just need to process the transaction fee when buying a new stock
+
+```golang
+func maxProfit(prices []int, fee int) int {
+    n := len(prices)
+    dp := make([][2]int, n)
+    dp[0] = [2]int{-prices[0]-fee, 0}
+    max := func(a, b int) int {
+        if a > b {
+            return a
+        }
+        return b
+    }
+    for i := 1; i < n; i++ {
+        dp[i][0] = max(dp[i-1][0], dp[i-1][1] - prices[i] - fee)
+        dp[i][1] = max(dp[i-1][1], dp[i-1][0] + prices[i])
+    }
+    return dp[n-1][1]
+}
+```
