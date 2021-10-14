@@ -31,3 +31,46 @@ func lengthOfLIS(nums []int) int {
     return result
 }
 ```
+
+## [674. Longest Continuous Increasing Subsequence](https://leetcode.com/problems/longest-continuous-increasing-subsequence/)
+
+```golang
+func findLengthOfLCIS(nums []int) int {
+    n := len(nums)
+    dp := make([]int, n)
+    dp[0] = 1
+    result := 1
+    for i := 1; i < n; i++ {
+        if nums[i] > nums[i - 1] {
+            dp[i] = dp[i - 1] + 1
+        } else {
+            dp[i] = 1
+        }
+        if result < dp[i] {
+            result = dp[i]
+        }
+    }
+    return result
+}
+```
+
+We can reduce the space complexity to O(1)
+
+```golang
+func findLengthOfLCIS(nums []int) int {
+    n := len(nums)
+    count := 1
+    result := 1
+    for i := 1; i < n; i++ {
+        if nums[i] > nums[i - 1] {
+            count++
+        } else {
+            count = 1
+        }
+        if count > result {
+            result = count
+        }
+    }
+    return result
+}
+```
