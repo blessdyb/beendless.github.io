@@ -1,6 +1,6 @@
 ---
 title: Stock Exchange Problems
-date: 2021-10-12 18:28:24
+date: 2021-10-12 18:30:24
 categories: CS
 tags:
     - Golang
@@ -254,5 +254,74 @@ func maxProfit(k int, prices []int) int {
 ```
 
 ## [309. Best Time to Buy and Sell Stock with Cooldown](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/)
+
+Similar like the above problems, we need to define the states of i$th$ day based on the state machine diagram.
+
+```
+               -----
+               |   |
+               ⌄   |
+          ------------
+          | Cooldown | 
+          ------------
+            /        ^
+   __      /          \
+   | |    /            \
+   ⌄ |   ⌄              \                              
+------------         ------------
+| Buy      |------- >| Sold     | 
+------------         ------------
+
+```
+
+1) dp[i][0] we are holding the stock, so `dp[i][0] = max(dp[i-1][0], dp[i-1][2] - prices[i])`
+2) dp[i][1] we are selling the stock, so `dp[i][1] = dp[i - 1][0] + prices[i]`
+3) dp[i][2] we are in the cooldown period, so `dp[i][2] = max(dp[i-1][2], dp[i-1][1])`
+
+
+```golang
+func maxProfit(prices []int) int {
+    n := len(prices)
+    dp := make([][3]int, n)
+    max := func(a, b int) int {
+        if a > b {
+            return a
+        }
+        return b
+    }
+    dp[0] = [3]int{-prices[0], 0, 0}
+    for i := 1; i < n; i++ {
+        dp[i][0] = max(dp[i-1][0], dp[i-1][2] - prices[i])
+        dp[i][1] = dp[i-1][0] + prices[i]
+        dp[i][2] = max(dp[i-1][2], dp[i-1][1])
+    }
+    return max(dp[n-1][1], dp[n-1][2])
+}
+```
+
+We can also reduce the space complexity to O(n)
+
+```golang
+func maxProfit(prices []int) int {
+    n := len(prices)
+    max := func(a, b int) int {
+        if a > b {
+            return a
+        }
+        return b
+    }
+    hold := -prices[0]
+    cooldown := 0
+    sold := 0
+    for i := 1; i < n; i++ {
+        previousSold := sold
+        sold = hold + prices[i]
+        hold = max(hold, cooldown - prices[i])
+        cooldown = max(cooldown, previousSold)
+    }
+    return max(cooldown, sold)
+}
+```
+
 
 ## [714. Best Time to Buy and Sell Stock with Transaction Fee](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/)
