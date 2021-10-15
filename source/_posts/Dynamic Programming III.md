@@ -1,12 +1,13 @@
 ---
 title: Dynamic Programming III
-date: 2021-10-13 11:06:24
+date: 2021-10-13 11:08:24
 categories: CS
 tags:
     - Golang
     - Algorithms
     - Leetcode
     - Dynamic Programming
+    - Two Pointers
 ---
 
 ## [300. Longest Increasing Subsequence](https://leetcode.com/problems/longest-increasing-subsequence)
@@ -135,14 +136,76 @@ func longestCommonSubsequence(text1 string, text2 string) int {
 
 ## [1035. Uncrossed Lines](https://leetcode.com/problems/uncrossed-lines/)
 
+If you compare this one wtih LCS problem above, actually they are exactly the same. The connection lines doesn't have intersections means the we just need to get the LCS.
+```golang
+func maxUncrossedLines(nums1 []int, nums2 []int) int {
+    m := len(nums1)
+    n := len(nums2)
+    dp := make([][]int, m + 1)
+    for i := 0; i <= m; i++ {
+        dp[i] = make([]int, n + 1)
+    }
+    max := func(a, b int) int {
+        if a > b {
+            return a
+        }
+        return b
+    }
+    for i := 1; i <= m; i++ {
+        for j := 1; j <= n; j++ {
+            if nums1[i - 1] == nums2[j - 1] {
+                dp[i][j] = 1 + dp[i - 1][j - 1]
+            } else {
+                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
+            }
+        }
+    }
+    return dp[m][n]
+}
+```
+
 ## [392. Is Subsequence](https://leetcode.com/problems/is-subsequence/)
 
-## [115. Distinct Subsequences](https://leetcode.com/problems/distinct-subsequences/)
+a. Naive two pointers
 
-## [583. Delete Operation for Two Strings](https://leetcode.com/problems/delete-operation-for-two-strings/submissions/)
+```golang
+func isSubsequence(s string, t string) bool {
+    if len(s) > len(t) {
+        return false
+    }
+    i := 0
+    for j := 0; i < len(s) && j < len(t); j++ {
+        if s[i] == t[j] {
+            i++
+        }
+    }
+    return i == len(s)
+}
+```
 
-## [72. Edit Distance](https://leetcode.com/problems/edit-distance/)
+b. Dynamic Programming
 
-## [647. Palindromic Substrings](https://leetcode.com/problems/palindromic-substrings/)
+Let's use dp[i][j] to denote the subsequence length `ends with i and j`. So the state transition function is `dp[i][j] = s[i] == s[j] ? dp[i - 1][j - 1] + 1 : dp[i-1][j - 1]`
 
-## [516. Longest Palindromic Subsequence](https://leetcode.com/problems/longest-palindromic-subsequence)
+```golang
+func isSubsequence(s string, t string) bool {
+    m := len(s)
+    n := len(t)
+    if m > n {
+        return false
+    }
+    dp := make([][]int, m + 1)
+    for i := 0; i <= m; i++ {
+        dp[i] = make([]int, n + 1)
+    }
+    for i := 1; i <= m; i++ {
+        for j := 1; j <= n; j++ {
+            dp[i][j] = dp[i - 1][j - 1]
+            if s[i - 1] == t[j - 1] {
+                dp[i][j]++
+            }
+        }
+    }
+    return dp[m][n] == m
+}
+```
