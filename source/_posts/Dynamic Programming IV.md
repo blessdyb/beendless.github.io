@@ -1,6 +1,6 @@
 ---
 title: Dynamic Programming IV
-date: 2021-10-14 11:08:24
+date: 2021-10-14 11:10:24
 categories: CS
 tags:
     - Golang
@@ -12,7 +12,7 @@ tags:
 
 ## [115. Distinct Subsequences](https://leetcode.com/problems/distinct-subsequences/)
 
-Let's denote dp[i][j] as the amount of distinct subsequences in s[:i] which can construct t[:j]. So we can get the state transition function `dp[i][j] = s[i - 1] == t[i - 1] ? (dp[i - 1][j - 1] + dp[i - 1][j] : dp[i-1][j]`. Also for the initial value, `dp[i][0]` needs to be 0 (it means there's one way we can construct empty string from s[:i]).
+Let's denote dp[i][j] as the amount of distinct subsequences in s[:i] which can construct t[:j]. So we can get the state transition function dp[i][j] = s[i - 1] == t[i - 1] ? (dp[i - 1][j - 1] + dp[i - 1][j] : dp[i-1][j]. Also for the initial value, `dp[i][0]` needs to be 0 (it means there's one way we can construct empty string from s[:i]).
 
 ```golang
 func numDistinct(s string, t string) int {
@@ -38,6 +38,105 @@ func numDistinct(s string, t string) int {
 
 
 ## [583. Delete Operation for Two Strings](https://leetcode.com/problems/delete-operation-for-two-strings/submissions/)
+
+a. LCS solution.
+
+Delete characters to make two strings match, in another word, it means we need to find the longest common sequence.
+
+```golang
+func minDistance(word1 string, word2 string) int {
+    m := len(word1)
+    n := len(word2)
+    dp := make([][]int, m + 1)
+    lcs := 0
+    max := func(a, b int) int {
+        if a > b {
+            return a
+        }
+        return b
+    }
+    for i := 0; i <= m; i++ {
+        dp[i] = make([]int, n + 1)
+        for j := 0; j <= n; j++ {
+            if i == 0 || j == 0 {
+                continue
+            } else if word1[i - 1] == word2[j - 1] {
+                dp[i][j] = 1 + dp[i-1][j-1]
+            } else {
+                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
+            }
+            lcs = max(lcs, dp[i][j])
+        }
+    }
+    return m + n - 2 * lcs
+}
+```
+
+b. Intuitive dynamic programming solution.
+
+Let's denote dp[i][j] as the minimum delete operation to match word1[:i] and word2[:j]. So the state transition function is dp[i][j] = word1[i-1] == word2[j-1] ? dp[i-1][j-1] : max(dp[i - 1][j] + 1, dp[i][j-1] + 1, dp[i-1][j-1] + 2).
+
+```golang
+func minDistance(word1 string, word2 string) int {
+    m := len(word1)
+    n := len(word2)
+    dp := make([][]int, m + 1)
+    min := func(a, b int) int {
+        if a > b {
+            return a
+        }
+        return b
+    }
+    for i := 0; i <= m; i++ {
+        dp[i] = make([]int, n + 1)
+        for j := 0; j <= n; j++ {
+            if i == 0 {
+                dp[i][j] = j
+            } else if j == 0 {
+                dp[i][j] = i
+            } else if word1[i - 1] == word2[j - 1] {
+                dp[i][j] = dp[i - 1][j - 1]
+            } else {
+                dp[i][j] = min(dp[i][j - 1] + 1, min(dp[i - 1][j] + 1, dp[i - 1][j - 1] + 2))
+            }
+        }
+    }
+    return dp[m][n]
+}
+```
+
+We can also reduce the space complexity to O(n)
+
+```golang
+func minDistance(word1 string, word2 string) int {
+    m := len(word1)
+    n := len(word2)
+    min := func(a, b int) int {
+        if a > b {
+            return b
+        }
+        return a
+    }
+    dp := make([]int, n + 1)
+    for i := 0; i <= m; i++ {
+        temp := make([]int, n + 1)
+        for j := 0; j <= n; j++ {
+            if i == 0 {
+                temp[j] = j
+            } else if j == 0 {
+                temp[j] = i
+            } else if word1[i - 1] == word2[j - 1] {
+                temp[j] = dp[j - 1]
+            } else {
+                //temp[j] = min(temp[j - 1] + 1, min(dp[j] + 1, temp[j - 1] + 2))
+                temp[j] = 1 + min(temp[j - 1], dp[j])
+            }
+        }
+        dp = temp
+    }
+    return dp[n]
+}
+```
 
 ## [72. Edit Distance](https://leetcode.com/problems/edit-distance/)
 
