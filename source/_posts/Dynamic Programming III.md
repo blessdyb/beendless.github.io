@@ -1,6 +1,6 @@
 ---
 title: Dynamic Programming III
-date: 2021-10-13 11:04:24
+date: 2021-10-13 11:06:24
 categories: CS
 tags:
     - Golang
@@ -77,7 +77,61 @@ func findLengthOfLCIS(nums []int) int {
 
 ## [718. Maximum Length of Repeated Subarray](https://leetcode.com/problems/maximum-length-of-repeated-subarray/)
 
+Let's denote dp[i][j] as the maximum length of repeated subarray which `ends with i and j`. So we know that `dp[i][j] = nums1[i] == nums[j] ? (dp[i-1][j-1] + 1) : 0`
+
+```golang
+func findLength(nums1 []int, nums2 []int) int {
+    m := len(nums1)
+    n := len(nums2)
+    dp := make([][]int, m + 1)
+    for i := 0; i <= m; i++ {
+        dp[i] = make([]int, n + 1)
+    }
+    result := 0
+    for i := 1; i <= m; i++ {
+        for j := 1; j <= n; j++ {
+            if nums[i - 1] == nums2[j - 1] {
+                dp[i][j] = dp[i - 1][j - 1] + 1
+            }
+            if dp[i][j] > result {
+                result = dp[i][j]
+            }
+        }
+    }
+    return result
+}
+```
+
 ## [1143. Longest Common Subsequence](https://leetcode.com/problems/longest-common-subsequence/)
+
+Similar like above, if we denote dp[i][j] as the maximum number commen sequence which `ends with i and j`. So we know `dp[i][j] == text1[i] == text2[j] ? dp[i-1][j-1] + 1 : max(dp[i-1][j], dp[i][j-1])`.
+
+```golang
+func longestCommonSubsequence(text1 string, text2 string) int {
+    m := len(text1)
+    n := len(text2)
+    dp := make([][]int, m + 1)
+    for i := 0; i <= m; i++ {
+        dp[i] = make([]int, n + 1)
+    }
+    max := func(a, b int) int {
+        if a > b {
+            return a
+        }
+        return b
+    }
+    for i := 1; i <= m; i++ {
+        for j := 1; j <= n; j++ {
+            if text[i - 1] == text2[j - 1] {
+                dp[i][j] = 1 + dp[i - 1][j - 1]
+            } else {
+                dp[i][j] = max(dp[i][j - 1], dp[i - 1][j])
+            }
+        }
+    }
+    return dp[m][n]
+}
+```
 
 ## [1035. Uncrossed Lines](https://leetcode.com/problems/uncrossed-lines/)
 
