@@ -140,6 +140,71 @@ func minDistance(word1 string, word2 string) int {
 
 ## [72. Edit Distance](https://leetcode.com/problems/edit-distance/)
 
+This one is similar as the above one. Let's denote dp[i][j] as the edit distance between word1[:i] and word2[:j]. So if word1[i] == word2[j], we get dp[i][j] = dp[i - 1][j-1]. Otherwise, there will be three cases:
+1) add/delete one from word1, so dp[i-1][j] + 1 or dp[i][j-1] + 1
+2) add/delete one from word2, so dp[i-1][j] + 1 or dp[i][j-1] + 1
+3) replace one from either word1 or word2, so dp[i-1][j-1] + 1
+
+So dp[i][j] = 1 + min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1])
+
+```golang
+func minDistance(word1 string, word2 string) int {
+    m := len(word1)
+    n := len(word2)
+    dp := make([][]int, m + 1)
+    min := func(a, b int) int {
+        if a > b {
+            return b
+        }
+        return a
+    }
+    for i := 0; i <= m; i++ {
+        dp[i] = make([]int, n + 1)
+        for j := 0; j <= n; j++ {
+            if i == 0 {
+                dp[i][j] = j
+            } else if j == 0 {
+                dp[i][j] = i
+            } else if word1[i - 1] == word2[j - 1] {
+                dp[i][j] = dp[i - 1][j - 1]
+            } else {
+                dp[i][j] = 1 + min(dp[i - 1][j - 1], min(dp[i - 1][j], dp[i][j - 1]))
+            }
+        }
+    }
+    return dp[m][n]
+}
+```
+
+we can also reduce the space complexity to O(n)
+
+```golang
+func minDistance(word1 string, word2 string) int {
+    m := len(word1)
+    n := len(word2)
+    dp := make([]int, n + 1)
+    min := func(a, b int) int {
+        if a > b {
+            return b
+        }
+        return a
+    }
+    for i := 0; i <= m; i++ {
+        temp := make([]int, n + 1)
+        for j := 0; j <= n; j++ {
+            if i == 0 || j == 0 {
+                temp[j] = i + j
+            } else if word1[i - 1] == word2[j - 1] {
+                temp[j] = dp[j - 1]
+            } else {
+                temp[j] = 1 + min(dp[j - 1], min(dp[j], temp[j - 1]))
+            }
+        }
+        dp = temp
+    }
+    return dp[n]
+}
+```
 ## [647. Palindromic Substrings](https://leetcode.com/problems/palindromic-substrings/)
 
 ## [516. Longest Palindromic Subsequence](https://leetcode.com/problems/longest-palindromic-subsequence)
