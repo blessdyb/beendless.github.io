@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.beendless.com/2021/10/16/Monotonic%20Stack/</loc>
+    
+    <lastmod>2021-10-17</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.beendless.com/2021/10/14/Dynamic%20Programming%20IV/</loc>
     
     <lastmod>2021-10-17</lastmod>
@@ -971,6 +978,13 @@
   
   <url>
     <loc>http://blog.beendless.com/tags/Knapsack/</loc>
+    <lastmod>2021-10-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.beendless.com/tags/Monotonic-Stack/</loc>
     <lastmod>2021-10-17</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
