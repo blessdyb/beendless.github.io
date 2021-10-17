@@ -1,6 +1,6 @@
 ---
 title: Monotonic Stack
-date: 2021-10-16 11:14:24
+date: 2021-10-16 11:15:24
 categories: CS
 tags:
     - Golang
