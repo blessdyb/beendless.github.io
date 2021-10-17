@@ -1,12 +1,13 @@
 ---
 title: Dynamic Programming IV
-date: 2021-10-14 11:10:24
+date: 2021-10-14 11:14:24
 categories: CS
 tags:
     - Golang
     - Algorithms
     - Leetcode
     - Dynamic Programming
+    - Two Pointers
 ---
 
 
@@ -207,4 +208,146 @@ func minDistance(word1 string, word2 string) int {
 ```
 ## [647. Palindromic Substrings](https://leetcode.com/problems/palindromic-substrings/)
 
+a. Dynamic Programming
+
+Let's denote dp[i][j] as a boolean value to identify if substring s[j:i] is a parlindrom or not. So if s[j] != s[i], then dp[i][j] is false. Otherwise, there are three cases:
+
+1) i - j <= 1, so dp[i][j] = true
+2) i - j > 1, so dp[i][j] = dp[i - 1][j + 1]
+
+```language
+func countSubstrings(s string) int {
+    n := len(s)
+    dp := make([][]bool, n + 1)
+    result := 0
+    for i := 0; i <= n; i++ {
+        dp[i] = make([]bool, n + 1)
+        for j := 0; j <= i; j++ {
+            if i == 0 || j == 0 {
+                continue
+            } else if s[j - 1] == s[i - 1] {
+                if i - j <= 1 || dp[i - 1][j + 1] {
+                    dp[i][j] = true
+                    result++
+                }
+            }
+        }
+    }
+    return result
+}
+```
+
+b. Two pointers expand from center solution
+
+All parlindrom related problems, we can try to use two pointers solution, we selecte the middle point (it could be only one pointer or two pointers), then we expand to left and right.
+
+```golang
+func countSubstrings(s string) int {
+    n := len(s)
+    expanding := func(l, r int) int { // return the numbers of parlindrom substrings the given string contains
+        result := 0
+        for l >= 0 && r < n && s[l] == s[r] {
+            result++
+            l--
+            r++
+        }
+        return result
+    }
+    result := 0
+    for i := 0; i < n; i++ {
+        result += expanding(i, i)
+        result += expanding(i, i + 1)
+    }
+    return result
+}
+```
+
+
 ## [516. Longest Palindromic Subsequence](https://leetcode.com/problems/longest-palindromic-subsequence)
+
+Denote dp[i][j] as the longest palindromic sequence in s[i:j], so if s[i] == s[j], dp[i][j] = 2 + dp[i + 1][j - 1]. Otherwise dp[i][j] = max(dp[i][j - 1], dp[i + 1][j]). Since dp[i][j] depends on dp[i+1][?] value, we should reverse the for loop
+
+```golang
+func longestPalindromeSubseq(s string) int {
+    n := len(s)
+    dp := make([][]int, n)
+    for i := 0; i < n; i++ {
+        dp[i] = make([]int, n)
+        dp[i][i] = 1
+    }
+    for i := n - 1; i >= 0; i-- {
+        for j = i + 1; j < n; j++ {
+            if s[i] == s[j] {
+                dp[i][j] = dp[i + 1][j - 1] + 2
+            } else {
+                dp[i][j] = max(dp[i + 1][j], dp[i][j - 1])
+            }
+        }
+    }
+    return dp[0][n - 1]
+}
+```
+
+## [5. Longest Palindromic Substring](https://leetcode.com/problems/longest-palindromic-substring)
+
+a. Dynamic Programming
+
+Same as above, let's denote dp[i][j] to flag if s[i:j] is a parlindrom. So we know if s[i] == s[j], dp[i][j] = dp[i + 1][j - 1].  and dp[i][i] = true.
+
+```golang
+func longestPalindrome(s string) string {
+    n := len(s)
+    dp := make([][]bool, n)
+    for i := 0; i < n; i++ {
+        dp[i] = make([]bool, n)
+        dp[i][i] = true
+    }
+    max := 1
+    result = string(s[0])
+    for i := n - 1; i >= 0; i-- {
+        for j := i + 1; j < n; j++ {
+            if s[i] == s[j] {
+                if j - i <= 1 {
+                    dp[i][j] = true
+                } else {
+                    dp[i][j] = dp[i + 1][j - 1]
+                }
+                if dp[i][j] && max < j - i + 1 {
+                    max = j - i + 1
+                    result = s[i:j + 1]
+                }
+            }
+        }
+    }
+    return result
+}
+```
+
+b. Two pointers expand from center solution
+
+```golang
+func longestPalindrome(s string) string {
+    n := len(s)
+    expanding := func(l, r int) int { // return the longest length of the parlindrom in the given substring
+        for l >= 0 && r < n && s[l] == s[r] {
+            l--
+            r++
+        }
+        return r - l - 1
+    }
+    max := 0
+    start := 0
+    for i := 0; i < n; i++ {
+        p1 := expanding(i, i)
+        p2 := expanding(i, i + 1)
+        if p1 > p2 && max < p1 {
+            start = i - (p1 - 1) / 2
+            max = p1
+        } else if max < p2 && p1 < p2 {
+            start = i -  (p2 - 2) / 2
+            max = p2
+        }
+    }
+    return s[start:start + max]
+}
+```
