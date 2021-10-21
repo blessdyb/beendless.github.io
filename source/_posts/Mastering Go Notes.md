@@ -1,5 +1,5 @@
 ---
-title: Mastering Go
+title: Mastering Go Notes
 date: 2021-10-18 11:15:24
 categories: CS
 tags:

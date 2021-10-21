@@ -43,11 +43,11 @@
   </entry>
   
   <entry>
-    <title>Mastering Go</title>
+    <title>Mastering Go Notes</title>
     <link href="http://blog.beendless.com/2021/10/18/Mastering%20Go%20Notes/"/>
     <id>http://blog.beendless.com/2021/10/18/Mastering%20Go%20Notes/</id>
     <published>2021-10-18T18:15:24.000Z</published>
-    <updated>2021-10-21T05:59:50.412Z</updated>
+    <updated>2021-10-21T06:56:37.429Z</updated>
     
     <content type="html"><![CDATA[<ol><li><p>If you have to check godoc offline, you could install gdoc <code>go get golang.org/x/tools/cmd/godoc</code> and then run <code>godoc -http :8001</code> in termilal.</p></li><li><p>Go consider the <code>main()</code> function the entry point to the application and begins the execution of the applicaiton with the code found in the <code>main()</code> function of the <code>main</code> package.</p></li><li><p>Everything that begins with a lowercase letter is considered private and is accessible in the current package only.</p></li><li><p>If no initial value is given to a variable, the Go compiler will automatically initialize that variable to the zero value of its data type.</p></li><li><p>The <code>var</code> keyword is mostly used for declaring global or local variables without an initial value. Since every statement that exists outside of the code of a function must begin with a keywoprd such as <code>func</code>, <code>const</code> or <code>var</code>, you can’t use short assignment statement <code>:=</code> outside of the function.</p></li><li><p>The <code>os.Args</code> <code>string</code> slice is properly initialized by Go and is available to the program when referenced. </p></li></ol>]]></content>
     
