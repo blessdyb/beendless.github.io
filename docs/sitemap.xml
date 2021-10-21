@@ -2,14 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://blog.beendless.com/2021/10/18/Mastering%20Go%20Notes/</loc>
+    <loc>http://blog.beendless.com/2021/10/19/Multi-Stage%20Golang%20Docker%20Image/</loc>
     
     <lastmod>2021-10-21</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.beendless.com/2021/10/19/Multi-Stage%20Golang%20Docker%20Image/</loc>
+    <loc>http://blog.beendless.com/2021/10/18/Mastering%20Go%20Notes/</loc>
     
     <lastmod>2021-10-21</lastmod>
     
@@ -1013,6 +1013,13 @@
   
   <url>
     <loc>http://blog.beendless.com/tags/Mastering-Go/</loc>
+    <lastmod>2021-10-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.beendless.com/tags/Kubernetes/</loc>
     <lastmod>2021-10-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
