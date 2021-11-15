@@ -1,6 +1,6 @@
 ---
 title: Set up Kubeadm on MacOS with Vagrant and VirtualBox
-date: 2021-08-18 22:45:23
+date: 2021-11-15 00:45:23
 categories: CS
 tags:
     - Kubernetes
