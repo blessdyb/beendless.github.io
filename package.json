@@ -10,7 +10,7 @@
     "push": "npm run build && git add . && git commit -m 'Update' && git push origin master"
   },
   "hexo": {
-    "version": "5.1.1"
+    "version": "5.4.2"
   },
   "dependencies": {
     "hexo": "^5.0.0",
