@@ -2,25 +2,34 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.beendless.com/2021/05/04/iBeacon%20distance%20measurement/</loc>
+    
+    <lastmod>2023-03-29</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.beendless.com/2021/05/02/Fingerprint%20Location%20for%20Bluetooth/</loc>
+    
+    <lastmod>2023-03-29</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.beendless.com/2021/08/14/Indoor%20bluetooth%20location/</loc>
+    
+    <lastmod>2023-03-29</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://blog.beendless.com/2021/08/04/Bluetooth%20navigation%20code%20analysis/</loc>
-    
-    <lastmod>2023-03-29</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://blog.beendless.com/2021/05/04/Fingerprint%20Location%20for%20Bluetooth/</loc>
-    
-    <lastmod>2023-03-29</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://blog.beendless.com/2021/08/04/Indoor%20bluetooth%20location/</loc>
     
     <lastmod>2023-03-29</lastmod>
     
