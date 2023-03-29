@@ -1,7 +1,7 @@
 ---
 title: Fingerprint Location for Bluetooth 
 date: 2021-05-04 21:11:42
-categories: Bluetooth
+categories: CS
 tags:
     - Bluetooth
     - GEO Location

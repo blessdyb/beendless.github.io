@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.beendless.com/2021/08/04/Bluetooth%20navigation%20code%20analysis/</loc>
+    
+    <lastmod>2023-03-29</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://blog.beendless.com/2021/05/04/Fingerprint%20Location%20for%20Bluetooth/</loc>
     
     <lastmod>2023-03-29</lastmod>
@@ -11,7 +20,7 @@
   </url>
   
   <url>
-    <loc>http://blog.beendless.com/2021/08/04/Bluetooth%20navigation%20code%20analysis/</loc>
+    <loc>http://blog.beendless.com/2021/08/04/Indoor%20bluetooth%20location/</loc>
     
     <lastmod>2023-03-29</lastmod>
     
@@ -1308,13 +1317,6 @@
   
   <url>
     <loc>http://blog.beendless.com/categories/%E7%84%A1%E7%9F%A5%EF%B9%A3%E6%97%A0%E7%9F%A5/</loc>
-    <lastmod>2023-03-29</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://blog.beendless.com/categories/Bluetooth/</loc>
     <lastmod>2023-03-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
