@@ -1,5 +1,5 @@
 ---
-title: Bluetooth navigation code analysis
+title: Indoor bluetooth location
 date: 2021-08-14 13:54:33
 categories: CS
 tags:

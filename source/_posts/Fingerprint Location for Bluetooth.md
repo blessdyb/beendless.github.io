@@ -7,8 +7,6 @@ tags:
     - GEO Location
 ---
 
-
-
 Fingerprint-based Bluetooth Localization (Fingerprint-based Bluetooth Localization) is a commonly used indoor positioning algorithm. Its basic principle is to establish a fingerprint database by recording the Bluetooth signal strength values at different locations, and then according to the Bluetooth signal strength values received by the device, Match the most similar fingerprints to determine where the device is located.
 
 <!-- more -->

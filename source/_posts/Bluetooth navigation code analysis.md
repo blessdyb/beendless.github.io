@@ -7,8 +7,6 @@ tags:
     - GEO Location
 ---
 
-
-
 Recently, I found a source code about Bluetooth positioning and navigation. Through its analysis and research, I have a deep understanding of the positioning and navigation process of the entire Bluetooth algorithm. Learn about Bluetooth signal acquisition, distance estimation, positioning calculation, Kalman model and other aspects.
 
 <!-- more -->

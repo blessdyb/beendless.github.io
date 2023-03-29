@@ -1,5 +1,5 @@
 ---
-title: Fingerprint Location for Bluetooth 
+title: iBeacon distance measurement
 date: 2021-05-04 21:11:42
 categories: CS
 tags:
