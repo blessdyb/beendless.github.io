@@ -1,6 +1,6 @@
 ---
 title: Indoor bluetooth location
-date: 2021-08-14 13:54:33
+date: 2021-10-15 13:54:33
 categories: CS
 tags:
     - Bluetooth

@@ -1,6 +1,6 @@
 ---
 title: iBeacon distance measurement
-date: 2021-05-04 21:11:42
+date: 2021-09-24 21:11:42
 categories: CS
 tags:
     - Bluetooth
