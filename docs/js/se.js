@@ -3424,7 +3424,7 @@
                 t.locateOptions = t.locateOptions || {};   
                 var n = !1;
                 return void 0 === t.locateOptions.isIOS && (n = !!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)),
-                i.deviceType = n ? o.CONSTANTS.DEVICE.IOS : o.CONSTANTS.DEVICE.ANDROID, //设备类型 IOS 、android
+                i.deviceType = n ? o.CONSTANTS.DEVICE.IOS : o.CONSTANTS.DEVICE.ANDROID, 
                 t.locateOptions.deviceType = i.deviceType,
                 i._dLocation = new r.LocationEngine(t.locateOptions),
                 i._defEvtHandlerFunc(), 
@@ -3973,7 +3973,7 @@
                     var i = this.getFloorPos();
                     this.updateZ(t, i),
                     this.kfPos.z = this.currentZ,
-                    this.kfVelocity = e.velocity, //速度
+                    this.kfVelocity = e.velocity, 
                     this.kfHeading = e.heading
                 }
             }, {
@@ -4961,8 +4961,8 @@
                         x: 0,
                         y: 0
                     },
-                    this.geoDenominator = t.geoDenominator ? t.geoDenominator : 4,  //地理分母
-                    this.geoAdjustParams = t.geoAdjustParams ? t.geoAdjustParams : null //地理调整参数
+                    this.geoDenominator = t.geoDenominator ? t.geoDenominator : 4, 
+                    this.geoAdjustParams = t.geoAdjustParams ? t.geoAdjustParams : null 
                 }
             }, {
                 key: "reset", 
@@ -5613,7 +5613,7 @@
                 this.targetInterval = 20
             }
             return n(t, [{
-                key: "linearInterpolate", //线性化
+                key: "linearInterpolate", 
                 value: function(t, e) {
                     var i, n, r, s, o, a = [], h = [];
                     if (0 === this.lastTime)
@@ -5653,7 +5653,7 @@
             t
         }();
         var o = function() {
-            function t() {  //初始化系数
+            function t() {  
                 r(this, t),
                 this.coeffients = [-.00868331738625167, -.00281935994810742, -.00283620174071117, -.00250768991491832, -.00179790389516092, -.000716919728262325, .0006927111857561, .00234179121345493, .00412333074914049, .00589285272443655, .00749969993475725, .00877894172772015, .00962269149842373, .00994153938983649, .00966378261817836, .00883840100294115, .00751801859529968, .00584526898045774, .00398928778908712, .00215769750280585, .000559210726540666, -.000618216471598856, -.0012317912864319, -.00120368229374989, -.00053389058089984, .000674109911503082, .00223907987608249, .00390195691851279, .00533849097203222, .00621165061009779, .00618366809924862, .00497745464625127, .0023947918507135, -.00163796765800328, -.00705280587105352, -.0136255848960293, -.0209837768438509, -.0286247148948028, -.0359412288773305, -.0422811919993904, -.0469905464323133, -.0494765763884226, -.049266061331278, -.0460508167884474, -.039736000885158, -.0304505930567507, -.0185625196346448, -.00465529784529705, .0105010765137949, .0260079086781106, .0409005746542444, .0542171334675495, .0650808900149999, .0727608365147878, .0767374483224153, .0767374483224153, .0727608365147878, .0650808900149999, .0542171334675495, .0409005746542444, .0260079086781106, .0105010765137949, -.00465529784529705, -.0185625196346448, -.0304505930567507, -.039736000885158, -.0460508167884474, -.049266061331278, -.0494765763884226, -.0469905464323133, -.0422811919993904, -.0359412288773305, -.0286247148948028, -.0209837768438509, -.0136255848960293, -.00705280587105352, -.00163796765800328, .0023947918507135, .00497745464625127, .00618366809924862, .00621165061009779, .00533849097203222, .00390195691851279, .00223907987608249, .000674109911503082, -.00053389058089984, -.00120368229374989, -.0012317912864319, -.000618216471598856, .000559210726540666, .00215769750280585, .00398928778908712, .00584526898045774, .00751801859529968, .00883840100294115, .00966378261817836, .00994153938983649, .00962269149842373, .00877894172772015, .00749969993475725, .00589285272443655, .00412333074914049, .00234179121345493, .0006927111857561, -.000716919728262325, -.00179790389516092, -.00250768991491832, -.00283620174071117, -.00281935994810742, -.00868331738625167],
                 this.filterLen = this.coeffients.length,
@@ -5674,7 +5674,7 @@
         }();
         e.filter = o,
         e.interpolator = s,
-        e.getPearsonCorrCoef = function(t, e) { //皮尔逊校正系数
+        e.getPearsonCorrCoef = function(t, e) { 
             var i = 0;
             i = t.length === e.length ? t.length : t.length > e.length ? e.length : t.length;
             for (var n = 0, r = 0, s = 0, o = 0, a = 0, h = 0; h < i; h++)
@@ -5688,7 +5688,7 @@
             return (i * s - n * r) / Math.sqrt(l * c)
         }
     }
-    , function(t, e, i) { //区域信息
+    , function(t, e, i) { 
         "use strict";
         Object.defineProperty(e, "__esModule", {
             value: !0
@@ -5698,7 +5698,7 @@
             function t(t, e) {
                 for (var i = 0; i < e.length; i++) {
                     var n = e[i];
-                    n.enumerable = n.enumerable || !1, //枚举值
+                    n.enumerable = n.enumerable || !1, 
                     n.configurable = !0,
                     "value"in n && (n.writable = !0),
                     Object.defineProperty(t, n.key, n)
@@ -5713,7 +5713,7 @@
           , r = i(2)
           , s = i(0)
           , o = i(1);
-        var a = function() {  //初始化区域参数
+        var a = function() {  
             function t(e) {
                 !function(t, e) {
                     if (!(t instanceof e))
@@ -5731,7 +5731,7 @@
                 this.reset()
             }
             return n(t, [{
-                key: "reset",  //区域 -重载 建筑编码信息
+                key: "reset",  
                 value: function() {
                     this.res = {
                         buildingCode: this.wholeLocArea.buildingCode
@@ -5743,24 +5743,24 @@
                     t || (t = {})
                 }
             }, {
-                key: "loadIndoorAreas", //加载室内区域
+                key: "loadIndoorAreas", 
                 value: function(t) {
                     t && (this.indoorAreas = this.indoorAreas.concat(t))
                 }
             }, {
-                key: "loadOutsideAreas", //加载室外区域
+                key: "loadOutsideAreas", 
                 value: function(t) {
                     t && (this.outsideAreas = this.outsideAreas.concat(t))
                 }
             }, {
-                key: "checkArea", //判断区域
+                key: "checkArea", 
                 value: function(t, e) {
                     var i = this.checkLocArea(t, e);
                     return r.LocationUtils.checkInRegion(this.wholeLocArea.bufferArea, t) ? this.res : (this.res = i,
                     i)
                 }
             }, {
-                key: "checkLocArea", //检查Loc区域
+                key: "checkLocArea", 
                 value: function(t, e) {
                     var i = this.wholeLocArea.buildingCode
                       , n = s.LOC_AREA_STATUS.UNSET;
@@ -5804,7 +5804,7 @@
                     }
                 }
             }, {
-                key: "checkExceedLocationArea", //检查并超出该区域的位置
+                key: "checkExceedLocationArea", 
                 value: function(t, e) {
                     var i = Number.MAX_VALUE;
                     return e.forEach(function(e) {
@@ -5814,7 +5814,7 @@
                     i > 20
                 }
             }, {
-                key: "getIndoorStatus", //获取室内状态
+                key: "getIndoorStatus", 
                 value: function(t, e, i, n) {
                     if (t) {
                         if (r.LocationUtils.checkInRegion(this.indoorAreas, t, e))
@@ -5827,7 +5827,7 @@
                     s
                 }
             }, {
-                key: "loadBuildingArea",  //加载区域
+                key: "loadBuildingArea",  
                 value: function(t, e, i, n, r) {
                     i ? (void 0 === n && (n = !1),
                     this.buildingInfos[t] = {
@@ -5845,7 +5845,7 @@
         }();
         e.AreaChecker = a
     }
-    , function(t, e, i) { //路网信息
+    , function(t, e, i) { 
         "use strict";
         Object.defineProperty(e, "__esModule", {
             value: !0
@@ -5882,13 +5882,13 @@
                 key: "reset",
                 value: function() {}
             }, {
-                key: "loadRoadInfo",  //加载路网信息
+                key: "loadRoadInfo",  
                 value: function(t) {
                     t.walkingHmmInfo && t.walkingHmmInfo.roads && (this.wlkRoadNet = this.buildHmmInfo(t.walkingHmmInfo)),
                     t.drivingHmmInfo && t.drivingHmmInfo.roads && (this.drvRoadNet = this.buildHmmInfo(t.drivingHmmInfo))
                 }
             }, {
-                key: "buildHmmInfo", //绑定 -顶点 、路、最短距离、跨层道路
+                key: "buildHmmInfo", 
                 value: function(t) {
                     var e = r.RoadDataProcessor.buildVertices(t.connection); 
                     return {
@@ -5916,7 +5916,7 @@
         }();
         e.RoadNetData = s
     }
-    , function(t, e, i) {  //Z检查器
+    , function(t, e, i) {  
         "use strict";
         Object.defineProperty(e, "__esModule", {
             value: !0
@@ -5970,13 +5970,13 @@
             default: n
         };
         var f = function() { 
-            function t(e) { //初始化
+            function t(e) { 
                 !function(t, e) {
                     if (!(t instanceof e))
                         throw new TypeError("Cannot call a class as a function")
                 }(this, t),
                 e = e || {},
-                this.roadNetData = {},  //路网数据
+                this.roadNetData = {},  
                 this.posMode = o.POSITION_MODE.WALKING,
                 this.pos2transLineTh = 7,
                 this.bt2Trans2pointTh = 6,
@@ -6220,7 +6220,7 @@
         }();
         e.ZChecker = f
     }
-    , function(t, e, i) { //导航处理器
+    , function(t, e, i) { 
         "use strict";
         Object.defineProperty(e, "__esModule", {
             value: !0
@@ -6640,7 +6640,7 @@
         }();
         e.NavigationProcessor = y
     }
-    , function(t, e, i) { //路径映射
+    , function(t, e, i) {
         "use strict";
         Object.defineProperty(e, "__esModule", {
             value: !0
@@ -6772,7 +6772,7 @@
                     return s
                 }
             }, {
-                key: "pathMatchingInRealTime", //路径实时事件变化
+                key: "pathMatchingInRealTime",
                 value: function(t, e, i, r, s, o) {
                     var h = !1;
                     this.path && this.path[0] === t[0] || (h = !0,
@@ -6885,7 +6885,7 @@
         }();
         e.PathMapping = h
     }
-    , function(t, e, i) {  //模型管理器
+    , function(t, e, i) {  
         "use strict";
         Object.defineProperty(e, "__esModule", {
             value: !0
@@ -6915,7 +6915,7 @@
           , l = i(1)
           , c = i(4);
         var u = function(t) {
-            function e(t) {   //模型管理器 - 初始化
+            function e(t) {  
                 !function(t, e) {
                     if (!(t instanceof e))
                         throw new TypeError("Cannot call a class as a function")
@@ -6931,7 +6931,7 @@
                 i.startTime = t.startTime || (new Date).getTime(),
                 i.t = i.startTime,
                 i.pdrKf = new o.KalmanFilterPDR(i.t,a.KF_TYPE.PDR_WLK,t.deviceType,t.params),
-                i.diffKf = new s.KalmanFilterDiffHeading(i.t,a.KF_TYPE.DIFF_WLK,t.deviceType,t.params), //卡
+                i.diffKf = new s.KalmanFilterDiffHeading(i.t,a.KF_TYPE.DIFF_WLK,t.deviceType,t.params), 
                 i.baseKf = new s.KalmanFilterDiffHeading(i.t,a.KF_TYPE.DIFF_BASE,t.deviceType,t.params),
                 i.drvKf = new s.KalmanFilterDiffHeading(i.t,a.KF_TYPE.DIFF_DRV,t.deviceType,t.params),
                 (void 0 !== i.option.deviceType ? i.option.deviceType : a.CONSTANTS.DEVICE.ANDROID) === a.CONSTANTS.DEVICE.ANDROID ? i.drvOutKF = new s.KalmanFilterDiffHeading(i.t,a.KF_TYPE.DIFF_DRV_OUT_AND,t.deviceType,t.params) : i.drvOutKF = new s.KalmanFilterDiffHeading(i.t,a.KF_TYPE.DIFF_DRV_OUT_IOS,t.deviceType,t.params),
@@ -6954,7 +6954,7 @@
                 e && (Object.setPrototypeOf ? Object.setPrototypeOf(t, e) : t.__proto__ = e)
             }(e, r.DEventDispatcherES6),
             n(e, [{
-                key: "reset",  //模型管理器 - 重载
+                key: "reset", 
                 value: function() {
                     this.started = !1,
                     this.pdrKf.reset(),
@@ -6965,7 +6965,7 @@
                     this.baseKfInfoList = []
                 }
             }, {
-                key: "reStartModels", //重启服务 - 重载
+                key: "reStartModels", 
                 value: function(t, e) {
                     this.pdrKf.startKF(t, e),
                     this.diffKf.startKF(t, e),
@@ -6975,10 +6975,10 @@
                     this.baseKfInfoList = []
                 }
             }, {
-                key: "setParams", //设置参数
+                key: "setParams", 
                 value: function(t) {}
             }, {
-                key: "checkInitSignal", //检查初始化信号
+                key: "checkInitSignal", 
                 value: function(t, e, i) {
                     var n = e && e.cMean < 3
                       , r = e && e.cMean < 7 && t - this.startTime >= 5e3
@@ -6988,12 +6988,12 @@
                     return n || r || s || o || a
                 }
             }, {
-                key: "setARLastPos", //将AR设置为最后一个位置
+                key: "setARLastPos",
                 value: function(t) {
                     this.arLastPos = t
                 }
             }, {
-                key: "updateFusionModels", //更新融合模型
+                key: "updateFusionModels", 
                 value: function(t, e, i, n, r, s, o, a, l, u) {
                     if (this.started || this.checkInitSignal(t, n, r) && (this.t = t,
                     this.started = !0,
@@ -7013,7 +7013,7 @@
                     }
                 }
             }, {
-                key: "getStates", //更新状态
+                key: "getStates", 
                 value: function(t, e, i) {
                     var n = void 0
                       , r = void 0
@@ -7031,12 +7031,12 @@
                     }
                 }
             }, {
-                key: "changeState", //改变状态
+                key: "changeState", 
                 value: function(t, e) {
                     e === a.CONSTANTS.DRIVING_MODE.INDOOR ? this.drvKf.tranState(this.drvOutKF.getPosition(), this.drvOutKF.getVelocity()) : e === a.CONSTANTS.DRIVING_MODE.OUTDOOR && this.drvOutKF.tranState(this.drvKf.getPosition(), this.drvKf.getVelocity())
                 }
             }, {
-                key: "displayKfDebugInfo", //kf调试信息
+                key: "displayKfDebugInfo", 
                 value: function(t, e, i, n) {
                     this.pdrKf.getDspInfo(),
                     this.diffKf.getDspInfo(),
@@ -7049,7 +7049,7 @@
                     h.LocationUtils.distance(this.baseKf.getPosition(), this.diffKf.getPosition()).toFixed(1)
                 }
             }, {
-                key: "updateBaseKfInfos", //更新基础卡尔曼滤波模型
+                key: "updateBaseKfInfos", 
                 value: function(t) {
                     if (this.started) {
                         var e = h.LocationUtils.distance(this.baseKf.getPosition(), this.pdrKf.getPosition())
@@ -7074,7 +7074,7 @@
                         this.baseKfInfoList = []
                 }
             }, {
-                key: "getBaseKfInfos", //获取卡尔曼滤波信息
+                key: "getBaseKfInfos",
                 value: function() {
                     return {
                         timeInterval: 0 === this.baseKfInfoList.length ? 0 : 1 === this.baseKfInfoList.length ? 1e3 : this.baseKfInfoList[this.baseKfInfoList.length - 1].t - this.baseKfInfoList[0].t,
@@ -7086,7 +7086,7 @@
                     }
                 }
             }, {
-                key: "isARLast", //是最近AR
+                key: "isARLast", 
                 value: function(t, e, i) {
                     t && (e && (e.x = t.x,
                     e.y = t.y,
@@ -7101,7 +7101,7 @@
         }();
         e.ModelManager = u
     }
-    , function(t, e, i) {  //卡尔曼滤波航向差分
+    , function(t, e, i) { 
         "use strict";
         Object.defineProperty(e, "__esModule", {
             value: !0
@@ -7186,7 +7186,7 @@
                 e && (Object.setPrototypeOf ? Object.setPrototypeOf(t, e) : t.__proto__ = e)
             }(e, a.KalmanFilterPDR),
             r(e, [{
-                key: "initKFModel", //初始卡尔曼滤波器模型
+                key: "initKFModel", 
                 value: function(t, e, i, n) {
                     var r = s.Vector.create([t.x, 0, t.y, 0])
                       , a = s.Matrix.Diagonal([900, 900, 900, 900])
@@ -7203,13 +7203,13 @@
                     return [v, new o.KalmanObservation(p,y,m)]
                 }
             }, {
-                key: "setVelocity", //设定速度
+                key: "setVelocity", 
                 value: function(t) {
                     this.kalmanModel && (this.kalmanModel.x_k.elements[1] = t.x,
                     this.kalmanModel.x_k.elements[3] = t.y)
                 }
             }, {
-                key: "calHeadingControlInput", //航向控制输入
+                key: "calHeadingControlInput", 
                 value: function(t, e, i) {
                     var n = 0;
                     !i && 0 !== i || !e && 0 !== e || ((n = e - i) > Math.PI ? n -= 2 * Math.PI : n < -Math.PI && (n += 2 * Math.PI)),
@@ -7218,7 +7218,7 @@
                     return s.Matrix.create([[Math.cos(n), Math.sin(n)], [-Math.sin(n), Math.cos(n)]]).x(r).subtract(r)
                 }
             }, {
-                key: "updateTransitionMatrix", //更新转移矩阵
+                key: "updateTransitionMatrix", 
                 value: function(t) {
                     this.kalmanModel.F_k.elements[0][1] = t,
                     this.kalmanModel.F_k.elements[2][3] = t,
@@ -7230,13 +7230,13 @@
                     this.kalmanModel.B_k.elements[2][1] = t / 2
                 }
             }, {
-                key: "updateControlInput", //更新控制输入
+                key: "updateControlInput", 
                 value: function(t) {
                     void 0 === this.heading || null === this.heading ? this.heading = t : void 0 !== t && null !== t && (this.kalmanModel.u_k = this.calHeadingControlInput(this.getVelocity(), t, this.heading),
                     this.heading = t)
                 }
             }, {
-                key: "update",  // 卡尔曼滤波航向差分  -更新
+                key: "update", 
                 value: function(t, e, i, r, s) {
                     if (this.kalmanModel || this.startKF(e, i),
                     this.kalmanModel) {
@@ -7255,7 +7255,7 @@
                     }
                 }
             }, {
-                key: "speedConstraint", //速度限制
+                key: "speedConstraint", 
                 value: function() {
                     var t = 10;
                     t = this.kfType === l.KF_TYPE.DIFF_DRV_OUT_AND || this.kfType === l.KF_TYPE.DIFF_DRV_OUT_IOS ? 30 : 15;
@@ -7268,7 +7268,7 @@
                     this.kalmanModel.x_k.elements[3] = n * i
                 }
             }, {
-                key: "getPosition", //卡尔曼滤波航向差分 - 获得位置
+                key: "getPosition", 
                 value: function() {
                     if (this.kalmanModel)
                         return {
@@ -7277,7 +7277,7 @@
                         }
                 }
             }, {
-                key: "getVelocity", //Velocity
+                key: "getVelocity",
                 value: function() {
                     if (this.kalmanModel)
                         return {
@@ -7286,23 +7286,23 @@
                         }
                 }
             }, {
-                key: "tranState", //
+                key: "tranState", 
                 value: function(t, e) {
                     t && e && (this.kalmanModel.x_k = s.Vector.create([t.x, e.x, t.y, e.y]))
                 }
             }, {
-                key: "getSpeed", //获取速度
+                key: "getSpeed", 
                 value: function() {
                     return this.kalmanModel ? Math.sqrt(Math.pow(this.kalmanModel.x_k.elements[1], 2) + Math.pow(this.kalmanModel.x_k.elements[3], 2)).toFixed(2) : 0
                 }
             }, {
-                key: "getHeadingDeg", //航向角
+                key: "getHeadingDeg", 
                 value: function() {
                     if (this.kalmanModel)
                         return h.Numerical.rad2deg(Math.atan2(this.kalmanModel.x_k.elements[1], this.kalmanModel.x_k.elements[3]))
                 }
             }, {
-                key: "getDspInfo", //dsp 信息
+                key: "getDspInfo", 
                 value: function() {
                     var t = "type:" + this.kfType;
                     return this.kalmanModel && (t += " x:" + this.kalmanModel.x_k.elements[0].toFixed(1) + " y:" + this.kalmanModel.x_k.elements[2].toFixed(1) + " vx:" + this.kalmanModel.x_k.elements[1].toFixed(1) + " vy:" + this.kalmanModel.x_k.elements[3].toFixed(1)),
@@ -7313,7 +7313,7 @@
         }();
         e.KalmanFilterDiffHeading = c
     }
-    , function(t, e, i) { //Hmm数据加载器
+    , function(t, e, i) { 
         "use strict";
         Object.defineProperty(e, "__esModule", {
             value: !0
@@ -7338,7 +7338,7 @@
             default: n
         };
         var a = function() {
-            function t() { //Hmm数据加载器 --初始化
+            function t() {
                 !function(t, e) {
                     if (!(t instanceof e))
                         throw new TypeError("Cannot call a class as a function")
@@ -7354,24 +7354,24 @@
                 this.outsideVertex = {}
             }
             return r(t, [{ 
-                key: "loadData", //Hmm数据加载器 --加载数据
+                key: "loadData", 
                 value: function(t, e, i, n, r) {
                     var s = arguments.length > 5 && void 0 !== arguments[5] ? arguments[5] : "walk";
                     void 0 === this.outside && (this.outside = i,
-                    this.outsideVertex = t), //外侧顶点
+                    this.outsideVertex = t), 
                     this.currIndexing += 1e4,
-                    this.addRoads(e, r, i), //添加路段
-                    this.addVertex(t, r, i), //添加顶角
-                    this.addShortestDistance(e), //最短距离
+                    this.addRoads(e, r, i), 
+                    this.addVertex(t, r, i), 
+                    this.addShortestDistance(e), 
                     0 !== this.currIndexing && this.loadEntries(n, s, t, r, i)
                 }
             }, {
-                key: "pointDis",  //两点距离
+                key: "pointDis",  
                 value: function(t, e) {
                     return Math.sqrt((t.x - e.x) * (t.x - e.x) + (t.y - e.y) * (t.y - e.y))
                 }
             }, {
-                key: "matchPendingEntry", //匹配挂起的条目
+                key: "matchPendingEntry", 
                 value: function(t, e, i, n) {
                     for (var r = 3, s = -1, o = 0; o < this.pendingentries.length; o++)
                         e === this.pendingentries[o].type && this.pointDis(this.pendingentries[o], t) < r && this.pendingentries[o].z === t.z && (r = this.pointDis(this.pendingentries[o], t),
@@ -7381,7 +7381,7 @@
                     !0)
                 }
             }, {
-                key: "matchOutside", //匹配外边线
+                key: "matchOutside", 
                 value: function(t, e, i, n) {
                     var r = 3
                       , s = -1;
@@ -7392,7 +7392,7 @@
                     !0)
                 }
             }, {
-                key: "addToIntersection", //添加到交叉点
+                key: "addToIntersection", 
                 value: function(t) {
                     var e = !0
                       , i = !1
@@ -7422,7 +7422,7 @@
                     }
                 }
             }, {
-                key: "matchPoints", //匹配点
+                key: "matchPoints", 
                 value: function(t, e, i) {
                     var n = arguments.length > 3 && void 0 !== arguments[3] ? arguments[3] : 0;
                     if (this.connection[t].ne.push(e),
@@ -7463,7 +7463,7 @@
                     }
                 }
             }, {
-                key: "loadEntries", //加载入口
+                key: "loadEntries", 
                 value: function(t, e, i, n, r) {
                     for (var s in t)
                         if (t[s].entries) {
@@ -7520,7 +7520,7 @@
                         }
                 }
             }, {
-                key: "findClosestIndexInside", //在侧边中查找最近的索引
+                key: "findClosestIndexInside", 
                 value: function(t, e, i, n) {
                     var r = Number.MAX_VALUE
                       , s = "0";
@@ -7530,7 +7530,7 @@
                     return s
                 }
             }, {
-                key: "addVertex", //添加顶角
+                key: "addVertex", 
                 value: function(t, e, i) {
                     for (var n in t) {
                         var r = this.currIndexing + parseInt(n);
@@ -7546,7 +7546,7 @@
                     }
                 }
             }, {
-                key: "addRoads", //添加路线
+                key: "addRoads", 
                 value: function(t, e, i) {
                     for (var n in t.roads)
                         for (var r in this.roads.roads.hasOwnProperty(e.regionMapEncode(n, i)) || (this.roads.roads[e.regionMapEncode(n, i)] = []),
@@ -7566,7 +7566,7 @@
                         }
                 }
             }, {
-                key: "addShortestDistance", //添加最短距离
+                key: "addShortestDistance", 
                 value: function(t) {
                     for (var e in t.shortestDistance) {
                         var i = e.split(",")
@@ -7579,7 +7579,7 @@
         }();
         e.HmmDataLoader = a
     }
-    , function(t, e, i) { //搜索车道引擎
+    , function(t, e, i) { 
 
         "use strict";
         Object.defineProperty(e, "__esModule", {
@@ -7628,7 +7628,7 @@
             t
         }
     }
-    , function(t, e) {   //添加事件
+    , function(t, e) {   
         t.exports = function(t, e) {
             var i = 0
               , n = {};
