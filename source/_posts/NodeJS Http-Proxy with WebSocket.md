@@ -15,6 +15,7 @@ WebSocket has been supported widely in the past few years. More and more applica
 ```
 mkdir nodejs-proxy-websocket && cd nodejs-proxy-websocket && npm init -y
 npm i --save ws http-proxy
+```
 
 2. Create a file `index.html` with code below. So we set up a websocket connection which will display the message pushed from server and send it back
 
