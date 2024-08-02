@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.beendless.com/2024/08/02/Build%20Your%20Own%20Video%20Compression%20Service%20with%20Rust%20WASM/</loc>
+    
+    <lastmod>2024-08-02</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://blog.beendless.com/2024/08/01/The%20Secret%20of%20Video%20Compression%20with%20FFMPEG/</loc>
     
     <lastmod>2024-08-02</lastmod>
@@ -1328,6 +1337,20 @@
   
   <url>
     <loc>http://blog.beendless.com/tags/FFMPEG/</loc>
+    <lastmod>2024-08-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.beendless.com/tags/Rust/</loc>
+    <lastmod>2024-08-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.beendless.com/tags/WASM/</loc>
     <lastmod>2024-08-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

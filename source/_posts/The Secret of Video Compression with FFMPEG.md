@@ -14,9 +14,7 @@ If you check the site https://tools.rotato.app/compress, actually he didn't inve
 ffmpeg -i "input.mp4" -c:v libx264 -tag:v avc1 -movflags faststart -crf 30 -preset superfast "output.mp4"
 ```
 
-Let's explain the command below:
-
-The FFmpeg command you provided is used to transcode a video file (`input.mp4`) into another video file (`output.mp4`) using specific encoding settings. Here's a breakdown of what each part of the command does:
+The FFmpeg command above is used to transcode a video file (`input.mp4`) into another video file (`output.mp4`) using specific encoding settings. Here's a breakdown of what each part of the command does:
 
 ### Command Breakdown
 
